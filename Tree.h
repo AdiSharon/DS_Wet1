@@ -16,7 +16,7 @@ class Tree {
         int height;
         Node *right_son; //the node's right son.
         Node *left_son; //the node's left son.
-        Node *father; //the node's father. if node is the root, is null.
+        //Node *father; //the node's father. if node is the root, is null.
 
         /*!
          * the basic c'tor. constructs a node that contains the basic data.
@@ -27,8 +27,8 @@ class Tree {
                 data(data),
                 height(0),
                 right_son(NULL),
-                left_son(NULL),
-                father(NULL) {};
+                left_son(NULL)
+                /*father(NULL)*/ {};
 
         //Tree needs access to private fields.
         friend class Tree<T>;
@@ -285,7 +285,7 @@ Tree<T>::Tree() :
 /*Tree_iterator(this, Tree_head)*/{}
 
 
-template <class T>
+/*template <class T>
 Tree<T>::Tree(const Tree& Tree) :
         size(HEAD_INDEX),
         root(NULL){
@@ -293,33 +293,37 @@ Tree<T>::Tree(const Tree& Tree) :
         current = current->){
         insert(current->data);
     }
-}
+}*/
 
 template <class T>
 Tree<T>::~Tree() {
-    Node *node = Tree_head;
-    while (node != NULL){
-        Node *next = node->next;
-        delete node;
-        node = next;
-    }
+    Node *node = root;
+    delete(node->left_son);
+    delete(node->right_son);
+    delete(node);
+    delete(this);
 }
 
 template <class T>
-Tree<T>& Tree<T>::operator=(const Tree& Tree) {
-    if (this == &Tree){
+Tree<T>& Tree<T>::operator=(const Tree& tree) {
+    if (this == &tree){
         return *this;
     }
     int length = this->size;
-    for (int l = 0; l < length; ++l) {
+
+    delete(this->root->left_son);
+    delete(this->root->right_son);
+    /*for (int l = 0; l < length; ++l) {
         this->remove(this->begin());
     }
+
     //Tree_head = current;
-    for(Node* current = Tree.Tree_head; current != Tree.Tree_end;
+    for(Node* current = Tree.root; current != ;
         current = current->next){
         insert(current->data);
     }
-    //Tree_end = current;
+    //Tree_end = current;*/
+    this->root=tree.root;
     return *this;
 }
 
@@ -330,21 +334,21 @@ int Tree<T>::getSize() const {
 
 template <class T>
 typename Tree<T>::Iterator Tree<T>::begin() const {
-    return Iterator(this, Tree_head);
+    return Iterator(this, root);
 }
 
-template <class T>
+/*template <class T>
 typename Tree<T>::Iterator Tree<T>::end() const {
     return Iterator(this, Tree_end);
-}
+}*/
 
 template <class T>
 void Tree<T>::insert(const T &data, Iterator iterator) {
-    if(iterator.current == Tree_end){
+    if(iterator.current == root){
         insert(data);
         return;
     }
-    Node *current = Tree_head;
+    Node *current = root;
     while (current != iterator.current && current != Tree_end){
         current = current->next;
     }
