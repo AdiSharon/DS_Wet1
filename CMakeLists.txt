@@ -3,5 +3,5 @@ project(wet1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp Tree.h Execptions.h)
 add_executable(wet1 ${SOURCE_FILES})
