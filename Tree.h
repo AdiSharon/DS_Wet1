@@ -5,16 +5,15 @@
 #include <iostream>
 #include <assert.h>
 #include <algorithm>
-#include "Exceptions.h"
+#include "Execptions.h"
 
 using namespace std;
-using namespace mtm::ListExceptions; //needed for exeptions.
-
 
 template <typename T>
 class Tree {
     class Node {
         T data; //the data (of a type)
+        int height;
         Node *right_son; //the node's right son.
         Node *left_son; //the node's left son.
         Node *father; //the node's father. if node is the root, is null.
@@ -22,15 +21,17 @@ class Tree {
         /*!
          * the basic c'tor. constructs a node that contains the basic data.
          * @param data - the actuall type & data of the specific link in the
-         * list
+         * Tree
          */
         Node(const T &data) :
                 data(data),
-                next(NULL),
-                previous(NULL) {};
+                height(0),
+                right_son(NULL),
+                left_son(NULL),
+                father(NULL) {};
 
-        //List needs access to private fields.
-        friend class List<T>;
+        //Tree needs access to private fields.
+        friend class Tree<T>;
 
         //Iterator needs access to private fields.
         friend class Iterator;
@@ -42,9 +43,8 @@ class Tree {
 
     };
 
-    int size; //the number of valid nodes in the list.
-    Node  *list_head; //the first node in the list.
-    Node  *list_end; //NULL node, signefy the list's end.
+    int size; //the number of valid nodes in the tree.
+    Node  *root; //the first node in the tree.
 
 
 
@@ -54,43 +54,43 @@ public:
 
 
     /*!
-     * list c'tor. creates an empty list.
+     * Tree c'tor. creates an empty Tree.
      */
-    List();
+    Tree();
 
     /*!
-     * copy c'tor. constructs a new list with given list params.
-     * @param list - the list to copy.
+     * copy c'tor. constructs a new Tree with given Tree params.
+     * @param Tree - the Tree to copy.
      */
-    List(const List &list);
+    Tree(const Tree &tree);
 
     /*!
-     * a list d'to. deletes all the nodes of a given list.
+     * a Tree d'to. deletes all the nodes of a given Tree.
      */
-    ~List();
+    ~Tree();
 
     /*!
      * an assignment operator
-     * @param list - the list to be assigned.
-     * @return ref to a new list that contains the assigned values.
+     * @param Tree - the Tree to be assigned.
+     * @return ref to a new Tree that contains the assigned values.
      */
-    List &operator=(const List &list);
+    Tree &operator=(const Tree &tree);
 
     /*!
-     * return the number of items in the linked list.
+     * return the number of items in the linked Tree.
      * @return - the int number of items.
      */
     int getSize() const;
 
     /*!
-     * function adds a new item to the list with the data value.
-     * inserts at the list's end.
+     * function adds a new item to the Tree with the data value.
+     * inserts at the Tree's end.
      * @param data - the new item's data.
      */
     void insert(const T &data);
 
     /*!
-     * functions sorts the list according to the given Compare function.
+     * functions sorts the Tree according to the given Compare function.
      * @tparam Compare - function object. returns true if first param is before
      *                   second param.
      * @param compare - the compare function
@@ -99,39 +99,53 @@ public:
     void sort(const Compare &compare);
 
     /*!
-     * checks if two lists are equal.
-     * @param list - the right hand list to compare to.
-     * @return true if both lists contains the same items at the same order.
+     * checks if two Trees are equal.
+     * @param Tree - the right hand Tree to compare to.
+     * @return true if both Trees contains the same items at the same order.
      */
-    bool operator==(const List &list) const;
+    bool operator==(const Tree &tree) const;
 
     /*!
-     * check if two lists are NOT equal/
-     * @param list - the right hand list to compare to.
+     * check if two Trees are NOT equal/
+     * @param Tree - the right hand Tree to compare to.
      * @return the ! of ==.
      */
-    bool operator!=(const List &list) const;
+    bool operator!=(const Tree &tree) const;
+
+    /*!
+     * ///////////////////////////////////////////
+     * @param Tree - the right hand Tree to compare to.
+     * @return the ! of ==.
+     */
+    bool operator>(const Tree &tree) const;
+
+    /*!
+     * ///////////////////////////////////////////
+     * @param Tree - the right hand Tree to compare to.
+     * @return the ! of ==.
+     */
+    bool operator<(const Tree &tree) const;
 
     /*!
      * class iterator. contains a pointer to current node & a pointer to the
-     * list for compare porpeses.
+     * Tree for compare porpeses.
      */
     class Iterator {
-        Node *current; //points to the current link in the list.
-        const List<T> *list; //points to the list the iterator belongs to.
+        Node *current; //points to the current link in the Tree.
+        const Tree<T> *Tree; //points to the Tree the iterator belongs to.
 
         /*!
          * the basic c'tor. constructs a new iterator that points to the given
          * node.
-         * @param list - the list that the iterator points to
-         * @param node - the lists node that the iterator points to.
+         * @param Tree - the Tree that the iterator points to
+         * @param node - the Trees node that the iterator points to.
          */
-        Iterator(const List<T> *list, Node *node) :
+        Iterator(const Tree<T> *Tree, Node *node) :
                 current(node),
-                list(list) {}
+                Tree(Tree) {}
 
-        //list needs access to private fields.
-        friend class List<T>;
+        //Tree needs access to private fields.
+        friend class Tree<T>;
 
     public:
 
@@ -146,14 +160,14 @@ public:
 
         /*!
          * Advances the iterator by one node (by action end, iterator points to
-         * the next node of the list)
-         * @return - the next node in the list.
+         * the next node of the Tree)
+         * @return - the next node in the Tree.
          */
         Iterator &operator++();
 
         /*!
          * Advances the iterator by one node (by action end, iterator  points to
-         * the next node of the list, but return val does not reflect it until
+         * the next node of the Tree, but return val does not reflect it until
          * line end)
          * @return - pre-action iterator.
          */
@@ -161,14 +175,14 @@ public:
 
         /*!
          * Retracts the iterator by one node (by action end, iterator points to
-         * the previous node of the list)
-         * @return - the previous node in the list.
+         * the previous node of the Tree)
+         * @return - the previous node in the Tree.
          */
         Iterator &operator--();
 
         /*!
          * Retracts the iterator by one node (by action end, iterator  points to
-         * the previous node of the list, but return val does not reflect it
+         * the previous node of the Tree, but return val does not reflect it
          * until line end)
          * @return - pre-action iterator.
          */
@@ -177,12 +191,32 @@ public:
         /*!
          * compare operator. checks if the iterator are equal. two iterators
          * would be considered equal if both are pointing to the same node
-         * (or to list end) at the same list.
+         * (or to Tree end) at the same Tree.
          * @param iterator - the right hand operand to compare.
          * @return true  - if the iterators are equal,
          *          false - otherwise.
          */
         bool operator==(const Iterator &iterator) const;
+
+        /*!
+         * compare operator. checks if the iterator are equal. two iterators
+         * would be considered equal if both are pointing to the same node
+         * (or to Tree end) at the same Tree.
+         * @param iterator - the right hand operand to compare.
+         * @return true  - if the iterators are equal,
+         *          false - otherwise.
+         */
+        bool operator<(const Iterator &iterator) const;
+
+        /*!
+         * compare operator. checks if the iterator are equal. two iterators
+         * would be considered equal if both are pointing to the same node
+         * (or to Tree end) at the same Tree.
+         * @param iterator - the right hand operand to compare.
+         * @return true  - if the iterators are equal,
+         *          false - otherwise.
+         */
+        bool operator>(const Iterator &iterator) const;
 
         /*!
          * compare operator. checks if the iterator are NOT equal.
@@ -200,44 +234,44 @@ public:
     };
 
     /*!
-     * function adds a new item to the list with the data value.
+     * function adds a new item to the Tree with the data value.
      * inserts before given iterator.
      * @param data - the new item's data.
      * @param iterator - the iterator to insert begore.
      *
      * @exception ElementNotFound in case that the given iterator is of another
-     *              list.
+     *              Tree.
      */
     void insert(const T &data, Iterator iterator);
 
     /*!
-     * function removes an item off the list.
+     * function removes an item off the Tree.
      * @param iterator - points to the item to remove.
      *
      * @exception ElementNotFound in case that the given iterator is of another
-     *              list, or iterator points to the list's end.
+     *              Tree, or iterator points to the Tree's end.
      */
     void remove(Iterator iterator);
 
     /*!
-     * return the Iterator to the list head.
-     * @return the list head node data (the first item on the list.
+     * return the Iterator to the Tree head.
+     * @return the Tree head node data (the first item on the Tree.
      */
     Iterator begin() const;
 
     /*!
-     * returns the iterator the list end.
+     * returns the iterator the Tree end.
      * iterator will point to NULL by the function's end.
      * @return NULL iterator
      */
     Iterator end() const;
 
     /*!
-     * function finds an item in the list the fits the Predicate critiria.
+     * function finds an item in the Tree the fits the Predicate critiria.
      * @tparam Predicate - function object. returns true if an item fits.
      * @param predicate - the function object.
      * @return the iterator value of the first item that fits.
-     * if no items fit, returns the list end.
+     * if no items fit, returns the Tree end.
      */
     template <typename Predicate>
     Iterator find(const Predicate &predicate);
@@ -245,27 +279,25 @@ public:
 };
 
 template <class T>
-List<T>::List() :
+Tree<T>::Tree() :
         size(HEAD_INDEX),
-        list_head (NULL),
-        list_end (NULL)
-/*list_iterator(this, list_head)*/{}
+        root (NULL)
+/*Tree_iterator(this, Tree_head)*/{}
 
 
 template <class T>
-List<T>::List(const List& list) :
+Tree<T>::Tree(const Tree& Tree) :
         size(HEAD_INDEX),
-        list_head(NULL),
-        list_end(NULL){
-    for(Node *current = list.list_head; current != NULL;
-        current = current->next){
+        root(NULL){
+    for(Node *current = Tree.root; current != NULL;
+        current = current->){
         insert(current->data);
     }
 }
 
 template <class T>
-List<T>::~List() {
-    Node *node = list_head;
+Tree<T>::~Tree() {
+    Node *node = Tree_head;
     while (node != NULL){
         Node *next = node->next;
         delete node;
@@ -274,49 +306,49 @@ List<T>::~List() {
 }
 
 template <class T>
-List<T>& List<T>::operator=(const List& list) {
-    if (this == &list){
+Tree<T>& Tree<T>::operator=(const Tree& Tree) {
+    if (this == &Tree){
         return *this;
     }
     int length = this->size;
     for (int l = 0; l < length; ++l) {
         this->remove(this->begin());
     }
-    //list_head = current;
-    for(Node* current = list.list_head; current != list.list_end;
+    //Tree_head = current;
+    for(Node* current = Tree.Tree_head; current != Tree.Tree_end;
         current = current->next){
         insert(current->data);
     }
-    //list_end = current;
+    //Tree_end = current;
     return *this;
 }
 
 template <class T>
-int List<T>::getSize() const {
+int Tree<T>::getSize() const {
     return this->size;
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::begin() const {
-    return Iterator(this, list_head);
+typename Tree<T>::Iterator Tree<T>::begin() const {
+    return Iterator(this, Tree_head);
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::end() const {
-    return Iterator(this, list_end);
+typename Tree<T>::Iterator Tree<T>::end() const {
+    return Iterator(this, Tree_end);
 }
 
 template <class T>
-void List<T>::insert(const T &data, Iterator iterator) {
-    if(iterator.current == list_end){
+void Tree<T>::insert(const T &data, Iterator iterator) {
+    if(iterator.current == Tree_end){
         insert(data);
         return;
     }
-    Node *current = list_head;
-    while (current != iterator.current && current != list_end){
+    Node *current = Tree_head;
+    while (current != iterator.current && current != Tree_end){
         current = current->next;
     }
-    if (current == list_end){
+    if (current == Tree_end){
         throw ElementNotFound();
     }
     Node *newNode = new Node(data);
@@ -326,9 +358,9 @@ void List<T>::insert(const T &data, Iterator iterator) {
         previous->next = newNode;
         newNode->previous = previous;
     } else {
-        newNode->next = list_head;
-        list_head->previous = newNode;
-        list_head = newNode;
+        newNode->next = Tree_head;
+        Tree_head->previous = newNode;
+        Tree_head = newNode;
         newNode->previous = NULL;
     }
     current->previous = newNode;
@@ -336,17 +368,17 @@ void List<T>::insert(const T &data, Iterator iterator) {
 }
 
 template <class T>
-void List<T>::insert(const T &data) {
+void Tree<T>::insert(const T &data) {
     Node *newNode = new Node(data);
     if(size == 0){
-        list_head = newNode;
+        Tree_head = newNode;
         newNode->previous = NULL;
         newNode->next = NULL;
         size++;
         return;
     }
-    Node *current = list_head;
-    while (current->next != list_end){
+    Node *current = Tree_head;
+    while (current->next != Tree_end){
         current = current->next;
     }
     current->next = newNode;
@@ -355,21 +387,21 @@ void List<T>::insert(const T &data) {
 }
 
 template <class T>
-void List<T>::remove(Iterator iterator) {
-    if (size == 0 || this != iterator.list){
+void Tree<T>::remove(Iterator iterator) {
+    if (size == 0 || this != iterator.Tree){
         throw ElementNotFound();
     }
-    Node *current = list_head;
-    while (current->data != iterator.current->data && current != list_end){
+    Node *current = Tree_head;
+    while (current->data != iterator.current->data && current != Tree_end){
         current = current->next;
     }
-    if(current == list_end){
+    if(current == Tree_end){
         throw ElementNotFound();
     }
     if(iterator.current->previous != NULL){
         (current->previous)->next = current->next;
     }else {
-        list_head = current->next;
+        Tree_head = current->next;
     }
     if(iterator.current->next != NULL){
         (current->next)->previous = current->previous;
@@ -380,8 +412,8 @@ void List<T>::remove(Iterator iterator) {
 
 template <typename T>
 template <typename Predicate>
-typename List<T>::Iterator List<T>::find(const Predicate &predicate){
-    for(Node *current = list_head; current != NULL; current = current->next){
+typename Tree<T>::Iterator Tree<T>::find(const Predicate &predicate){
+    for(Node *current = Tree_head; current != NULL; current = current->next){
         if(predicate(current->data)){
             return Iterator(this, current);
         }
@@ -391,18 +423,18 @@ typename List<T>::Iterator List<T>::find(const Predicate &predicate){
 
 template <typename T>
 template <typename Compare>
-void List<T>::sort(const Compare &compare){
+void Tree<T>::sort(const Compare &compare){
     if(size == 0 || size == 1){ //no sort needed
         return;
     }
-    Node *current = list_head;
-    List<T> sorted;
+    Node *current = Tree_head;
+    Tree<T> sorted;
     bool added = false;
-    sorted.insert(list_head->data);
+    sorted.insert(Tree_head->data);
     current = current->next;
     while (current){
         added = false;
-        Node* other = sorted.list_head;
+        Node* other = sorted.Tree_head;
         for (int i = 0; i < sorted.size; ++i) {
             if(compare(current->data, other->data) == true){
                 Iterator insert(&sorted, other);
@@ -429,13 +461,13 @@ void List<T>::sort(const Compare &compare){
 }
 
 template <class T>
-bool List<T>::operator==(const List& list) const{
-    bool same = (this->size == list.size);
+bool Tree<T>::operator==(const Tree& Tree) const{
+    bool same = (this->size == Tree.size);
     if (same){
-        Node *other = list.list_head;
-        Node *current = list_head;
+        Node *other = Tree.Tree_head;
+        Node *current = Tree_head;
         while (current){
-            assert(other != list.list_end); //we checked that the list are
+            assert(other != Tree.Tree_end); //we checked that the Tree are
             // of the same size.
             if (other->data != current->data){
                 same = false;
@@ -456,13 +488,13 @@ bool List<T>::operator==(const List& list) const{
 }
 
 template <class T>
-bool List<T>::operator!=(const List& list) const{
-    return !(*this == list);
+bool Tree<T>::operator!=(const Tree& Tree) const{
+    return !(*this == Tree);
 }
 
 
 template <class T>
-T& List<T>::Iterator::operator*() const {
+T& Tree<T>::Iterator::operator*() const {
     if(current == NULL){
         throw ElementNotFound();
     }
@@ -470,7 +502,7 @@ T& List<T>::Iterator::operator*() const {
 }
 
 template <class T>
-typename List<T>::Iterator& List<T>::Iterator::operator++() {
+typename Tree<T>::Iterator& Tree<T>::Iterator::operator++() {
     if(current != NULL){
         current = current->next;
     }
@@ -478,14 +510,14 @@ typename List<T>::Iterator& List<T>::Iterator::operator++() {
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::Iterator::operator++(int) {
+typename Tree<T>::Iterator Tree<T>::Iterator::operator++(int) {
     Iterator result = *this;
     ++*this;
     return result;
 }
 
 template <class T>
-typename List<T>::Iterator& List<T>::Iterator::operator--() {
+typename Tree<T>::Iterator& Tree<T>::Iterator::operator--() {
     if(current->previous != NULL){
         current = current->previous;
     }
@@ -493,20 +525,20 @@ typename List<T>::Iterator& List<T>::Iterator::operator--() {
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::Iterator::operator--(int) {
+typename Tree<T>::Iterator Tree<T>::Iterator::operator--(int) {
     Iterator result = *this;
     --*this;
     return result;
 }
 
 template <class T>
-bool List<T>::Iterator::operator==(const Iterator& iterator) const{
-    if(current == this->list->list_end &&
-       iterator.current == iterator.list->list_end){
-        return (list == iterator.list);
-    } else if (current != this->list->list_end &&
-               iterator.current != iterator.list->list_end){
-        return (list == iterator.list &&
+bool Tree<T>::Iterator::operator==(const Iterator& iterator) const{
+    if(current == this->Tree->Tree_end &&
+       iterator.current == iterator.Tree->Tree_end){
+        return (Tree == iterator.Tree);
+    } else if (current != this->Tree->Tree_end &&
+               iterator.current != iterator.Tree->Tree_end){
+        return (Tree == iterator.Tree &&
                 current->data == iterator.current->data);
     } else {
         return false;
@@ -514,7 +546,7 @@ bool List<T>::Iterator::operator==(const Iterator& iterator) const{
 }
 
 template <class T>
-bool List<T>::Iterator::operator!=(const Iterator& iterator) const{
+bool Tree<T>::Iterator::operator!=(const Iterator& iterator) const{
     return !(*this == iterator);
 }
 
