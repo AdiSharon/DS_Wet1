@@ -167,21 +167,10 @@ Tree<T>& Tree<T>::operator=(const Tree& tree) {
     if (this == &tree){
         return *this;
     }
-    int length = this->size;
-
-    delete(this->root->left_son);
-    delete(this->root->right_son);
-    /*for (int l = 0; l < length; ++l) {
-        this->remove(this->begin());
-    }
-
-    //Tree_head = current;
-    for(Node* current = Tree.root; current != ;
-        current = current->next){
-        insert(current->data);
-    }
-    //Tree_end = current;*/
+    delete(this->root);
     this->root=tree.root;
+    this->height=tree.height;
+    this->size=tree.size;
     return *this;
 }
 
@@ -190,10 +179,6 @@ int Tree<T>::getSize() const {
     return this->size;
 }
 
-template <class T>
-typename Tree<T>::Iterator Tree<T>::begin() const {
-    return Iterator(this, root);
-}
 
 /*template <class T>
 typename Tree<T>::Iterator Tree<T>::end() const {
@@ -201,32 +186,9 @@ typename Tree<T>::Iterator Tree<T>::end() const {
 }*/
 
 template <class T>
-void Tree<T>::insert(const T &data, Iterator iterator) {
-    if(iterator.current == root){
-        insert(data);
-        return;
-    }
-    Node *current = root;
-    while (current != iterator.current && current != Tree_end){
-        current = current->next;
-    }
-    if (current == Tree_end){
-        throw ElementNotFound();
-    }
-    Node *newNode = new Node(data);
-    newNode->next = current;
-    if(current->previous != NULL){
-        Node *previous = current->previous;
-        previous->next = newNode;
-        newNode->previous = previous;
-    } else {
-        newNode->next = Tree_head;
-        Tree_head->previous = newNode;
-        Tree_head = newNode;
-        newNode->previous = NULL;
-    }
-    current->previous = newNode;
-    size++;
+void Tree<T>::insert(const T &data) {
+    Tree::Node *new_node= new Tree::Node(data);
+
 }
 
 template <class T>

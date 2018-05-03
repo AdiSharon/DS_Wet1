@@ -2,7 +2,23 @@
 // Created by Adi Sharon on 5/1/2018.
 //
 
-#ifndef DS_WET1_EXECPTIONS_H
-#define DS_WET1_EXECPTIONS_H
+#ifndef EXECPTIONS_H
+#define EXECPTIONS_H
 
-#endif //DS_WET1_EXECPTIONS_H
+#include <stdexcept>
+namespace DS {
+
+    class DSExceptions {};
+
+    namespace TreeExceptions {
+        class TreeMemoryProblemException : public DSExceptions {};
+        class ElementNotFound : public std::runtime_error {
+        public:
+            ElementNotFound() : std::runtime_error("Element not found") {}
+        };
+
+    }
+}
+
+
+#endif //EXECPTIONS_H
