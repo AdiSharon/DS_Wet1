@@ -193,21 +193,6 @@ void Tree<T>::insert(const T &data) {
 
 template <class T>
 void Tree<T>::insert(const T &data) {
-    Node *newNode = new Node(data);
-    if(size == 0){
-        Tree_head = newNode;
-        newNode->previous = NULL;
-        newNode->next = NULL;
-        size++;
-        return;
-    }
-    Node *current = Tree_head;
-    while (current->next != Tree_end){
-        current = current->next;
-    }
-    current->next = newNode;
-    newNode->previous = current;
-    size++;
 }
 
 template <class T>
