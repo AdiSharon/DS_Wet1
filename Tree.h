@@ -13,7 +13,7 @@ template <typename T>
 class Tree {
     class Node {
         T data; //the data (of a type)
-        int height;
+        int node_height;
         Node *right_son; //the node's right son.
         Node *left_son; //the node's left son.
         Node *father; //the node's father. if node is the root, is null.
@@ -25,7 +25,7 @@ class Tree {
          */
         Node(const T &data) :
                 data(data),
-                height(0),
+                node_height(0),
                 right_son(NULL),
                 left_son(NULL),
                 father(NULL) {};
@@ -60,7 +60,7 @@ public:
      * copy c'tor. constructs a new Tree with given Tree params.
      * @param Tree - the Tree to copy.
      */
-    Tree(const Tree &tree);
+   // Tree(const Tree &tree);
 
     /*!
      * a Tree d'to. deletes all the nodes of a given Tree.
