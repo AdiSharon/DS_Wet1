@@ -18,11 +18,7 @@ class Tree {
         Node *left_son; //the node's left son.
         Node *father; //the node's father. if node is the root, is null.
 
-        /*!
-         * the basic c'tor. constructs a node that contains the basic data.
-         * @param data - the actuall type & data of the specific link in the
-         * Tree
-         */
+
         Node(const T &data) :
                 data(data),
                 node_height(0),
@@ -42,7 +38,6 @@ class Tree {
 
     int size; //the number of valid nodes in the tree.
     Node  *root; //the first node in the tree.int height;
-    int height; //the tree's height.
 
 
 
@@ -85,7 +80,8 @@ public:
      * inserts at the Tree's end.
      * @param data - the new item's data.
      */
-    void insert(const T &data);
+    template <typename Compare>
+    Tree<T>::Node insert(const T &data, Node *root, const Compare &compare);
 
     /*!
      * functions sorts the Tree according to the given Compare function.
@@ -186,9 +182,17 @@ typename Tree<T>::Iterator Tree<T>::end() const {
 }*/
 
 template <class T>
-void Tree<T>::insert(const T &data) {
-    Tree::Node *new_node= new Tree::Node(data);
+template <typename Compare>
+Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare) {
+    if (root == NULL){
+        root= new Tree::Node(data);
+        root->right_son=NULL;
+        root->left_son=NULL;
+        root->father=NULL;
+        return root;
 
+    } else if (compare(root->data, data) == true) //compare returns true if left struct is bigger than right struct.
+    return new_node;
 }
 
 template <class T>
