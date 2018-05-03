@@ -22,11 +22,19 @@ namespace DS {
 
     namespace TreeExceptions {
         class TreeMemoryProblemException : public std::runtime_error {
-            TreeMemoryProblemException() : std::runtime_error("Memory Problem") {}
+            TreeMemoryProblemException() : std::runtime_error("ALLOCATION_ERROR") {}
         };
-        class ElementNotFound : public std::runtime_error {
+        class TreeElementNotFound : public std::runtime_error {
         public:
-            ElementNotFound() : std::runtime_error("Element not found") {}
+            TreeElementNotFound() : std::runtime_error("FAILURE") {}
+        };
+        class TreeElementExists : public std::runtime_error {
+        public:
+            TreeElementExists() : std::runtime_error("FAILURE") {}
+        };
+        class TreeInvalidInput : public std::runtime_error {
+        public:
+            TreeInvalidInput() : std::runtime_error("INVALID_INPUT") {}
         };
 
     }
