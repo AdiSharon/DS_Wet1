@@ -16,7 +16,7 @@ class Tree {
         int height;
         Node *right_son; //the node's right son.
         Node *left_son; //the node's left son.
-        //Node *father; //the node's father. if node is the root, is null.
+        Node *father; //the node's father. if node is the root, is null.
 
         /*!
          * the basic c'tor. constructs a node that contains the basic data.
@@ -27,14 +27,11 @@ class Tree {
                 data(data),
                 height(0),
                 right_son(NULL),
-                left_son(NULL)
-                /*father(NULL)*/ {};
+                left_son(NULL),
+                father(NULL) {};
 
         //Tree needs access to private fields.
         friend class Tree<T>;
-
-        //Iterator needs access to private fields.
-        friend class Iterator;
 
     public:
 
@@ -44,7 +41,8 @@ class Tree {
     };
 
     int size; //the number of valid nodes in the tree.
-    Node  *root; //the first node in the tree.
+    Node  *root; //the first node in the tree.int height;
+    int height; //the tree's height.
 
 
 
@@ -96,7 +94,16 @@ public:
      * @param compare - the compare function
      */
     template <typename Compare>
-    void sort(const Compare &compare);
+    void rotateRight(const Compare &compare);
+
+    /*!
+     * functions sorts the Tree according to the given Compare function.
+     * @tparam Compare - function object. returns true if first param is before
+     *                   second param.
+     * @param compare - the compare function
+     */
+    template <typename Compare>
+    void rotateLeft(const Compare &compare);
 
     /*!
      * checks if two Trees are equal.
@@ -126,163 +133,14 @@ public:
      */
     bool operator<(const Tree &tree) const;
 
-    /*!
-     * class iterator. contains a pointer to current node & a pointer to the
-     * Tree for compare porpeses.
-     */
-    class Iterator {
-        Node *current; //points to the current link in the Tree.
-        const Tree<T> *Tree; //points to the Tree the iterator belongs to.
-
-        /*!
-         * the basic c'tor. constructs a new iterator that points to the given
-         * node.
-         * @param Tree - the Tree that the iterator points to
-         * @param node - the Trees node that the iterator points to.
-         */
-        Iterator(const Tree<T> *Tree, Node *node) :
-                current(node),
-                Tree(Tree) {}
-
-        //Tree needs access to private fields.
-        friend class Tree<T>;
-
-    public:
-
-        //class Node;
-
-        /*!
-         * Dereference. this operator returns the data (of T type) that the
-         * iterator points to.
-         * @return - the data field of the current node.
-         */
-        T& operator*() const;
-
-        /*!
-         * Advances the iterator by one node (by action end, iterator points to
-         * the next node of the Tree)
-         * @return - the next node in the Tree.
-         */
-        Iterator &operator++();
-
-        /*!
-         * Advances the iterator by one node (by action end, iterator  points to
-         * the next node of the Tree, but return val does not reflect it until
-         * line end)
-         * @return - pre-action iterator.
-         */
-        Iterator operator++(int);
-
-        /*!
-         * Retracts the iterator by one node (by action end, iterator points to
-         * the previous node of the Tree)
-         * @return - the previous node in the Tree.
-         */
-        Iterator &operator--();
-
-        /*!
-         * Retracts the iterator by one node (by action end, iterator  points to
-         * the previous node of the Tree, but return val does not reflect it
-         * until line end)
-         * @return - pre-action iterator.
-         */
-        Iterator operator--(int);
-
-        /*!
-         * compare operator. checks if the iterator are equal. two iterators
-         * would be considered equal if both are pointing to the same node
-         * (or to Tree end) at the same Tree.
-         * @param iterator - the right hand operand to compare.
-         * @return true  - if the iterators are equal,
-         *          false - otherwise.
-         */
-        bool operator==(const Iterator &iterator) const;
-
-        /*!
-         * compare operator. checks if the iterator are equal. two iterators
-         * would be considered equal if both are pointing to the same node
-         * (or to Tree end) at the same Tree.
-         * @param iterator - the right hand operand to compare.
-         * @return true  - if the iterators are equal,
-         *          false - otherwise.
-         */
-        bool operator<(const Iterator &iterator) const;
-
-        /*!
-         * compare operator. checks if the iterator are equal. two iterators
-         * would be considered equal if both are pointing to the same node
-         * (or to Tree end) at the same Tree.
-         * @param iterator - the right hand operand to compare.
-         * @return true  - if the iterators are equal,
-         *          false - otherwise.
-         */
-        bool operator>(const Iterator &iterator) const;
-
-        /*!
-         * compare operator. checks if the iterator are NOT equal.
-         * @param iterator - the right hand operand to compare.
-         * @return the not of the == operator result.
-         */
-        bool operator!=(const Iterator &iterator) const;
-
-        //default copy operand. fields are basic pointers.
-        Iterator(const Iterator &iterator) = default;
-
-        //default assignment operand.
-        Iterator &operator=(const Iterator &iterator) = default;
-
-    };
-
-    /*!
-     * function adds a new item to the Tree with the data value.
-     * inserts before given iterator.
-     * @param data - the new item's data.
-     * @param iterator - the iterator to insert begore.
-     *
-     * @exception ElementNotFound in case that the given iterator is of another
-     *              Tree.
-     */
-    void insert(const T &data, Iterator iterator);
-
-    /*!
-     * function removes an item off the Tree.
-     * @param iterator - points to the item to remove.
-     *
-     * @exception ElementNotFound in case that the given iterator is of another
-     *              Tree, or iterator points to the Tree's end.
-     */
-    void remove(Iterator iterator);
-
-    /*!
-     * return the Iterator to the Tree head.
-     * @return the Tree head node data (the first item on the Tree.
-     */
-    Iterator begin() const;
-
-    /*!
-     * returns the iterator the Tree end.
-     * iterator will point to NULL by the function's end.
-     * @return NULL iterator
-     */
-    Iterator end() const;
-
-    /*!
-     * function finds an item in the Tree the fits the Predicate critiria.
-     * @tparam Predicate - function object. returns true if an item fits.
-     * @param predicate - the function object.
-     * @return the iterator value of the first item that fits.
-     * if no items fit, returns the Tree end.
-     */
-    template <typename Predicate>
-    Iterator find(const Predicate &predicate);
 
 };
 
 template <class T>
 Tree<T>::Tree() :
         size(HEAD_INDEX),
-        root (NULL)
-/*Tree_iterator(this, Tree_head)*/{}
+        root (NULL),
+        height(HEAD_INDEX){}
 
 
 /*template <class T>
@@ -298,9 +156,9 @@ Tree<T>::Tree(const Tree& Tree) :
 template <class T>
 Tree<T>::~Tree() {
     Node *node = root;
-    delete(node->left_son);
-    delete(node->right_son);
-    delete(node);
+    if (node != NULL){
+        delete(node);
+    }
     delete(this);
 }
 
