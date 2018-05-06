@@ -75,6 +75,8 @@ public:
      */
     int getSize() const;
 
+    Tree<T>::Node balance(Node *temp);
+
     /*!
      * function adds a new item to the Tree with the data value.
      * inserts at the Tree's end.
@@ -192,7 +194,14 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         return root;
 
     } else if (compare(root->data, data) == true) //compare returns true if left struct is bigger than right struct.
-    return new_node;
+    {
+        *root->left_son=Tree<T>::insert(data, root->left_son, compare);
+        *root = Tree<T>::balance(root);
+    } else {
+        *root->right_son=Tree<T>::insert(data, root->right_son, compare);
+        *root = Tree<T>::balance(root);
+    }
+    return root;
 }
 
 template <class T>
