@@ -69,6 +69,24 @@ public:
      */
     Tree &operator=(const Tree &tree);
 
+    int height(Tree<T>::Node *node){
+        if (node != NULL){
+            return node->node_height;
+        }
+        return -1;
+    }
+
+    void updateHeight(Tree<T>::Node *node);
+
+    Tree<T>::Node rr_rotation(Tree<T>::Node *node);
+
+    Tree<T>::Node rl_rotation(Tree<T>::Node *node);
+
+    Tree<T>::Node ll_rotation(Tree<T>::Node *node);
+
+    Tree<T>::Node lr_rotation(Tree<T>::Node *node);
+
+
     /*!
      * return the number of items in the linked Tree.
      * @return - the int number of items.
@@ -137,8 +155,7 @@ public:
 template <class T>
 Tree<T>::Tree() :
         size(HEAD_INDEX),
-        root (NULL),
-        height(HEAD_INDEX){}
+        root (NULL){}
 
 
 /*template <class T>
@@ -167,7 +184,6 @@ Tree<T>& Tree<T>::operator=(const Tree& tree) {
     }
     delete(this->root);
     this->root=tree.root;
-    this->height=tree.height;
     this->size=tree.size;
     return *this;
 }
@@ -177,11 +193,14 @@ int Tree<T>::getSize() const {
     return this->size;
 }
 
-
-/*template <class T>
-typename Tree<T>::Iterator Tree<T>::end() const {
-    return Iterator(this, Tree_end);
-}*/
+template <class T>
+void Tree<T>::updateHeight(Tree<T>::Node *node){
+    if(height(node->left_son) > height(node->right_son)){
+        node->node_height = height(node->left_son) + 1;
+    } else {
+        node->node_height = height(node->right_son) + 1;
+    }
+}
 
 template <class T>
 template <typename Compare>
@@ -191,22 +210,32 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         root->right_son=NULL;
         root->left_son=NULL;
         root->father=NULL;
+        root->node_height=0;
         return root;
 
     } else if (compare(root->data, data) == true) //compare returns true if left struct is bigger than right struct.
     {
         *root->left_son=Tree<T>::insert(data, root->left_son, compare);
-        *root = Tree<T>::balance(root);
     } else {
         *root->right_son=Tree<T>::insert(data, root->right_son, compare);
-        *root = Tree<T>::balance(root);
     }
+    updateHeight(root);
+    *root = Tree<T>::balance(root);
     return root;
 }
 
+
 template <class T>
-void Tree<T>::insert(const T &data) {
+Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
+    Tree<T>::Node *temp;
+
 }
+
+Tree<T>::Node rl_rotation(Tree<T>::Node *node);
+
+Tree<T>::Node ll_rotation(Tree<T>::Node *node);
+
+Tree<T>::Node lr_rotation(Tree<T>::Node *node);
 
 template <class T>
 void Tree<T>::remove(Iterator iterator) {
