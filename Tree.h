@@ -248,6 +248,28 @@ template <typename Compare>
 template <class T>
 void Tree<T>::remove( const T& data, Compare &compare) {
     Tree<T>::Node temp = Tree<T>::find(data, this->root, compare);
+    if(height(&temp) == 0){
+        delete(temp);
+        return;
+    }
+    bool left = false;
+    if(temp.father->left_son == &temp){
+        left= true;
+    }
+    if (temp.left_son == NULL ){
+        if(left){
+            temp.father->left_son = temp.right_son;
+        } else {
+            temp.father->right_son = temp.right_son;
+        }
+    } else if (temp.right_son == NULL){
+        if(left){
+            temp.father->left_son = temp.left_son;
+        } else {
+            temp.father->right_son = temp.left_son;
+        }
+    }
+
 }
 
 template <typename Compare>
