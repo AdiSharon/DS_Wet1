@@ -234,11 +234,14 @@ Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
 
 }
 
-Tree<T>::Node rl_rotation(Tree<T>::Node *node);
+template <class T>
+Tree<T>::Node Tree<T>::rl_rotation(Tree<T>::Node *node);
 
-Tree<T>::Node ll_rotation(Tree<T>::Node *node);
+template <class T>
+Tree<T>::Node Tree<T>::ll_rotation(Tree<T>::Node *node);
 
-Tree<T>::Node lr_rotation(Tree<T>::Node *node);
+template <class T>
+Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node);
 
 template <class T>
 void Tree<T>::remove(Tree<T>::Node *node) {
@@ -257,55 +260,6 @@ Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare
     return NULL;
 }
 
-template <typename T>
-template <typename Predicate>
-typename Tree<T>::Iterator Tree<T>::find(const Predicate &predicate){
-    for(Node *current = Tree_head; current != NULL; current = current->next){
-        if(predicate(current->data)){
-            return Iterator(this, current);
-        }
-    }
-    return this->end();
-}
-
-template <typename T>
-template <typename Compare>
-void Tree<T>::sort(const Compare &compare){
-    if(size == 0 || size == 1){ //no sort needed
-        return;
-    }
-    Node *current = Tree_head;
-    Tree<T> sorted;
-    bool added = false;
-    sorted.insert(Tree_head->data);
-    current = current->next;
-    while (current){
-        added = false;
-        Node* other = sorted.Tree_head;
-        for (int i = 0; i < sorted.size; ++i) {
-            if(compare(current->data, other->data) == true){
-                Iterator insert(&sorted, other);
-                sorted.insert(current->data, insert);
-                added = true;
-                break;
-            }
-            other = other->next;
-        }
-        if(!added){
-            sorted.insert(current->data);
-        }
-        if(current->next != NULL){
-            current = current->next;
-        } else {
-            break;
-        }
-    }
-    int length = this->size;
-    for (int l = 0; l < length; ++l) {
-        this->remove(this->begin());
-    }
-    *this = sorted;
-}
 
 template <class T>
 bool Tree<T>::operator==(const Tree& Tree) const{
