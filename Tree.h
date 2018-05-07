@@ -76,7 +76,12 @@ public:
         return -1;
     }
 
+    int getBalanceFactor(Tree<T>::Node *node);
+
     void updateHeight(Tree<T>::Node *node);
+
+    template <typename Compare>
+    Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare);
 
     Tree<T>::Node rr_rotation(Tree<T>::Node *node);
 
@@ -102,6 +107,8 @@ public:
      */
     template <typename Compare>
     Tree<T>::Node insert(const T &data, Node *root, const Compare &compare);
+
+    void Tree<T>::remove(Tree<T>::Node *node);
 
     /*!
      * functions sorts the Tree according to the given Compare function.
@@ -158,15 +165,6 @@ Tree<T>::Tree() :
         root (NULL){}
 
 
-/*template <class T>
-Tree<T>::Tree(const Tree& Tree) :
-        size(HEAD_INDEX),
-        root(NULL){
-    for(Node *current = Tree.root; current != NULL;
-        current = current->){
-        insert(current->data);
-    }
-}*/
 
 template <class T>
 Tree<T>::~Tree() {
@@ -194,6 +192,11 @@ int Tree<T>::getSize() const {
 }
 
 template <class T>
+int Tree<T>::getBalanceFactor(Tree<T>::Node *node){
+    return (height(node->left_son) - height(node->right_son));
+}
+
+template <class T>
 void Tree<T>::updateHeight(Tree<T>::Node *node){
     if(height(node->left_son) > height(node->right_son)){
         node->node_height = height(node->left_son) + 1;
@@ -213,7 +216,7 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         root->node_height=0;
         return root;
 
-    } else if (compare(root->data, data) == true) //compare returns true if left struct is bigger than right struct.
+    } else if (compare(root->data, data) > 0) //compare returns true if left struct is bigger than right struct.
     {
         *root->left_son=Tree<T>::insert(data, root->left_son, compare);
     } else {
@@ -238,27 +241,20 @@ Tree<T>::Node ll_rotation(Tree<T>::Node *node);
 Tree<T>::Node lr_rotation(Tree<T>::Node *node);
 
 template <class T>
-void Tree<T>::remove(Iterator iterator) {
-    if (size == 0 || this != iterator.Tree){
-        throw ElementNotFound();
+void Tree<T>::remove(Tree<T>::Node *node) {
+}
+
+template <typename Compare>
+template <class T>
+Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare){
+    if(compare(root->data, data ) == 0){
+        return root;
+    } else if (compare(root->data, data ) < 0 ){
+        return find(data, root->right_son, compare);
+    } else {
+        return find(data, root->left_son, compare);
     }
-    Node *current = Tree_head;
-    while (current->data != iterator.current->data && current != Tree_end){
-        current = current->next;
-    }
-    if(current == Tree_end){
-        throw ElementNotFound();
-    }
-    if(iterator.current->previous != NULL){
-        (current->previous)->next = current->next;
-    }else {
-        Tree_head = current->next;
-    }
-    if(iterator.current->next != NULL){
-        (current->next)->previous = current->previous;
-    }
-    delete(current);
-    size--;
+    return NULL;
 }
 
 template <typename T>
