@@ -81,7 +81,7 @@ public:
     void updateHeight(Tree<T>::Node *node);
 
     template <typename Compare>
-    Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare);
+    Tree<T>::Node find(const T& data, Tree<T>::Node *root, Compare &compare);
 
     Tree<T>::Node rr_rotation(Tree<T>::Node *node);
 
@@ -108,7 +108,8 @@ public:
     template <typename Compare>
     Tree<T>::Node insert(const T &data, Node *root, const Compare &compare);
 
-    void Tree<T>::remove(Tree<T>::Node *node);
+    template <typename Compare>
+    void Tree<T>::remove(const T& data, Compare &compare);
 
     /*!
      * functions sorts the Tree according to the given Compare function.
@@ -243,8 +244,10 @@ Tree<T>::Node Tree<T>::ll_rotation(Tree<T>::Node *node);
 template <class T>
 Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node);
 
+template <typename Compare>
 template <class T>
-void Tree<T>::remove(Tree<T>::Node *node) {
+void Tree<T>::remove( const T& data, Compare &compare) {
+    Tree<T>::Node temp = Tree<T>::find(data, this->root, compare);
 }
 
 template <typename Compare>
