@@ -102,7 +102,7 @@ public:
      * @param data - the new item's data.
      */
     template <typename Compare>
-    Tree<T>::Node insert(const T &data, Node *root, const Compare &compare);
+    Node insert(const T &data, Node *root, const Compare &compare);
 
     template <typename Compare>
     void remove(const T& data, Compare &compare);
@@ -110,6 +110,8 @@ public:
     void rotateRight(Node *root);
 
     void rotateLeft(Node *root);
+
+    Node *findClosestMin(Node *node);
 
     /*!
      * checks if two Trees are equal.
@@ -199,7 +201,7 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         root->node_height=0;
         return root;
 
-    } else if (compare(root->data, data) < 0) //compare returns true if left struct is bigger than right struct.
+    } else if (compare(root->data, data) < 0)
     {
         if(root->left_son){
             *root->left_son=Tree<T>::insert(data, root->left_son, compare);
@@ -297,36 +299,59 @@ Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node){
     return node;
 }
 
+template <class T>
+Tree<T>::Node* Tree<T>::findClosestMin(Tree<T>::Node *node){
+    Tree<T>::Node *min = node->right_son;
+    while (min->left_son){
+        min = min->left_son;
+    }
+    return min;
+}
+
 template <typename Compare>
 template <class T>
 void Tree<T>::remove( const T& data, Compare &compare) {
-    Tree<T>::Node *temp = Tree<T>::find(data, this->root, compare);
-    if (temp == NULL){
+    Tree<T>::Node *node = Tree<T>::find(data, this->root, compare);
+    if (node == NULL){
         return;
     }
-    if(height(temp) == 0){
-        delete(*temp);
+    //node has NO sons:
+    if(height(node) == 0){
+        delete(*node);
         this->size--;
         return;
     }
+    //check if node is the left son of his father
     bool left = false;
-    if(temp->father->left_son == temp){
+    if(node->father->left_son == node){
         left = true;
     }
-    if (temp->left_son == NULL ){
-        if(left){
-            temp->father->left_son = temp->right_son;
-        } else {
-            temp->father->right_son = temp->right_son;
+    //node has ONE son:
+    if (node->left_son == NULL || node->right_son == NULL){
+        if (node->left_son == NULL ){
+            if(left){
+                node->father->left_son = node->right_son;
+            } else {
+                node->father->right_son = node->right_son;
+            }
+        } else if (node->right_son == NULL){
+            if(left){
+                node->father->left_son = node->left_son;
+            } else {
+                node->father->right_son = node->left_son;
+            }
         }
-    } else if (temp->right_son == NULL){
-        if(left){
-            temp->father->left_son = temp->left_son;
-        } else {
-            temp->father->right_son = temp->left_son;
-        }
+        updateHeight(node->father);
+        delete(*node);
+        this->size--;
     }
-
+    //node has TWO sons:
+    else if (node->left_son && node->right_son){
+        Tree<T>::Node *temp = Tree<T>::findClosestMin(node);
+        node->data = temp->data;
+        temp->data = data;
+        Tree<T>::remove(data, compare);
+    }
 }
 
 template <typename Compare>
