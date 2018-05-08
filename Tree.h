@@ -145,6 +145,11 @@ public:
      */
     bool operator<(const Tree &tree) const;
 
+    void PreOrder (Node *root) const;
+
+    void InOrder (Node *root) const;
+
+    void PostOrder (Node *root) const;
 
 
 
@@ -423,7 +428,32 @@ bool operator<(const Tree &tree) const{
     return this->size < tree.size;
 }
 
+template <class T>
+void Tree<T>::PreOrder (Tree<T>::Node *root) const{
+    if( root ){
+        root->Print();
+        Tree<T>::PreOrder(root->left_son);
+        Tree<T>::PreOrder(root->right_son);
+    }
+}
 
+template <class T>
+void Tree<T>::InOrder (Tree<T>::Node *root) const{
+    if (root){
+        Tree<T>::InOrder(root->left_son);
+        root->Print();
+        Tree<T>::InOrder(root->right_son);
+    }
+}
+
+template <class T>
+void Tree<T>::PostOrder (Tree<T>::Node *root) const{
+    if(root){
+        Tree<T>::PostOrder(root->left_son);
+        Tree<T>::PostOrder(root->right_son);
+        root->Print();
+    }
+}
 
 
 #endif //HW2_TREE_H
