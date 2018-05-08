@@ -35,6 +35,10 @@ class Tree {
         //default assignment operand.
         Node &operator=(const Node &node) = default;
 
+        void Print() const{
+            std::cout << data << std::endl;
+        }
+
     };
 
     int size; //the number of valid nodes in the tree.
@@ -140,6 +144,9 @@ public:
      * @return the ! of ==.
      */
     bool operator<(const Tree &tree) const;
+
+
+
 
 
 };
@@ -413,7 +420,10 @@ bool operator>(const Tree &tree) const{
 }
 
 bool operator<(const Tree &tree) const{
-    return this->size< tree.size;
+    return this->size < tree.size;
 }
+
+
+
 
 #endif //HW2_TREE_H
