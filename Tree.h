@@ -190,7 +190,7 @@ void Tree<T>::updateHeight(Tree<T>::Node *node){
 template <class T>
 template <typename Compare>
 Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare) {
-    if (root == NULL){
+    if (root == NULL){ //if tree is empty
         root= new Tree::Node(data);
         root->right_son=NULL;
         root->left_son=NULL;
@@ -198,13 +198,31 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         root->node_height=0;
         return root;
 
-    } else if (compare(root->data, data) > 0) //compare returns true if left struct is bigger than right struct.
+    } else if (compare(root->data, data) < 0) //compare returns true if left struct is bigger than right struct.
     {
-        *root->left_son=Tree<T>::insert(data, root->left_son, compare);
+        if(root->left_son){
+            *root->left_son=Tree<T>::insert(data, root->left_son, compare);
+        } else {
+            Tree<T>::Node *newnode = new Tree::Node(data);
+            root->left_son = newnode;
+            newnode->father = root;
+        }
     } else {
-        *root->right_son=Tree<T>::insert(data, root->right_son, compare);
+        if(root->right_son){
+            *root->right_son=Tree<T>::insert(data, root->right_son, compare);
+        } else {
+            Tree<T>::Node *newnode = new Tree::Node(data);
+            root->right_son = newnode;
+            newnode->father = root;
+        }
     }
-    updateHeight(root);
+    if (root->node_height == 0){
+        Tree<T>::Node *Iterator = root;
+        while (Iterator->father != NULL){
+            updateHeight(Iterator);
+        }
+        updateHeight(this->root);
+    }
     *root = Tree<T>::balance(root);
     return root;
 }
