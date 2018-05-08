@@ -3,7 +3,6 @@
 #define HW2_TREE_H
 
 #include <iostream>
-#include <assert.h>
 #include <algorithm>
 #include "Execptions.h"
 
