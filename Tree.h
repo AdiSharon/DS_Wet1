@@ -106,11 +106,9 @@ public:
     template <typename Compare>
     void remove(const T& data, Compare &compare);
 
-    template <typename Compare>
-    void rotateRight(const Compare &compare);
+    void rotateRight(Node *root);
 
-    template <typename Compare>
-    void rotateLeft(const Compare &compare);
+    void rotateLeft(Node *root);
 
     /*!
      * checks if two Trees are equal.
@@ -211,6 +209,43 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
     return root;
 }
 
+template <class T>
+void Tree<T>::rotateLeft(Tree<T>::Node *root){
+    Tree<T>::Node *newroot = root->right_son;
+    root->right_son = newroot->left_son;
+    newroot->left_son = root;
+    if (root->father == NULL){
+        this->root = newroot;
+        newroot->father = NULL;
+    } else {
+        if (root->father->left_son == root){
+            root->father->left_son = newroot;
+        } else {
+            root->father->right_son = newroot;
+        }
+        newroot->father = root->father;
+    }
+    root->father = newroot;
+}
+
+template <class T>
+void Tree<T>::rotateRight(Tree<T>::Node *root){
+    Tree<T>::Node *newroot = root->left_son;
+    root->left_son = newroot->right_son;
+    newroot->right_son = root;
+    if (root->father == NULL){
+        this->root = newroot;
+        newroot->father = NULL;
+    } else {
+        if (root->father->left_son == root){
+            root->father->left_son = newroot;
+        } else {
+            root->father->right_son = newroot;
+        }
+        newroot->father = root->father;
+    }
+    root->father = newroot;
+}
 
 template <class T>
 Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node);
