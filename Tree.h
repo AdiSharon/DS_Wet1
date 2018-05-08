@@ -248,16 +248,30 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
 }
 
 template <class T>
-Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node);
+Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
+    Tree<T>::rotateLeft(node);
+    return node;
+}
 
 template <class T>
-Tree<T>::Node Tree<T>::rl_rotation(Tree<T>::Node *node);
+Tree<T>::Node Tree<T>::rl_rotation(Tree<T>::Node *node){
+    Tree<T>::rotateRight(node->right_son);
+    Tree<T>::rotateLeft(node);
+    return node;
+}
 
 template <class T>
-Tree<T>::Node Tree<T>::ll_rotation(Tree<T>::Node *node);
+Tree<T>::Node Tree<T>::ll_rotation(Tree<T>::Node *node){
+    Tree<T>::rotateRight(node);
+    return node;
+}
 
 template <class T>
-Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node);
+Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node){
+    Tree<T>::rotateLeft(node->left_son);
+    Tree<T>::rotateRight(node);
+    return node;
+}
 
 template <typename Compare>
 template <class T>
