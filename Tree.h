@@ -400,4 +400,20 @@ void Tree<T>::balance(Tree<T>::Node *root){
     throw TreeBFProblem{};
 }
 
+bool operator==(const Tree &tree) const{
+    return this->size == tree.size;
+}
+
+bool operator!=(const Tree &tree) const{
+    return this->size != tree.size;
+}
+
+bool operator>(const Tree &tree) const{
+    return this->size > tree.size;
+}
+
+bool operator<(const Tree &tree) const{
+    return this->size< tree.size;
+}
+
 #endif //HW2_TREE_H
