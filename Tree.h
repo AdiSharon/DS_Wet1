@@ -69,12 +69,7 @@ public:
      */
     Tree &operator=(const Tree &tree);
 
-    int height(Tree<T>::Node *node){
-        if (node != NULL){
-            return node->node_height;
-        }
-        return -1;
-    }
+    int height(Tree<T>::Node *node);
 
     int getBalanceFactor(Tree<T>::Node *node);
 
@@ -109,23 +104,11 @@ public:
     Tree<T>::Node insert(const T &data, Node *root, const Compare &compare);
 
     template <typename Compare>
-    void Tree<T>::remove(const T& data, Compare &compare);
+    void remove(const T& data, Compare &compare);
 
-    /*!
-     * functions sorts the Tree according to the given Compare function.
-     * @tparam Compare - function object. returns true if first param is before
-     *                   second param.
-     * @param compare - the compare function
-     */
     template <typename Compare>
     void rotateRight(const Compare &compare);
 
-    /*!
-     * functions sorts the Tree according to the given Compare function.
-     * @tparam Compare - function object. returns true if first param is before
-     *                   second param.
-     * @param compare - the compare function
-     */
     template <typename Compare>
     void rotateLeft(const Compare &compare);
 
@@ -230,10 +213,7 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
 
 
 template <class T>
-Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
-    Tree<T>::Node *temp;
-
-}
+Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node);
 
 template <class T>
 Tree<T>::Node Tree<T>::rl_rotation(Tree<T>::Node *node);
@@ -285,95 +265,12 @@ Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare
     return NULL;
 }
 
-
 template <class T>
-bool Tree<T>::operator==(const Tree& Tree) const{
-    bool same = (this->size == Tree.size);
-    if (same){
-        Node *other = Tree.Tree_head;
-        Node *current = Tree_head;
-        while (current){
-            assert(other != Tree.Tree_end); //we checked that the Tree are
-            // of the same size.
-            if (other->data != current->data){
-                same = false;
-                break;
-            }
-            if(other->next != NULL){
-                other = other->next;
-                current = current->next;
-            } else if (current->next != NULL){
-                same = false;
-                break;
-            } else{
-                current = NULL;
-            }
-        }
+int Tree<T>::height(Tree<T>::Node *node){
+    if (node != NULL){
+        return node->node_height;
     }
-    return same;
-}
-
-template <class T>
-bool Tree<T>::operator!=(const Tree& Tree) const{
-    return !(*this == Tree);
-}
-
-
-template <class T>
-T& Tree<T>::Iterator::operator*() const {
-    if(current == NULL){
-        throw ElementNotFound();
-    }
-    return current->data;
-}
-
-template <class T>
-typename Tree<T>::Iterator& Tree<T>::Iterator::operator++() {
-    if(current != NULL){
-        current = current->next;
-    }
-    return *this;
-}
-
-template <class T>
-typename Tree<T>::Iterator Tree<T>::Iterator::operator++(int) {
-    Iterator result = *this;
-    ++*this;
-    return result;
-}
-
-template <class T>
-typename Tree<T>::Iterator& Tree<T>::Iterator::operator--() {
-    if(current->previous != NULL){
-        current = current->previous;
-    }
-    return *this;
-}
-
-template <class T>
-typename Tree<T>::Iterator Tree<T>::Iterator::operator--(int) {
-    Iterator result = *this;
-    --*this;
-    return result;
-}
-
-template <class T>
-bool Tree<T>::Iterator::operator==(const Iterator& iterator) const{
-    if(current == this->Tree->Tree_end &&
-       iterator.current == iterator.Tree->Tree_end){
-        return (Tree == iterator.Tree);
-    } else if (current != this->Tree->Tree_end &&
-               iterator.current != iterator.Tree->Tree_end){
-        return (Tree == iterator.Tree &&
-                current->data == iterator.current->data);
-    } else {
-        return false;
-    }
-}
-
-template <class T>
-bool Tree<T>::Iterator::operator!=(const Iterator& iterator) const{
-    return !(*this == iterator);
+    return -1;
 }
 
 
