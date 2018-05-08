@@ -77,7 +77,7 @@ public:
     void updateHeight(Tree<T>::Node *node);
 
     template <typename Compare>
-    Tree<T>::Node find(const T& data, Tree<T>::Node *root, Compare &compare);
+    Tree<T>::Node* find(const T& data, Tree<T>::Node *root, Compare &compare);
 
     Tree<T>::Node rr_rotation(Tree<T>::Node *node);
 
@@ -224,6 +224,7 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         }
         updateHeight(this->root);
     }
+    this->size++;
     Tree<T>::balance(root);
     return root;
 }
@@ -245,6 +246,8 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
         newroot->father = root->father;
     }
     root->father = newroot;
+    updateHeight(newroot);
+    updateHeight(root);
 }
 
 template <class T>
@@ -264,6 +267,8 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
         newroot->father = root->father;
     }
     root->father = newroot;
+    updateHeight(newroot);
+    updateHeight(root);
 }
 
 template <class T>
@@ -295,26 +300,30 @@ Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node){
 template <typename Compare>
 template <class T>
 void Tree<T>::remove( const T& data, Compare &compare) {
-    Tree<T>::Node temp = Tree<T>::find(data, this->root, compare);
-    if(height(&temp) == 0){
-        delete(temp);
+    Tree<T>::Node *temp = Tree<T>::find(data, this->root, compare);
+    if (temp == NULL){
+        return;
+    }
+    if(height(temp) == 0){
+        delete(*temp);
+        this->size--;
         return;
     }
     bool left = false;
-    if(temp.father->left_son == &temp){
-        left= true;
+    if(temp->father->left_son == temp){
+        left = true;
     }
-    if (temp.left_son == NULL ){
+    if (temp->left_son == NULL ){
         if(left){
-            temp.father->left_son = temp.right_son;
+            temp->father->left_son = temp->right_son;
         } else {
-            temp.father->right_son = temp.right_son;
+            temp->father->right_son = temp->right_son;
         }
-    } else if (temp.right_son == NULL){
+    } else if (temp->right_son == NULL){
         if(left){
-            temp.father->left_son = temp.left_son;
+            temp->father->left_son = temp->left_son;
         } else {
-            temp.father->right_son = temp.left_son;
+            temp->father->right_son = temp->left_son;
         }
     }
 
@@ -322,7 +331,7 @@ void Tree<T>::remove( const T& data, Compare &compare) {
 
 template <typename Compare>
 template <class T>
-Tree<T>::Node Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare){
+Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare){
     if(compare(root->data, data ) == 0){
         return root;
     } else if (compare(root->data, data ) < 0 ){
