@@ -8,6 +8,7 @@
 #include "Execptions.h"
 
 using namespace std;
+using namespace DS::Tree;
 
 template <typename T>
 class Tree {
@@ -93,7 +94,7 @@ public:
      */
     int getSize() const;
 
-    Tree<T>::Node balance(Node *temp);
+    void balance(Node *root);
 
     /*!
      * function adds a new item to the Tree with the data value.
@@ -223,7 +224,7 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
         }
         updateHeight(this->root);
     }
-    *root = Tree<T>::balance(root);
+    Tree<T>::balance(root);
     return root;
 }
 
@@ -340,5 +341,29 @@ int Tree<T>::height(Tree<T>::Node *node){
     return -1;
 }
 
+template <class T>
+void Tree<T>::balance(Tree<T>::Node *root){
+    int BF = getBalanceFactor(root);
+    if (BF >= -1 && BF <= 1)
+        return;
+    if (BF == 2){
+        if (getBalanceFactor(root->left_son) > 0){
+            ll_rotation(root);
+            return;
+        } else if (getBalanceFactor(root->left_son) == -1){
+            lr_rotation(root);
+            return;
+        }
+    } else if (BF == -2){
+        if (getBalanceFactor(root->right_son) <= 0){
+            rr_rotation(root);
+            return;
+        } else if (getBalanceFactor(root->right_son) == 1){
+            rl_rotation(root);
+            return;
+        }
+    }
+    throw TreeBFProblem{};
+}
 
 #endif //HW2_TREE_H

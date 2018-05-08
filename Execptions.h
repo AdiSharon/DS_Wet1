@@ -20,7 +20,7 @@ namespace DS {
 
     }
 
-    namespace TreeExceptions {
+    namespace Tree {
         class TreeMemoryProblemException : public std::runtime_error {
             TreeMemoryProblemException() : std::runtime_error("ALLOCATION_ERROR") {}
         };
@@ -36,6 +36,8 @@ namespace DS {
         public:
             TreeInvalidInput() : std::runtime_error("INVALID_INPUT") {}
         };
+        class TreeExceptions : public DSExceptions {};
+        class TreeBFProblem : public TreeExceptions {};
 
     }
 
