@@ -97,24 +97,24 @@ public:
 
     Node rr_rotation(Node *node){
         rotateLeft(node);
-        return node;
+        return *node;
     }
 
     Node rl_rotation(Node *node){
         rotateRight(node->right_son);
         rotateLeft(node);
-        return node;
+        return *node;
     }
 
     Node ll_rotation(Node *node){
         rotateRight(node);
-        return node;
+        return *node;
     }
 
     Node lr_rotation(Node *node) {
         rotateLeft(node->left_son);
         rotateRight(node);
-        return node;
+        return *node;
     }
 
     /*!
@@ -131,7 +131,7 @@ public:
      * @param data - the new item's data.
      */
     template <typename Compare>
-    Node* insert(const T &data, Node *root, const Compare &compare){
+    Node* insert(const T &data, Node *root, Compare &compare){
         if (root == NULL){ //if tree is empty
             root= new Node(data);
             root->right_son=NULL;
@@ -143,7 +143,7 @@ public:
         } else if (compare(root->data, data) < 0)
         {
             if(root->left_son){
-                *root->left_son=insert(data, root->left_son, compare);
+                root->left_son=insert(data, root->left_son, compare);
             } else {
                 Node *newnode = new Node(data);
                 root->left_son = newnode;
@@ -151,7 +151,7 @@ public:
             }
         } else {
             if(root->right_son){
-                *root->right_son=insert(data, root->right_son, compare);
+                root->right_son=insert(data, root->right_son, compare);
             } else {
                 Node *newnode = new Node(data);
                 root->right_son = newnode;
@@ -178,7 +178,7 @@ public:
         }
         //node has NO sons:
         if(height(node) == 0){
-            delete(*node);
+            delete(node);
             this->size--;
             return;
         }
@@ -203,7 +203,7 @@ public:
                 }
             }
             updateHeight(node->father);
-            delete(*node);
+            delete(node);
             this->size--;
         }
             //node has TWO sons:
