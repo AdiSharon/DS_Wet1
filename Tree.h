@@ -163,6 +163,14 @@ public:
                 root->left_son = new Node(data);
                 root->left_son->father = root;
                 this->size++;
+                if (root->node_height == 0){
+                    Node *Iterator = root;
+                    while (Iterator->father != NULL){
+                        updateHeight(Iterator);
+                        Iterator=Iterator->father;
+                    }
+                    updateHeight(this->root);
+                }
             }
         } else {
             if(root->right_son){
@@ -172,15 +180,15 @@ public:
                 root->right_son = new Node(data);
                 root->right_son->father = root;
                 this->size++;
+                if (root->node_height == 0){
+                    Node *Iterator = root;
+                    while (Iterator->father != NULL){
+                        updateHeight(Iterator);
+                        Iterator=Iterator->father;
+                    }
+                    updateHeight(this->root);
+                }
             }
-        }
-        if (root->node_height == 0){
-            Node *Iterator = root;
-            while (Iterator->father != NULL){
-                updateHeight(Iterator);
-                Iterator=Iterator->father;
-            }
-            updateHeight(this->root);
         }
         //this->size++;
         balance(root);
@@ -383,6 +391,7 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
 template <class T>
 void Tree<T>::rotateRight(Tree<T>::Node *root){
     Tree<T>::Node *newroot = root->left_son;
+    root->left_son = NULL;
     root->left_son = newroot->right_son;
     newroot->right_son = root;
     if (root->father == NULL){
@@ -397,8 +406,8 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
         newroot->father = root->father;
     }
     root->father = newroot;
-    updateHeight(newroot);
     updateHeight(root);
+    updateHeight(newroot);
 }
 
 /*template <class T>
@@ -511,20 +520,30 @@ void Tree<T>::balance(Tree<T>::Node *root){
     if (BF == 2){
         if (getBalanceFactor(root->left_son) > 0){
             ll_rotation(root);
-            return;
         } else if (getBalanceFactor(root->left_son) == -1){
             lr_rotation(root);
-            return;
         }
+        Node *Iterator = root;
+        while (Iterator->father != NULL){
+            updateHeight(Iterator);
+            Iterator=Iterator->father;
+        }
+        updateHeight(this->root);
+        return;
     } else if (BF == -2){
         if (getBalanceFactor(root->right_son) <= 0){
             rr_rotation(root);
-            return;
 
         } else if (getBalanceFactor(root->right_son) == 1){
             rl_rotation(root);
-            return;
         }
+        Node *Iterator = root;
+        while (Iterator->father != NULL){
+            updateHeight(Iterator);
+            Iterator=Iterator->father;
+        }
+        updateHeight(this->root);
+        return;
     }
     throw TreeBFProblem();
 }
