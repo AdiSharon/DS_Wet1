@@ -32,7 +32,7 @@ class Tree {
     public:
 
         //default assignment operand.
-        Node &operator=(const Node &node) = default;
+        Node &operator=(const Node &node);
 
         void Print() const{
             std::cout << data << std::endl;
@@ -75,21 +75,47 @@ public:
 
     int height(Tree<T>::Node *node);
 
+    Node* getRoot(Tree tree){
+        return this->root;
+    }
+
     int getBalanceFactor(Tree<T>::Node *node);
 
-    void updateHeight(Tree<T>::Node *node);
+    void updateHeight(Node *node);
 
     template <typename Compare>
-    Tree<T>::Node* find(const T& data, Tree<T>::Node *root, Compare &compare);
+    Node* find(const T& data, Node *root, Compare &compare){
+        if(compare(root->data, data ) == 0){
+            return root;
+        } else if (compare(root->data, data ) < 0 ){
+            return find(data, root->right_son, compare);
+        } else {
+            return find(data, root->left_son, compare);
+        }
+        return NULL;
+    }
 
-    Tree<T>::Node rr_rotation(Tree<T>::Node *node);
+    Node rr_rotation(Node *node){
+        rotateLeft(node);
+        return node;
+    }
 
-    Tree<T>::Node rl_rotation(Tree<T>::Node *node);
+    Node rl_rotation(Node *node){
+        rotateRight(node->right_son);
+        rotateLeft(node);
+        return node;
+    }
 
-    Tree<T>::Node ll_rotation(Tree<T>::Node *node);
+    Node ll_rotation(Node *node){
+        rotateRight(node);
+        return node;
+    }
 
-    Tree<T>::Node lr_rotation(Tree<T>::Node *node);
-
+    Node lr_rotation(Node *node) {
+        rotateLeft(node->left_son);
+        rotateRight(node);
+        return node;
+    }
 
     /*!
      * return the number of items in the linked Tree.
@@ -105,44 +131,117 @@ public:
      * @param data - the new item's data.
      */
     template <typename Compare>
-    Node insert(const T &data, Node *root, const Compare &compare);
+    Node* insert(const T &data, Node *root, const Compare &compare){
+        if (root == NULL){ //if tree is empty
+            root= new Node(data);
+            root->right_son=NULL;
+            root->left_son=NULL;
+            root->father=NULL;
+            root->node_height=0;
+            return root;
+
+        } else if (compare(root->data, data) < 0)
+        {
+            if(root->left_son){
+                *root->left_son=insert(data, root->left_son, compare);
+            } else {
+                Node *newnode = new Node(data);
+                root->left_son = newnode;
+                newnode->father = root;
+            }
+        } else {
+            if(root->right_son){
+                *root->right_son=insert(data, root->right_son, compare);
+            } else {
+                Node *newnode = new Node(data);
+                root->right_son = newnode;
+                newnode->father = root;
+            }
+        }
+        if (root->node_height == 0){
+            Node *Iterator = root;
+            while (Iterator->father != NULL){
+                updateHeight(Iterator);
+            }
+            updateHeight(this->root);
+        }
+        this->size++;
+        balance(root);
+        return root;
+    }
 
     template <typename Compare>
-    void remove(const T& data, Compare &compare);
+    void remove(const T& data, Compare &compare){
+        Node *node = find(data, this->root, compare);
+        if (node == NULL){
+            return;
+        }
+        //node has NO sons:
+        if(height(node) == 0){
+            delete(*node);
+            this->size--;
+            return;
+        }
+        //check if node is the left son of his father
+        bool left = false;
+        if(node->father->left_son == node){
+            left = true;
+        }
+        //node has ONE son:
+        if (node->left_son == NULL || node->right_son == NULL){
+            if (node->left_son == NULL ){
+                if(left){
+                    node->father->left_son = node->right_son;
+                } else {
+                    node->father->right_son = node->right_son;
+                }
+            } else if (node->right_son == NULL){
+                if(left){
+                    node->father->left_son = node->left_son;
+                } else {
+                    node->father->right_son = node->left_son;
+                }
+            }
+            updateHeight(node->father);
+            delete(*node);
+            this->size--;
+        }
+            //node has TWO sons:
+        else if (node->left_son && node->right_son){
+            Node *temp = findClosestMin(node);
+            node->data = temp->data;
+            temp->data = data;
+            remove(data, compare);
+        }
+    }
 
     void rotateRight(Node *root);
 
     void rotateLeft(Node *root);
 
-    Node *findClosestMin(Node *node);
+    Node *findClosestMin(Node *node){
+        Node *min = node->right_son;
+        while (min->left_son){
+            min = min->left_son;
+        }
+        return min;
+    }
 
-    /*!
-     * checks if two Trees are equal.
-     * @param Tree - the right hand Tree to compare to.
-     * @return true if both Trees contains the same items at the same order.
-     */
-    bool operator==(const Tree &tree) const;
+    bool operator==(const Tree &tree) const{
+        return this->size == tree.size;
+    }
 
-    /*!
-     * check if two Trees are NOT equal/
-     * @param Tree - the right hand Tree to compare to.
-     * @return the ! of ==.
-     */
-    bool operator!=(const Tree &tree) const;
+    bool operator!=(const Tree &tree) const{
+        return this->size != tree.size;
+    }
 
-    /*!
-     * ///////////////////////////////////////////
-     * @param Tree - the right hand Tree to compare to.
-     * @return the ! of ==.
-     */
-    bool operator>(const Tree &tree) const;
+    bool operator>(const Tree &tree) const{
+        return this->size > tree.size;
+    }
 
-    /*!
-     * ///////////////////////////////////////////
-     * @param Tree - the right hand Tree to compare to.
-     * @return the ! of ==.
-     */
-    bool operator<(const Tree &tree) const;
+    bool operator<(const Tree &tree) const{
+        return this->size < tree.size;
+    }
 
     void PreOrder (Node *root) const;
 
@@ -187,23 +286,9 @@ int Tree<T>::getSize() const {
     return this->size;
 }
 
-template <class T>
-int Tree<T>::getBalanceFactor(Tree<T>::Node *node){
-    return (height(node->left_son) - height(node->right_son));
-}
-
-template <class T>
-void Tree<T>::updateHeight(Tree<T>::Node *node){
-    if(height(node->left_son) > height(node->right_son)){
-        node->node_height = height(node->left_son) + 1;
-    } else {
-        node->node_height = height(node->right_son) + 1;
-    }
-}
-
-template <class T>
-template <typename Compare>
-Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare) {
+/*template <typename Compare>
+template <typename T>
+Tree<T>::Node* Tree<T>::insert(const T &data, Node *root, const Compare &compare) {
     if (root == NULL){ //if tree is empty
         root= new Tree::Node(data);
         root->right_son=NULL;
@@ -240,6 +325,20 @@ Tree<T>::Node Tree<T>::insert(const T &data, Node *root, const Compare &compare)
     this->size++;
     Tree<T>::balance(root);
     return root;
+}*/
+
+template <class T>
+int Tree<T>::getBalanceFactor(Tree<T>::Node *node){
+    return (height(node->left_son) - height(node->right_son));
+}
+
+template <class T>
+void Tree<T>::updateHeight(Tree<T>::Node *node){
+    if(height(node->left_son) > height(node->right_son)){
+        node->node_height = height(node->left_son) + 1;
+    } else {
+        node->node_height = height(node->right_son) + 1;
+    }
 }
 
 template <class T>
@@ -284,7 +383,7 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
     updateHeight(root);
 }
 
-template <class T>
+/*template <class T>
 Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
     Tree<T>::rotateLeft(node);
     return node;
@@ -308,18 +407,18 @@ Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node){
     Tree<T>::rotateLeft(node->left_son);
     Tree<T>::rotateRight(node);
     return node;
-}
+}*/
 
-template <class T>
+/*template <class T>
 Tree<T>::Node* Tree<T>::findClosestMin(Tree<T>::Node *node){
     Tree<T>::Node *min = node->right_son;
     while (min->left_son){
         min = min->left_son;
     }
     return min;
-}
+}*/
 
-template <typename Compare>
+/*template <typename Compare>
 template <class T>
 void Tree<T>::remove( const T& data, Compare &compare) {
     Tree<T>::Node *node = Tree<T>::find(data, this->root, compare);
@@ -363,9 +462,9 @@ void Tree<T>::remove( const T& data, Compare &compare) {
         temp->data = data;
         Tree<T>::remove(data, compare);
     }
-}
+}*/
 
-template <typename Compare>
+/*template <typename Compare>
 template <class T>
 Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare){
     if(compare(root->data, data ) == 0){
@@ -376,7 +475,7 @@ Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compar
         return find(data, root->left_son, compare);
     }
     return NULL;
-}
+}*/
 
 template <class T>
 int Tree<T>::height(Tree<T>::Node *node){
@@ -403,31 +502,17 @@ void Tree<T>::balance(Tree<T>::Node *root){
         if (getBalanceFactor(root->right_son) <= 0){
             rr_rotation(root);
             return;
+
         } else if (getBalanceFactor(root->right_son) == 1){
             rl_rotation(root);
             return;
         }
     }
-    throw TreeBFProblem{};
+    throw TreeBFProblem();
+
 }
 
-bool operator==(const Tree &tree) const{
-    return this->size == tree.size;
-}
-
-bool operator!=(const Tree &tree) const{
-    return this->size != tree.size;
-}
-
-bool operator>(const Tree &tree) const{
-    return this->size > tree.size;
-}
-
-bool operator<(const Tree &tree) const{
-    return this->size < tree.size;
-}
-
-template <class T>
+template<class T>
 void Tree<T>::PreOrder (Tree<T>::Node *root) const{
     if( root ){
         root->Print();
