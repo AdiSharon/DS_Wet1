@@ -156,7 +156,7 @@ public:
 
         } else if (compare(root->data, data) == 0){
             return;
-        }else if (compare(root->data, data) > 0){
+        }else if (compare(root->data, data) > 0)
             {
                 if(root->left_son){
                     insert(data, root->left_son, compare);
@@ -174,8 +174,8 @@ public:
                         updateHeight(this->root);
                     }
                 }
-            } else {
-                if(root->right_son){
+            }  else {
+            if(root->right_son){
                     insert(data, root->right_son, compare);
                 } else {
                     //Node *newnode = new Node(data);
@@ -192,7 +192,6 @@ public:
                     }
                 }
             }
-        }
         //this->size++;
         balance(root);
     }
@@ -395,7 +394,8 @@ template <class T>
 void Tree<T>::rotateRight(Tree<T>::Node *root){
     Tree<T>::Node *newroot = root->left_son;
     root->left_son = NULL;
-    root->left_son = newroot->right_son;
+    root->left_son = NULL;
+    root->left_son=newroot->right_son;
     newroot->right_son = root;
     if (root->father == NULL){
         this->root = newroot;
