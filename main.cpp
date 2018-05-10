@@ -7,11 +7,12 @@ int compareInt(int x, int y){
 }
 
 int main() {
-    Tree<int> t ;
+    Tree<int> *t = new Tree<int>;
 
-    t.insert(20,t.getRoot(t),compareInt);
-    t.insert(25,t.getRoot(t),compareInt);
-    t.insert(15,t.getRoot(t),compareInt);
+    t->insert(20,t->getRoot(*t),compareInt);
+    int a=5;
+    t->insert(25,t->getRoot(*t),compareInt);
+    /*t.insert(15,t.getRoot(t),compareInt);
     t.insert(30,t.getRoot(t),compareInt);
     t.insert(5,t.getRoot(t),compareInt);
     t.insert(35,t.getRoot(t),compareInt);
@@ -30,6 +31,6 @@ int main() {
     t.remove(43,compareInt);
     t.remove(88,compareInt);
     t.remove(20,compareInt);
-    t.remove(38, compareInt);
+    t.remove(38, compareInt);*/
     int x = 0;
 }

@@ -29,10 +29,22 @@ class Tree {
         //Tree needs access to private fields.
         friend class Tree<T>;
 
+        /*~Node(){
+            delete(this->data);
+            //delete(this)
+        };*/
+
     public:
 
         //default assignment operand.
-        Node &operator=(const Node &node);
+        Node &operator=(const Node &node){
+            this->data=node.data;
+            this->father=node.father;
+            this->left_son=node.left_son;
+            this->right_son=node.right_son;
+            this->node_height=node.node_height;
+            return *this;
+        }
 
         void Print() const{
             std::cout << data << std::endl;
@@ -131,43 +143,44 @@ public:
      * @param data - the new item's data.
      */
     template <typename Compare>
-    Node* insert(const T &data, Node *root, Compare &compare){
-        if (root == NULL){ //if tree is empty
-            root= new Node(data);
-            root->right_son=NULL;
-            root->left_son=NULL;
-            root->father=NULL;
-            root->node_height=0;
-            return root;
-
-        } else if (compare(root->data, data) < 0)
-        {
-            if(root->left_son){
-                root->left_son=insert(data, root->left_son, compare);
-            } else {
-                Node *newnode = new Node(data);
-                root->left_son = newnode;
-                newnode->father = root;
-            }
-        } else {
-            if(root->right_son){
-                root->right_son=insert(data, root->right_son, compare);
-            } else {
-                Node *newnode = new Node(data);
-                root->right_son = newnode;
-                newnode->father = root;
-            }
-        }
-        if (root->node_height == 0){
-            Node *Iterator = root;
-            while (Iterator->father != NULL){
-                updateHeight(Iterator);
-            }
-            updateHeight(this->root);
-        }
-        this->size++;
-        balance(root);
-        return root;
+    void insert(const T &data, Node *root, Compare &compare){
+//        if (this->root == NULL){ //if tree is empty
+//            this->root= new Node(data);
+//            this->root->right_son=NULL;
+//            this->root->left_son=NULL;
+//            this->root->father=NULL;
+//            this->root->node_height=0;
+//            root=this->root;
+//            //this->size++;
+//            //return root;
+//
+//        } else if (compare(root->data, data) < 0)
+//        {
+//            if(root->left_son){
+//                insert(data, root->left_son, compare);
+//            } else {
+//                //Node *newnode = new Node(data);
+//                root->left_son = new Node(data);
+//                root->left_son->father = root;
+//            }
+//        } else {
+//            if(root->right_son){
+//                insert(data, root->right_son, compare);
+//            } else {
+//                //Node *newnode = new Node(data);
+//                root->right_son = new Node(data);
+//                root->right_son->father = root;
+//            }
+//        }
+//        if (root->node_height == 0){
+//            Node *Iterator = root;
+//            while (Iterator->father != NULL){
+//                updateHeight(Iterator);
+//            }
+//            updateHeight(this->root);
+//        }
+//        this->size++;
+//        balance(root);
     }
 
     template <typename Compare>
@@ -263,11 +276,11 @@ Tree<T>::Tree() :
 
 template <class T>
 Tree<T>::~Tree() {
-    Node *node = root;
+    Node *node = this->root;
     if (node != NULL){
-        delete(node);
+        delete (node);
     }
-    delete(this);
+    //delete(this);
 }
 
 template <class T>
