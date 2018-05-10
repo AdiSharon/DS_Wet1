@@ -154,39 +154,42 @@ public:
             this->size++;
             //return root;
 
-        } else if (compare(root->data, data) > 0)
-        {
-            if(root->left_son){
-                insert(data, root->left_son, compare);
-            } else {
-                //Node *newnode = new Node(data);
-                root->left_son = new Node(data);
-                root->left_son->father = root;
-                this->size++;
-                if (root->node_height == 0){
-                    Node *Iterator = root;
-                    while (Iterator->father != NULL){
-                        updateHeight(Iterator);
-                        Iterator=Iterator->father;
+        } else if (compare(root->data, data) == 0){
+            return;
+        }else if (compare(root->data, data) > 0){
+            {
+                if(root->left_son){
+                    insert(data, root->left_son, compare);
+                } else {
+                    //Node *newnode = new Node(data);
+                    root->left_son = new Node(data);
+                    root->left_son->father = root;
+                    this->size++;
+                    if (root->node_height == 0){
+                        Node *Iterator = root;
+                        while (Iterator->father != NULL){
+                            updateHeight(Iterator);
+                            Iterator=Iterator->father;
+                        }
+                        updateHeight(this->root);
                     }
-                    updateHeight(this->root);
                 }
-            }
-        } else {
-            if(root->right_son){
-                insert(data, root->right_son, compare);
             } else {
-                //Node *newnode = new Node(data);
-                root->right_son = new Node(data);
-                root->right_son->father = root;
-                this->size++;
-                if (root->node_height == 0){
-                    Node *Iterator = root;
-                    while (Iterator->father != NULL){
-                        updateHeight(Iterator);
-                        Iterator=Iterator->father;
+                if(root->right_son){
+                    insert(data, root->right_son, compare);
+                } else {
+                    //Node *newnode = new Node(data);
+                    root->right_son = new Node(data);
+                    root->right_son->father = root;
+                    this->size++;
+                    if (root->node_height == 0){
+                        Node *Iterator = root;
+                        while (Iterator->father != NULL){
+                            updateHeight(Iterator);
+                            Iterator=Iterator->father;
+                        }
+                        updateHeight(this->root);
                     }
-                    updateHeight(this->root);
                 }
             }
         }
