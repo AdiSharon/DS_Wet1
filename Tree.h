@@ -377,6 +377,7 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
     root->father = newroot;
     updateHeight(root);
     updateHeight(newroot);
+    updateHeight(newroot->father);
 }
 
 template <class T>
