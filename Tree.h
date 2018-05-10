@@ -151,7 +151,7 @@ public:
             this->root->father=NULL;
             this->root->node_height=0;
             root=this->root;
-            //this->size++;
+            this->size++;
             //return root;
 
         } else if (compare(root->data, data) > 0)
@@ -162,6 +162,7 @@ public:
                 //Node *newnode = new Node(data);
                 root->left_son = new Node(data);
                 root->left_son->father = root;
+                this->size++;
             }
         } else {
             if(root->right_son){
@@ -170,6 +171,7 @@ public:
                 //Node *newnode = new Node(data);
                 root->right_son = new Node(data);
                 root->right_son->father = root;
+                this->size++;
             }
         }
         if (root->node_height == 0){
@@ -180,7 +182,7 @@ public:
             }
             updateHeight(this->root);
         }
-        this->size++;
+        //this->size++;
         balance(root);
     }
 
@@ -358,7 +360,8 @@ void Tree<T>::updateHeight(Tree<T>::Node *node){
 template <class T>
 void Tree<T>::rotateLeft(Tree<T>::Node *root){
     Tree<T>::Node *newroot = root->right_son;
-    root->right_son = newroot->left_son;
+    root->right_son = NULL;
+    root->right_son=newroot->left_son;
     newroot->left_son = root;
     if (root->father == NULL){
         this->root = newroot;
@@ -372,8 +375,8 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
         newroot->father = root->father;
     }
     root->father = newroot;
-    updateHeight(newroot);
     updateHeight(root);
+    updateHeight(newroot);
 }
 
 template <class T>
