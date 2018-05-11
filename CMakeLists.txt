@@ -4,5 +4,5 @@ project(wet1)
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_C_FLAGS "-std=c++0x -Wall -Werror -pedantic-errors -DNDEBUG")
 
-set(SOURCE_FILES Tree.h Execptions.h main.cpp)
+set(SOURCE_FILES Tree.h Execptions.h main.cpp Player.h Player.cpp Clan.cpp Clan.h)
 add_executable(wet1 ${SOURCE_FILES})

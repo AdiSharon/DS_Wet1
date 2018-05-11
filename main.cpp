@@ -24,7 +24,7 @@ int comp(int x, int y){
 }
 
 int main() {
-    Tree<int> tree;
+    Tree<int> *tree=new Tree<int>;
 
     //Specific Cases
 
@@ -34,39 +34,38 @@ int main() {
     3 BF: 0 Height: 0 */
 
     //basic LL root change
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
 
-
-
+    
     //basic LR root change
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "first check" << std::endl;
 
     //basic RR root change
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "second check" << std::endl;
 
     //basic RL root change
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "third check" << std::endl;
 
@@ -80,16 +79,16 @@ int main() {
     6 BF: 1 Height: 3
     7 BF: 0 Height: 0
     8 BF: 1 Height: 1 */
-    tree.insert(6,tree.getRoot(tree), comp);
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(6,tree->getRoot(*tree), comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "fourth check" << std::endl;
 
@@ -103,16 +102,16 @@ int main() {
     6 BF: 1 Height: 3
     7 BF: 0 Height: 0
     8 BF: 1 Height: 1 */
-    tree.insert(6,tree.getRoot(tree), comp);
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(6,tree->getRoot(*tree), comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "fifth check" << std::endl;
 
@@ -123,13 +122,13 @@ int main() {
     3 BF: 0 Height: 0
     5 BF: 1 Height: 2
     7 BF: 0 Height: 0*/
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "sixth check" << std::endl;
 
@@ -140,13 +139,13 @@ int main() {
     3 BF: 0 Height: 0
     5 BF: 1 Height: 2
     7 BF: 0 Height: 0*/
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "seventh check" << std::endl;
 
@@ -157,15 +156,15 @@ int main() {
     3 BF: 1 Height: 1
     5 BF: 1 Height: 2
     6 BF: 0 Height: 0*/
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(6,tree.getRoot(tree), comp);
-    tree.remove(4, comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(6,tree->getRoot(*tree), comp);
+    tree->remove(4, comp);
 
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "eigth check" << std::endl;
 
@@ -177,16 +176,16 @@ int main() {
     6 BF: 0 Height: 0
     7 BF: 0 Height: 1
     8 BF: 0 Height: 0 */
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(6,tree.getRoot(tree), comp);
-    tree.remove(4, comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(6,tree->getRoot(*tree), comp);
+    tree->remove(4, comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "ninth check" << std::endl;
 
@@ -199,17 +198,17 @@ int main() {
     7 BF: 1 Height: 3
     8 BF: -1 Height: 1
     9 BF: 0 Height: 0*/
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(9,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.remove(3, comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(9,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->remove(3, comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "tenth check" << std::endl;
 
@@ -226,21 +225,21 @@ int main() {
     12 BF: -1 Height: 2
     13 BF: -1 Height: 1
     14 BF: 0 Height: 0*/
-    tree.insert(9,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(12,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(10,tree.getRoot(tree), comp);
-    tree.insert(13,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(5,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(14,tree.getRoot(tree), comp);
-    tree.insert(6,tree.getRoot(tree), comp);
-    tree.remove(3, comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(9,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(12,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(10,tree->getRoot(*tree), comp);
+    tree->insert(13,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(5,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(14,tree->getRoot(*tree), comp);
+    tree->insert(6,tree->getRoot(*tree), comp);
+    tree->remove(3, comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "11th check" << std::endl;
 
@@ -252,16 +251,16 @@ int main() {
     4 BF: 0 Height: 2
     7 BF: -1 Height: 1
     8 BF: 0 Height: 0*/
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(9,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.remove(9, comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(9,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->remove(9, comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
     std::cout << "12th check" << std::endl;
 
@@ -273,16 +272,16 @@ int main() {
     4 BF: 0 Height: 0
     7 BF: 0 Height: 1
     8 BF: 0 Height: 0*/
-    tree.insert(7,tree.getRoot(tree), comp);
-    tree.insert(3,tree.getRoot(tree), comp);
-    tree.insert(8,tree.getRoot(tree), comp);
-    tree.insert(2,tree.getRoot(tree), comp);
-    tree.insert(4,tree.getRoot(tree), comp);
-    tree.insert(9,tree.getRoot(tree), comp);
-    tree.insert(1,tree.getRoot(tree), comp);
-    tree.remove(9, comp);
-    tree.InOrder(tree.getRoot(tree));
-    tree.deleteTree();
+    tree->insert(7,tree->getRoot(*tree), comp);
+    tree->insert(3,tree->getRoot(*tree), comp);
+    tree->insert(8,tree->getRoot(*tree), comp);
+    tree->insert(2,tree->getRoot(*tree), comp);
+    tree->insert(4,tree->getRoot(*tree), comp);
+    tree->insert(9,tree->getRoot(*tree), comp);
+    tree->insert(1,tree->getRoot(*tree), comp);
+    tree->remove(9, comp);
+    tree->InOrder(tree->getRoot(*tree));
+    tree->deleteTree();
 
 
     std::cout << "donnneeeeeeeee" << std::endl;

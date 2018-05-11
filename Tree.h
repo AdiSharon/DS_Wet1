@@ -11,6 +11,7 @@ using namespace DS::Tree;
 
 template <typename T>
 class Tree {
+public:
     class Node {
         T data; //the data (of a type)
         int node_height;
@@ -52,6 +53,7 @@ class Tree {
 
     };
 
+private:
     int size; //the number of valid nodes in the tree.
     Node  *root; //the first node in the tree.int height;
 
