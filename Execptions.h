@@ -21,23 +21,14 @@ namespace DS {
     }
 
     namespace Tree {
-        class TreeMemoryProblemException : public std::runtime_error {
-            TreeMemoryProblemException() : std::runtime_error("ALLOCATION_ERROR") {}
-        };
-        class TreeElementNotFound : public std::runtime_error {
-        public:
-            TreeElementNotFound() : std::runtime_error("FAILURE") {}
-        };
-        class TreeElementExists : public std::runtime_error {
-        public:
-            TreeElementExists() : std::runtime_error("FAILURE") {}
-        };
-        class TreeInvalidInput : public std::runtime_error {
-        public:
-            TreeInvalidInput() : std::runtime_error("INVALID_INPUT") {}
-        };
         class TreeExceptions : public DSExceptions {};
+        class TreeMemoryProblemException : public TreeExceptions {};
+        class TreeInvalidInput : public TreeExceptions {};
+        class TreeDataAlreadyExists : public TreeExceptions {};
+        class TreeNodeDoesNotExit : public TreeExceptions {};
         class TreeBFProblem : public TreeExceptions {};
+        class TreeSuccess : public TreeExceptions {};
+
 
     }
 

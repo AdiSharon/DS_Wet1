@@ -29,10 +29,7 @@ class Tree {
         //Tree needs access to private fields.
         friend class Tree<T>;
 
-        ~Node() {
-            //delete (this->data);
-            //delete(this)
-        }
+        ~Node() {}
 
     public:
 
@@ -76,7 +73,21 @@ public:
     /*!
      * a Tree d'to. deletes all the nodes of a given Tree.
      */
-    ~Tree() {};
+    ~Tree() {}
+
+    void deleteNode(Node *node){
+        if( node ){
+            deleteNode(node->right_son);
+            deleteNode(node->left_son);
+            delete (node);
+        }
+    }
+
+    void deleteTree() {
+        if( root){
+            deleteNode(root);
+        }
+    }
 
     /*!
      * an assignment operator
@@ -97,8 +108,9 @@ public:
 
     template <typename Compare>
     Node* find(const T& data, Node *root, Compare &compare){
-        if(!root){
-            return NULL;
+        if (!data || )
+        if (!root){
+            throw TreeNodeDoesNotExit();
         }
         if(compare(root->data, data ) == 0){
             return root;
@@ -147,6 +159,9 @@ public:
     void insert(const T &data, Node *root, Compare &compare){
         if (this->root == NULL){ //if tree is empty
             this->root= new Node(data);
+            if (!this->root){
+                throw TreeMemoryProblemException();
+            }
             this->root->right_son=NULL;
             this->root->left_son=NULL;
             this->root->father=NULL;
@@ -199,9 +214,11 @@ public:
 
     template <typename Compare>
     void remove(const T& data, Compare &compare){
-        Node *node = find(data, this->root, compare);
-        if (node == NULL){
-            return;
+        Node *node;
+        try {
+            node = find(data, this->root, compare);
+        } catch (TreeNodeDoesNotExit){
+            throw TreeNodeDoesNotExit();
         }
         //node has NO sons:
         if(height(node) == 0){
@@ -211,6 +228,7 @@ public:
             } else {
                 node->father->right_son = NULL;
             }
+            updateHeight(node->father);
             delete(node);
             return;
         }
@@ -260,6 +278,9 @@ public:
     void rotateLeft(Node *root);
 
     Node *findClosestMin(Node *node){
+        if (!node){
+            throw TreeInvalidInput();
+        }
         Node *min = node->right_son;
         while (min->left_son){
             min = min->left_son;
@@ -369,11 +390,17 @@ Tree<T>::Node* Tree<T>::insert(const T &data, Node *root, const Compare &compare
 
 template <class T>
 int Tree<T>::getBalanceFactor(Tree<T>::Node *node){
+    if (!node){
+        throw TreeInvalidInput();
+    }
     return (height(node->left_son) - height(node->right_son));
 }
 
 template <class T>
 void Tree<T>::updateHeight(Tree<T>::Node *node){
+    if (!node){
+        throw TreeInvalidInput();
+    }
     if(height(node->left_son) > height(node->right_son)){
         node->node_height = height(node->left_son) + 1;
     } else {
@@ -383,6 +410,9 @@ void Tree<T>::updateHeight(Tree<T>::Node *node){
 
 template <class T>
 void Tree<T>::rotateLeft(Tree<T>::Node *root){
+    if(!root){
+        throw TreeInvalidInput();
+    }
     Tree<T>::Node *newroot = root->right_son;
     root->right_son = NULL;
     root->right_son=newroot->left_son;
@@ -406,6 +436,9 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
 
 template <class T>
 void Tree<T>::rotateRight(Tree<T>::Node *root){
+    if(!root){
+        throw TreeInvalidInput();
+    }
     Tree<T>::Node *newroot = root->left_son;
     root->left_son = NULL;
     root->left_son = NULL;
@@ -523,14 +556,17 @@ Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compar
 
 template <class T>
 int Tree<T>::height(Tree<T>::Node *node){
-    if (node != NULL){
-        return node->node_height;
+    if (!node){
+        throw TreeInvalidInput();
     }
-    return -1;
+    return node->node_height;
 }
 
 template <class T>
 void Tree<T>::balance(Tree<T>::Node *root){
+    if (!root){
+        throw TreeInvalidInput();
+    }
     int BF = getBalanceFactor(root);
     if (BF >= -1 && BF <= 1)
         return;
