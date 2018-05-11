@@ -78,6 +78,22 @@ public:
      */
     ~Tree() {};
 
+    void deleteNode(Node *node){
+        if( node ){
+            deleteNode(node->right_son);
+            deleteNode(node->left_son);
+            delete (node);
+        }
+    }
+
+    void deleteTree() {
+        if( root){
+            deleteNode(root);
+            this->size=0;
+            this->root=NULL;
+        }
+    }
+
     /*!
      * an assignment operator
      * @param Tree - the Tree to be assigned.
@@ -211,33 +227,50 @@ public:
             } else {
                 node->father->right_son = NULL;
             }
+            updateHeight(node->father);
             delete(node);
             return;
         }
         //check if node is the left son of his father
         bool left = false;
-        if(node->father->left_son == node){
-            left = true;
+        bool isRoot = false;
+        if (!node->father){
+            isRoot = true;
+        }
+        if(!isRoot){
+            if(node->father->left_son == node){
+                left = true;
+            }
         }
         //node has ONE son:
         if (node->left_son == NULL || node->right_son == NULL){
             if (node->left_son == NULL ){
                 if(left){
                     node->father->left_son = node->right_son;
-                } else {
+                    node->right_son->father = node->father;
+                } else if (!isRoot){
                     node->father->right_son = node->right_son;
+                    node->right_son->father = node->father;
+                } else {
+                    this->root = node->right_son;
                 }
-                node->right_son->father = node->father;
+
             } else if (node->right_son == NULL){
                 if(left){
                     node->father->left_son = node->left_son;
-                } else {
+                    node->left_son->father = node->father;
+                } else if (!isRoot){
                     node->father->right_son = node->left_son;
+                    node->left_son->father = node->father;
+                } else {
+                    this->root = node->right_son;
                 }
-                node->left_son->father = node->father;
+
             }
             this->size--;
-            updateHeight(node->father);
+            if (!isRoot){
+                updateHeight(node->father);
+            }
             delete(node);
         }
             //node has TWO sons:
