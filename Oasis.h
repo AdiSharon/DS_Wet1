@@ -13,8 +13,6 @@ using std::iostream;
 
 class Oasis{
     Tree<Player> PlayerTree;
-
-
     Tree<Clan> ClanTree;
     Tree<Player*> CoinTree;
     Player *MostCoins;
