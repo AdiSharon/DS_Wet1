@@ -20,17 +20,20 @@ public:
         Node *father; //the node's father. if node is the root, is null.
 
 
-        Node(const T &data) :
-                data(data),
-                node_height(0),
-                right_son(NULL),
-                left_son(NULL),
-                father(NULL) {};
+        Node(const T &data) {
+            this->data = new T(data);
+            node_height = 0;
+            right_son = NULL;
+            left_son = NULL;
+            father = NULL;
+        };
 
         //Tree needs access to private fields.
         friend class Tree<T>;
 
-        ~Node() {}
+        ~Node() {
+            delete data;
+        }
 
     public:
 
@@ -89,22 +92,8 @@ public:
         if( root){
             deleteNode(root);
         }
-    }
-
-    void deleteNode(Node *node){
-        if( node ){
-            deleteNode(node->right_son);
-            deleteNode(node->left_son);
-            delete (node);
-        }
-    }
-
-    void deleteTree() {
-        if(this->root){
-            deleteNode(this->root);
-            this->size=0;
-            this->root=NULL;
-        }
+        this->size = 0;
+        this->root=NULL;
     }
 
     /*!
@@ -126,7 +115,6 @@ public:
 
     template <typename Compare>
     Node* find(const T& data, Node *root, Compare &compare){
-        if (!data || )
         if (!root){
             throw TreeNodeDoesNotExit();
         }
@@ -297,19 +285,12 @@ public:
             Node *temp = findClosestMin(node);
             node->data = temp->data;
             temp->data = data;
-            if (!temp->father->left_son ||temp->father->left_son == temp ){
-                temp->father->left_son = NULL;
-                temp->father->left_son = temp->right_son;
-            } else if (temp->father->right_son == temp){
-                temp->father->right_son = temp->right_son;
-            }
+            temp->father->left_son = temp->right_son;
             if(temp->right_son){
                 temp->right_son->father = temp->father;
             }
             this->size--;
-            if(!isRoot){
-                updateHeight(temp->father);
-            }
+            updateHeight(temp->father);
             delete(temp);
         }
     }

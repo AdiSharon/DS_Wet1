@@ -14,7 +14,6 @@ class Clan{
 
 
 
-
 };
 
 
@@ -25,12 +24,26 @@ class Player{
     int Challenges;
     int Coins;
     Clan* clan;
+public:
 
+    Player();
 
+    ~Player();
 
+    //after Oasis has found the clan & player, updates the clan pointer
+    void updateClan(Tree<Player*>::Node *ClanNode);
 
+    void completeChallange(int coins);
 
+    //
+    void updateCoins(Tree<Player*>::Node *CoinHolder);
 
+    /*
+     * if this is greater than other, return >0
+     */
+    int compareById(Player other);
+
+    int compareByCoin(Player other);
 
 };
 
