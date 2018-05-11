@@ -47,12 +47,14 @@ ClanStatusType Player:: updateCoins(Tree<Player*>::Node *CoinHolder){
 /*
  * if this is greater than other, return >0
  */
-int Player::compareById(Player other){
-    return this->PlayerID - other.PlayerID;
-}
+
 
 int Player::compareByCoin(Player other){
     return this->Coins-other.Coins;
+}
+
+int Player::getID() {
+    return this->PlayerID;
 }
 
 

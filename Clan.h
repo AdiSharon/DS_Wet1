@@ -66,15 +66,22 @@ public:
     /*
      * if this is greater than other, return >0
      */
-    int compareById(Player other);
+    //int compareById(Player other);
 
     int compareByCoin(Player other);
+
+    int getID();
 
 
 
 };
 
-
+class PlayerCompByID{
+public:
+    int operator()(int id, Player b){
+        return id-b.getID();
+    }
+};
 
 
 
