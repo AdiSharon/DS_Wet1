@@ -38,11 +38,9 @@ class Oasis{
     //if you throw it, we'll catch it!!!
     OasisStatusType addPlayer (int playerID, int initialCoins);
 
-    int CMP( Clan Clan1 ,Clan Clan2);
-
     OasisStatusType addClan(int ClanId);
 
-
+   // int CMP( Clan Clan1 ,Clan Clan2);
 
     OasisStatusType joinClan(int playerID, int ClanID);
 

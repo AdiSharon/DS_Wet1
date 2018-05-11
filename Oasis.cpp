@@ -20,27 +20,36 @@ Oasis::~Oasis() {
 }
 
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
+    if(playerID<0 || initialCoins<0 || this==NULL)
+        return OasisINVALID_INPUT;
      Player *newPlayer= new Player(playerID, initialCoins);
-     this->PlayerTree.insert(newPlayer,this->PlayerTree.getRoot(PlayerTree),CMP());
+     this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(PlayerTree),CMP(Clan1,Clan2));
 
 }
 
-int CMP( Clan Clan1 ,Clan Clan2){
+/*int Oasis:: CMP( Clan Clan1 ,Clan Clan2){
 
     return  Clan1.getClanSize()-Clan1.getClanSize();
+}*/
+
+
+OasisStatusType Oasis:: addClan(int ClanId){
+
+    if(this==NULL||ClanId<0)
+        return OasisINVALID_INPUT;
+
+
+
 }
 
+OasisStatusType Oasis:: joinClan(int playerID, int ClanID);
 
-OasisStatusType addClan(int ClanId);
+OasisStatusType Oasis:: completeChallange(int playerID, int coins);
 
-OasisStatusType joinClan(int playerID, int ClanID);
+OasisStatusType Oasis:: getBestPlayer(int clanID, int *playerID);
 
-OasisStatusType completeChallange(int playerID, int coins);
+OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlayers);
 
-OasisStatusType getBestPlayer(int clanID, int *playerID);
+OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2);
 
-OasisStatusType getScoreboard(int clanID, int **players, int *numOfPlayers);
-
-OasisStatusType uniteClans(int clanID1, int clanID2);
-
-void Quit();
+void Oasis::Quit();
