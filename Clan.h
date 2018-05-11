@@ -2,7 +2,6 @@
 #ifndef CLAN_H
 #define CLAN_H
 #include "Execptions.h"
-#include "Player.h"
 #include <iostream>
 #include "Tree.h"
 
@@ -19,6 +18,21 @@ class Clan{
 };
 
 
+class Player{
+    int PlayerID;
+    Tree<Player*>::Node *ClanNode;
+    Tree<Player*>::Node *CoinHolder;
+    int Challenges;
+    int Coins;
+    Clan* clan;
+
+
+
+
+
+
+
+};
 
 
 
