@@ -98,8 +98,8 @@ public:
     }
 
     void deleteTree() {
-        if( root){
-            deleteNode(root);
+        if(this->root){
+            deleteNode(this->root);
             this->size=0;
             this->root=NULL;
         }
@@ -295,12 +295,19 @@ public:
             Node *temp = findClosestMin(node);
             node->data = temp->data;
             temp->data = data;
-            temp->father->left_son = temp->right_son;
+            if (!temp->father->left_son ||temp->father->left_son == temp ){
+                temp->father->left_son = NULL;
+                temp->father->left_son = temp->right_son;
+            } else if (temp->father->right_son == temp){
+                temp->father->right_son = temp->right_son;
+            }
             if(temp->right_son){
                 temp->right_son->father = temp->father;
             }
             this->size--;
-            updateHeight(temp->father);
+            if(!isRoot){
+                updateHeight(temp->father);
+            }
             delete(temp);
         }
     }
