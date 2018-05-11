@@ -31,4 +31,5 @@ int main() {
     t->remove(88,compareInt);
     t->remove(20,compareInt);
     t->remove(38, compareInt);
+    int x=1;
 }

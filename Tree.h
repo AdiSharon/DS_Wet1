@@ -97,14 +97,15 @@ public:
 
     template <typename Compare>
     Node* find(const T& data, Node *root, Compare &compare){
+        if(!root){
+            return NULL;
+        }
         if(compare(root->data, data ) == 0){
             return root;
         } else if (compare(root->data, data ) < 0 ){
             return find(data, root->right_son, compare);
-        } else {
-            return find(data, root->left_son, compare);
         }
-        return NULL;
+        return find(data, root->left_son, compare);
     }
 
     Node rr_rotation(Node *node){
@@ -204,8 +205,13 @@ public:
         }
         //node has NO sons:
         if(height(node) == 0){
-            delete(node);
             this->size--;
+            if(node->father->left_son == node){
+                node->father->left_son = NULL;
+            } else {
+                node->father->right_son = NULL;
+            }
+            delete(node);
             return;
         }
         //check if node is the left son of his father
@@ -221,23 +227,31 @@ public:
                 } else {
                     node->father->right_son = node->right_son;
                 }
+                node->right_son->father = node->father;
             } else if (node->right_son == NULL){
                 if(left){
                     node->father->left_son = node->left_son;
                 } else {
                     node->father->right_son = node->left_son;
                 }
+                node->left_son->father = node->father;
             }
+            this->size--;
             updateHeight(node->father);
             delete(node);
-            this->size--;
         }
             //node has TWO sons:
         else if (node->left_son && node->right_son){
             Node *temp = findClosestMin(node);
             node->data = temp->data;
             temp->data = data;
-            remove(data, compare);
+            temp->father->left_son = temp->right_son;
+            if(temp->right_son){
+                temp->right_son->father = temp->father;
+            }
+            this->size--;
+            updateHeight(temp->father);
+            delete(temp);
         }
     }
 
