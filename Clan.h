@@ -5,13 +5,36 @@
 #include <iostream>
 #include "Tree.h"
 
+
+
+typedef enum {
+    ClanSUCCESS = 0,
+    ClanFAILURE = -1,
+    ClanALLOCATION_ERROR = -2,
+    ClanINVALID_INPUT = -3
+} ClanStatusType;
+
+
+
 class Clan{
-    int ClanID;
+
+    int ClanId;
     int ClanSize;
     Player* BestPlayer;
     Tree<Player*> ClanPlayersTree;
 
+public:
+    Clan();
 
+    ~Clan();
+
+    ClanStatusType AddPlayerToClan(int PlayerId);
+
+    Player* getBestPlayer();
+
+    int getClanSize();
+
+    Player* FindPlayerInClanByID(int ID);
 
 
 };
@@ -28,15 +51,17 @@ public:
 
     Player();
 
+    Player(int ID, int coins);
+
     ~Player();
 
     //after Oasis has found the clan & player, updates the clan pointer
-    void updateClan(Tree<Player*>::Node *ClanNode);
+    ClanStatusType updateClan(Tree<Player*>::Node *ClanNode);
 
-    void completeChallange(int coins);
+    ClanStatusType completeChallange(int coins);
 
     //
-    void updateCoins(Tree<Player*>::Node *CoinHolder);
+    ClanStatusType updateCoins(Tree<Player*>::Node *CoinHolder);
 
     /*
      * if this is greater than other, return >0
@@ -44,6 +69,8 @@ public:
     int compareById(Player other);
 
     int compareByCoin(Player other);
+
+
 
 };
 
