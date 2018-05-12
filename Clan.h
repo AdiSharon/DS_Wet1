@@ -24,17 +24,17 @@ class Clan{
     Tree<Player*> ClanPlayersTree;
 
 public:
-    Clan();
+    Clan(int clanID);
 
     ~Clan();
 
-    ClanStatusType AddPlayerToClan(int PlayerId);
+    ClanStatusType AddPlayerToClan(Player* player );
 
     Player* getBestPlayer();
 
     int getClanSize();
 
-    Player* FindPlayerInClanByID(int ID);
+    Player* FindPlayerInClanByID(int id);
 
 
 };
@@ -48,8 +48,6 @@ class Player{
     int Coins;
     Clan* clan;
 public:
-
-    Player();
 
     Player(int ID, int coins);
 
@@ -70,6 +68,7 @@ public:
 
     int compareByCoin(Player other);
 
+    Clan* getClan();
 
 
 };

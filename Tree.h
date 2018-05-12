@@ -177,7 +177,8 @@ public:
             //return root;
 
         } else if (compare(root->data, data) == 0){
-            return;
+            throw TreeDataAlreadyExists();
+
         }else if (compare(root->data, data) > 0)
             {
                 if(root->left_son){
