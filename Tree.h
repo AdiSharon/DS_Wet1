@@ -51,8 +51,8 @@ public:
             std::cout << data << std::endl;
         }
 
-        T getNodeData(){
-            return this->data;
+        T* getNodeData(){
+            return &this->data;
         }
 
     };

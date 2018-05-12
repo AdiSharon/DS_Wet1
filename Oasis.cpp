@@ -69,7 +69,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
     } catch (TreeNodeDoesNotExit){
         return OasisFAILURE; //the player is not in the system.
     }
-    if (player_to_add->getNodeData().getClan() != NULL){
+    if (player_to_add->getNodeData()->getClan() != NULL){
         return OasisFAILURE; //player is already in a clan.
     }
     Clan *dummy_clan = new Clan(ClanID);
@@ -80,9 +80,18 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
         return OasisFAILURE; //clan ID isn't in Oasis
     }
     delete(dummy);
-    Player ptr = player_to_add->getNodeData();
-    switch (clan_to_add_to->getNodeData().AddPlayerToClan(ptr);
+    Player *ptr = player_to_add->getNodeData();
+    switch (clan_to_add_to->getNodeData()->AddPlayerToClan(ptr)){
+        case (ClanALLOCATION_ERROR):
+            return OasisALLOCATION_ERROR;
+        case (ClanINVALID_INPUT):
+            return OasisINVALID_INPUT;
+        case (ClanFAILURE):
+            return OasisFAILURE;
+        case (ClanSUCCESS):
+            return OasisSUCCESS
 
+    }
 }
 
 OasisStatusType Oasis:: completeChallange(int playerID, int coins);
