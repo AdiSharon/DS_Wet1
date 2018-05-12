@@ -38,22 +38,29 @@ ClanStatusType Player:: completeChallange(int coins){
     return ClanSUCCESS;
 }
 
-ClanStatusType Player:: updateCoins(Tree<Player*>::Node *CoinHolder){
+int Player::getID() {
+    return this->PlayerID;
+}
 
-
+ClanStatusType Player:: updateCoins(int coins){
+    if (coins <= 0){
+        return ClanINVALID_INPUT;
+    }
+    this->Coins += coins;
+    return ClanSUCCESS;
 }
 
 /*
  * if this is greater than other, return >0
  */
-int Player::compareById(Player other){
-    return this->PlayerID - other.PlayerID;
+/*int Player::compareById(Player other){
+    return  - other.PlayerID;
 }
 
 int Player::compareByCoin(Player other){
     return this->Coins-other.Coins;
 }
-
+*/
 Clan* Player:: getClan(){
     if (this==NULL)
         return NULL;
@@ -80,13 +87,14 @@ ClanStatusType Clan::AddPlayerToClan(Player* player) {
     if(player==NULL)
         return ClanINVALID_INPUT;
     try{
-    this->ClanPlayersTree.insert(player,this->ClanPlayersTree.getRoot(this->ClanPlayersTree),PlayerCompByID::operator());}
+    this->ClanPlayersTree.insert(player,this->ClanPlayersTree.getRoot(),PlayerCompByID::operator());}
     catch (TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;
     }
         catch (TreeDataAlreadyExists){
             return ClanINVALID_INPUT;
         }
+    this->ClanSize++;
     return ClanSUCCESS;
 }
 
@@ -96,6 +104,10 @@ Player* Clan::getBestPlayer(){
 
 int Clan:: getClanSize(){
     return this->ClanSize;
+}
+
+int Clan::getID(){
+    return this->ClanId;
 }
 
 

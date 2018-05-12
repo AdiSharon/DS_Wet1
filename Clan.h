@@ -15,6 +15,12 @@ typedef enum {
 } ClanStatusType;
 
 
+struct Coins {
+    int numCoins;
+    int playerID;
+    int clanID;
+} *Coins;
+
 
 class Clan{
 
@@ -35,7 +41,9 @@ public:
 
     int getClanSize();
 
-    Player* FindPlayerInClanByID(int id);
+    int getID();
+
+    //Player* FindPlayerInClanByID(int id);
 
 
 };
@@ -50,7 +58,6 @@ class Player{
     Clan* clan;
 public:
 
-    Player();
 
     Player(int ID, int coins);
 
@@ -62,14 +69,16 @@ public:
     ClanStatusType completeChallange(int coins);
 
     //
-    ClanStatusType updateCoins(Tree<Player*>::Node *CoinHolder);
+    ClanStatusType updateCoins(int coins);
 
     /*
      * if this is greater than other, return >0
      */
     //int compareById(Player other);
 
-    int compareByCoin(Player other);
+    //int compareByCoin(Player other);
+
+    int getID();
 
     Clan* getClan();
 
@@ -80,6 +89,26 @@ class PlayerCompByID{
 public:
     int operator()(Player a, Player b){
         return a.getID()-b.getID();
+    }
+};
+
+class ClanCompByID{
+public:
+    int operator()(Clan a, Clan b){
+        return a.getID()-b.getID();
+    }
+};
+
+class CoinsCompFunc{
+public:
+    int operator()(Coins a, Coins b){
+        if(a.numCoins > b.numCoins){
+            return -1;
+        } else if (a.numCoins < b.numCoins){
+            return 1;
+        } else{
+            return a.playerID - b.playerID;
+        }
     }
 };
 
