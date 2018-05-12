@@ -102,6 +102,8 @@ public:
 
     int getChallenges();
 
+    int getNumCoins();
+
     Clan* getClan();
 
     void removeFromClan();

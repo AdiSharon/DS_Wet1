@@ -174,3 +174,7 @@ void Player::updateClan(Clan *clan){
 void Clan::updateBestPlayer(Player* player){
     this->BestPlayer = player;
 }
+
+int Player::getNumCoins(){
+    return this->coins;
+}

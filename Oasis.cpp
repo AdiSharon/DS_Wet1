@@ -108,11 +108,17 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
             return OasisSUCCESS;
 
     }
-    ptr->updateClan()
+    ptr->updateClan(clan_to_add_to->getNodeData());
+    if (clan_to_add_to->getNodeData()->getBestPlayer() == NULL) {
+        clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
+    } else if (ptr->getChallenges() > clan_to_add_to->getNodeData()->getBestPlayer()->getChallenges()) {
+        clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
+    }
+    return OasisSUCCESS;
 }
 
 OasisStatusType Oasis:: completeChallange(int playerID, int coins){
-    if(playerID<0 ||coins<0)
+    if(playerID<0 || coins<0)
         return OasisINVALID_INPUT;
     Player *dummy = new Player(playerID, 0);
     Tree<Player>::Node* player_to_find;
@@ -122,8 +128,23 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
         delete(dummy);
         return OasisFAILURE; //the player is not in the system.
     }
+    switch(updateCoinsTree(playerID, player_to_find->getNodeData()->getNumCoins(), coins, player_to_find->getNodeData())) {
+        case (OasisINVALID_INPUT): {
+            delete (dummy);
+            return OasisINVALID_INPUT;
+        }
+        case (OasisFAILURE): {
+            delete (dummy);
+            return OasisFAILURE;
+        }
+        case (OasisALLOCATION_ERROR): {
+            delete (dummy);
+            return OasisALLOCATION_ERROR;
+        }
+        default:
+            delete (dummy);
+    }
     player_to_find->getNodeData()->completeChallange(coins);
-    delete(dummy);
     //we are checking if after updating the number of challenges,we have a new Oasid best player
     if(this->BestPlayer->getChallenges() < player_to_find->getNodeData()->getChallenges())
         this->BestPlayer=player_to_find->getNodeData();
@@ -146,15 +167,6 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
         if (player_to_find->getNodeData()->getClan()->getBestPlayer()->getID() < this->BestPlayer->getID())
             this->BestPlayer = player_to_find->getNodeData();
     }
-    Coins bla
-
-    Tree<Coins>::Node* coins_struct;
-    try{
-        coins = this->CoinTree.find(*coins_struct, this->PlayerTree.getRoot(), PlayerCompByID::operator());
-    } catch (TreeNodeDoesNotExit){
-        delete(dummy);
-        return OasisFAILURE; //the player is not in the system.
-    }
 
     return OasisSUCCESS;
 }
@@ -169,6 +181,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
             return OasisSUCCESS;
         }
         *playerID= this->BestPlayer->getChallenges(); // first bullet option
+        return OasisSUCCESS;
     }
 
     Clan *dummy = new Clan(clanID);
