@@ -10,7 +10,7 @@ using DS::DSExceptions;
 Player:: Player(int ID, int coins){
     this->PlayerID=ID;
     this->Challenges=0;
-    this->Coins=coins;
+    this->coins=coins;
     this->clan=NULL;
     this->ClanNode=NULL;
     this->CoinHolder=NULL;
@@ -32,9 +32,8 @@ ClanStatusType Player::updateClan(Tree<Player*>::Node *ClanNode){
 }
 
 ClanStatusType Player:: completeChallange(int coins){
-    if(this->PlayerID<0 || coins<0)
-        return ClanINVALID_INPUT;
-    this->Coins+=coins;
+    this->coins+=coins;
+    this->Challenges++;
     return ClanSUCCESS;
 }
 
@@ -46,7 +45,7 @@ ClanStatusType Player:: updateCoins(int coins){
     if (coins <= 0){
         return ClanINVALID_INPUT;
     }
-    this->Coins += coins;
+    this->coins += coins;
     return ClanSUCCESS;
 }
 
@@ -80,9 +79,6 @@ Clan::Clan(int ClanId){
 Clan::~Clan(){
 }
 
-
-
-
 ClanStatusType Clan::AddPlayerToClan(Player* player) {
     if(player==NULL)
         return ClanINVALID_INPUT;
@@ -92,7 +88,7 @@ ClanStatusType Clan::AddPlayerToClan(Player* player) {
         return ClanALLOCATION_ERROR;
     }
         catch (TreeDataAlreadyExists){
-            return ClanINVALID_INPUT;
+            return ClanFAILURE;
         }
     this->ClanSize++;
     return ClanSUCCESS;

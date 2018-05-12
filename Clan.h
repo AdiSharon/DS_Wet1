@@ -52,9 +52,9 @@ public:
 class Player{
     int PlayerID;
     Tree<Player*>::Node *ClanNode;
-    Tree<Player*>::Node *CoinHolder;
+    Tree<Coins>::Node *CoinHolder;
     int Challenges;
-    int Coins;
+    int coins;
     Clan* clan;
 public:
 
