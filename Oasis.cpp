@@ -23,14 +23,14 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
     if(playerID<0 || initialCoins<0 || this==NULL)
         return OasisINVALID_INPUT;
      Player *newPlayer= new Player(playerID, initialCoins);
-     this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(PlayerTree),CMP(Clan1,Clan2));
+     this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID::operator());
 
 }
 
-/*int Oasis:: CMP( Clan Clan1 ,Clan Clan2){
+int CMP( Clan Clan1 ,Clan Clan2){
 
     return  Clan1.getClanSize()-Clan1.getClanSize();
-}*/
+}
 
 
 OasisStatusType Oasis:: addClan(int ClanId){

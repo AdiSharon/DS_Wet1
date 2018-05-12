@@ -49,6 +49,8 @@ class Player{
     Clan* clan;
 public:
 
+    Player();
+
     Player(int ID, int coins);
 
     ~Player();
@@ -64,7 +66,7 @@ public:
     /*
      * if this is greater than other, return >0
      */
-    int compareById(Player other);
+    //int compareById(Player other);
 
     int compareByCoin(Player other);
 
@@ -73,7 +75,12 @@ public:
 
 };
 
-
+class PlayerCompByID{
+public:
+    int operator()(int id, Player b){
+        return id-b.getID();
+    }
+};
 
 
 

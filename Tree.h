@@ -73,7 +73,7 @@ public:
      * copy c'tor. constructs a new Tree with given Tree params.
      * @param Tree - the Tree to copy.
      */
-   // Tree(const Tree &tree);
+    // Tree(const Tree &tree);
 
     /*!
      * a Tree d'to. deletes all the nodes of a given Tree.
@@ -105,7 +105,7 @@ public:
 
     int height(Tree<T>::Node *node);
 
-    Node* getRoot(Tree tree){
+    Node* getRoot(){
         return this->root;
     }
 
@@ -180,41 +180,41 @@ public:
             throw TreeDataAlreadyExists();
 
         }else if (compare(root->data, data) > 0)
-            {
-                if(root->left_son){
-                    insert(data, root->left_son, compare);
-                } else {
-                    //Node *newnode = new Node(data);
-                    root->left_son = new Node(data);
-                    root->left_son->father = root;
-                    this->size++;
-                    if (root->node_height == 0){
-                        Node *Iterator = root;
-                        while (Iterator->father != NULL){
-                            updateHeight(Iterator);
-                            Iterator=Iterator->father;
-                        }
-                        updateHeight(this->root);
+        {
+            if(root->left_son){
+                insert(data, root->left_son, compare);
+            } else {
+                //Node *newnode = new Node(data);
+                root->left_son = new Node(data);
+                root->left_son->father = root;
+                this->size++;
+                if (root->node_height == 0){
+                    Node *Iterator = root;
+                    while (Iterator->father != NULL){
+                        updateHeight(Iterator);
+                        Iterator=Iterator->father;
                     }
-                }
-            }  else {
-            if(root->right_son){
-                    insert(data, root->right_son, compare);
-                } else {
-                    //Node *newnode = new Node(data);
-                    root->right_son = new Node(data);
-                    root->right_son->father = root;
-                    this->size++;
-                    if (root->node_height == 0){
-                        Node *Iterator = root;
-                        while (Iterator->father != NULL){
-                            updateHeight(Iterator);
-                            Iterator=Iterator->father;
-                        }
-                        updateHeight(this->root);
-                    }
+                    updateHeight(this->root);
                 }
             }
+        }  else {
+            if(root->right_son){
+                insert(data, root->right_son, compare);
+            } else {
+                //Node *newnode = new Node(data);
+                root->right_son = new Node(data);
+                root->right_son->father = root;
+                this->size++;
+                if (root->node_height == 0){
+                    Node *Iterator = root;
+                    while (Iterator->father != NULL){
+                        updateHeight(Iterator);
+                        Iterator=Iterator->father;
+                    }
+                    updateHeight(this->root);
+                }
+            }
+        }
         //this->size++;
         balance(root);
     }
