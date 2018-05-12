@@ -110,7 +110,9 @@ int Clan::getID(){
     return this->ClanId;
 }
 
-
+int Player::getChallenges() {
+    return this->Challenges;
+}
 
 
 

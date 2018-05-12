@@ -80,6 +80,8 @@ public:
 
     int getID();
 
+    int getChallenges();
+
     Clan* getClan();
 
 
