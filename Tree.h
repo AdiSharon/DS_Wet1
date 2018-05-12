@@ -432,6 +432,9 @@ public:
 
     T* moveInOrderToArrayAux(Tree *tree){
         T* data_array = malloc(sizeof(T)*tree->size);
+        if(!data_array){
+            throw TreeMemoryProblemException();
+        }
         int index = 0;
         moveInOrderToArray(data_array, &index,tree->getRoot());
         return data_array;
@@ -442,6 +445,9 @@ public:
         T* my_data = moveInOrderToArrayAux(this);
         T* his_data = moveInOrderToArrayAux(tree);
         T* united_data = malloc(sizeof(T)*(this->size + tree->size));
+        if(!my_data || !his_data || !united_data){
+            throw TreeMemoryProblemException();
+        }
         int my_index, his_index, our_index;
         for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree->size) ; our_index++) {
             if(compare(my_data[my_index], his_data[his_index])<0){
