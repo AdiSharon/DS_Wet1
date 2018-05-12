@@ -112,11 +112,16 @@ int Clan::getID(){
 
 ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
 
+    try{
     this->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
             ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
     smallClan->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
             ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
     this->ClanPlayersTree.uniteTreesAux(&smallClan->ClanPlayersTree,ClanPlayerCompByID::operator());
+    }
+    catch(TreeMemoryProblemException){
+        return ClanALLOCATION_ERROR;
+    }
     this->ClanSize=this->ClanPlayersTree.getSize();
     return ClanSUCCESS;
 }

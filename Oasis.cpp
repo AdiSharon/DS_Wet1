@@ -221,7 +221,10 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
         delete (dummy2);
         return OasisFAILURE; //the clan is not in the system.
     }
-    //checking who is the best player od the new jping clan
+
+    delete (dummy1);
+    delete (dummy2);
+    //checking who is the best player od the new joint clan
     Player* safe;
     if(clan1->getNodeData()->getBestPlayer()->getChallenges()==0 &&
        clan2->getNodeData()->getBestPlayer()->getChallenges()==0)
@@ -238,26 +241,31 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
      else
         safe=clan1->getNodeData()->getBestPlayer();
 
-
     //on this point we have clan1 and clan2 themselves.
-    if(clan1->getNodeData()->getClanSize() ==clan1->getNodeData()->getClanSize()){
+    if(clan1->getNodeData()->getClanSize() == clan2->getNodeData()->getClanSize()){
         if(clanID1<clanID2) {
-            clan1->getNodeData().updateBestPlayer(safe);
-            clan1->getNodeData()->ClanSwalalala(clan2->getNodeData());
+            clan1->getNodeData()-> updateBestPlayer(safe);
+            if(clan1->getNodeData()->ClanSwalalala(clan2->getNodeData())==ClanALLOCATION_ERROR)
+                return OasisALLOCATION_ERROR;
+            return OasisSUCCESS;
         }
          else
-            Tree<Clan>::Node *JointClan= clan2;
+            clan2->getNodeData()-> updateBestPlayer(safe);
+            if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
+              return OasisALLOCATION_ERROR;
+            return OasisSUCCESS;
         }
-    else if (clan1->getNodeData()->getClanSize() < clan1->getNodeData()->getClanSize()){
-            Tree<Clan>::Node *JointClan= clan2;
+    else if (clan1->getNodeData()->getClanSize() < clan2->getNodeData()->getClanSize()){
+            clan2->getNodeData()-> updateBestPlayer(safe);
+            if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
+                return OasisALLOCATION_ERROR;
+            return OasisSUCCESS;
     }
-    else
-            Tree<Clan>::Node *JointClan= clan1;
-    }
-
-
-
-
+          else
+            clan1->getNodeData()-> updateBestPlayer(safe);
+            if(clan1->getNodeData()->ClanSwalalala(clan2->getNodeData())==ClanALLOCATION_ERROR)
+                return OasisALLOCATION_ERROR;
+            return OasisSUCCESS;
 
 }
 
