@@ -31,9 +31,7 @@ public:
         //Tree needs access to private fields.
         friend class Tree<T>;
 
-        ~Node() {
-            delete data;
-        }
+        ~Node() {}
 
     public:
 
@@ -584,7 +582,7 @@ Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compar
 template <class T>
 int Tree<T>::height(Tree<T>::Node *node){
     if (!node){
-        throw TreeInvalidInput();
+        return -1;
     }
     return node->node_height;
 }
