@@ -128,6 +128,17 @@ public:
     }
 };
 
+class findRemoveFromClan{
+public:
+    bool operator()(Player player){
+        if(player.getChallenges()==0)
+            return true;
+        else
+            return false;
+    }
+};
+
+
 
 
 #endif //WET1_CLAN_H
