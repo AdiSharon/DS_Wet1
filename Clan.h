@@ -54,6 +54,8 @@ public:
 
     Player* getBestPlayer();
 
+    void updateBestPlayer(Player* player);
+
     int getClanSize();
 
     int getID();
@@ -80,7 +82,9 @@ public:
     ~Player();
 
     //after Oasis has found the clan & player, updates the clan pointer
-    ClanStatusType updateClan(Tree<Player*>::Node *ClanNode);
+    ClanStatusType updateClanNode(Tree<Player*>::Node *ClanNode);
+
+    void updateClan(Clan *clan);
 
     ClanStatusType completeChallange(int coins);
 

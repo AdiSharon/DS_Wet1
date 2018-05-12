@@ -27,19 +27,29 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
      try{
          this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID::operator());
      } catch (TreeMemoryProblemException){
+         delete(newPlayer);
          return OasisALLOCATION_ERROR;
      } catch (TreeDataAlreadyExists){
          delete (newPlayer);
          return OasisFAILURE;
      }
+
+    Coins *newCoins = new Coins(initialCoins, playerID, newPlayer);
+    try{
+        this->CoinTree.insert(*newCoins,this->CoinTree.getRoot(),CoinsCompFunc::operator());
+    } catch (TreeMemoryProblemException){
+        delete(newPlayer);
+        delete(newCoins);
+        return OasisALLOCATION_ERROR;
+    }
     return OasisSUCCESS;
 
 }
 
-int CMP( Clan Clan1 ,Clan Clan2){
+/*int CMP( Clan Clan1 ,Clan Clan2){
 
     return  Clan1.getClanSize()-Clan1.getClanSize();
-}
+}*/
 
 
 OasisStatusType Oasis:: addClan(int ClanId){
@@ -54,6 +64,7 @@ OasisStatusType Oasis:: addClan(int ClanId){
     } catch (TreeMemoryProblemException) {
         return OasisALLOCATION_ERROR;
     } catch (TreeDataAlreadyExists){
+        delete (newClan);
         return OasisFAILURE;
     }
     return OasisSUCCESS;
@@ -84,6 +95,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
         return OasisFAILURE; //clan ID isn't in Oasis
     }
     delete(dummy);
+    delete(dummy_clan);
     Player *ptr = player_to_add->getNodeData();
     switch (clan_to_add_to->getNodeData()->AddPlayerToClan(ptr)){
         case (ClanALLOCATION_ERROR):
@@ -96,6 +108,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
             return OasisSUCCESS;
 
     }
+    ptr->updateClan()
 }
 
 OasisStatusType Oasis:: completeChallange(int playerID, int coins){

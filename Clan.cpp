@@ -24,7 +24,7 @@ Player::~Player(){
 }
 
 //after Oasis has found the clan & player, updates the clan pointer
-ClanStatusType Player::updateClan(Tree<Player*>::Node *ClanNode){
+ClanStatusType Player::updateClanNode(Tree<Player*>::Node *ClanNode){
     if(!ClanNode)
         return ClanINVALID_INPUT;
     this->ClanNode= ClanNode;
@@ -162,3 +162,10 @@ void Player::removeFromClan(){
     this->clan = NULL;
 }
 
+void Player::updateClan(Clan *clan){
+    this->clan = clan;
+}
+
+void Clan::updateBestPlayer(Player* player){
+    this->BestPlayer = player;
+}
