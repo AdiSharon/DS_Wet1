@@ -208,10 +208,29 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
         delete (dummy2);
         return OasisFAILURE; //the clan is not in the system.
     }
+    //checking who is the best player od the new jping clan
+    Player* safe;
+    if(clan1->getNodeData()->getBestPlayer()->getChallenges()==0 &&
+       clan2->getNodeData()->getBestPlayer()->getChallenges()==0)
+        safe=NULL;
+    if(clan1->getNodeData()->getBestPlayer()->getChallenges()== clan2->getNodeData()->getBestPlayer()->getChallenges()&&
+        clan1->getNodeData()->getBestPlayer()->getChallenges()!=0) {
+        if (clan1->getNodeData()->getBestPlayer()->getID() < clan2->getNodeData()->getBestPlayer()->getID())
+            safe = clan1->getNodeData()->getBestPlayer();
+        else
+            safe = clan2->getNodeData()->getBestPlayer();
+    }
+    else if(clan1->getNodeData()->getBestPlayer()->getChallenges()< clan2->getNodeData()->getBestPlayer()->getChallenges()){
+        safe=clan2->getNodeData()->getBestPlayer();}
+     else
+        safe=clan1->getNodeData()->getBestPlayer();
+
+
     //on this point we have clan1 and clan2 themselves.
     if(clan1->getNodeData()->getClanSize() ==clan1->getNodeData()->getClanSize()){
         if(clanID1<clanID2) {
-            Tree<Clan>::Node *JointClan = clan1;
+            clan1->getNodeData().updateBestPlayer(safe);
+            clan1->getNodeData()->ClanSwalalala(clan2->getNodeData());
         }
          else
             Tree<Clan>::Node *JointClan= clan2;

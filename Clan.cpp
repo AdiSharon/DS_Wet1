@@ -110,13 +110,15 @@ int Clan::getID(){
 }
 
 
-ClanStatusType Clan:: ClanSwalalala(Clan smallClan){
+ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
 
-
-    smallClan.ClanPlayersTree.InOrder(smallClan.ClanPlayersTree.getRoot()));
-
-
-
+    this->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
+            ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
+    smallClan->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
+            ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
+    this->ClanPlayersTree.uniteTreesAux(&smallClan->ClanPlayersTree,ClanPlayerCompByID::operator());
+    this->ClanSize=this->ClanPlayersTree.getSize();
+    return ClanSUCCESS;
 }
 
 
@@ -124,9 +126,6 @@ ClanStatusType Clan:: ClanSwalalala(Clan smallClan){
 
 int Player::getChallenges() {
     return this->Challenges;
-
-
-
 
 }
 

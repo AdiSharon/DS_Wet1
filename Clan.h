@@ -58,6 +58,7 @@ public:
 
     int getID();
 
+    ClanStatusType ClanSwalalala(Clan* smallClan);
     //Player* FindPlayerInClanByID(int id);
 
 
