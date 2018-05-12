@@ -24,6 +24,7 @@ class Clan{
     Tree<Player*> ClanPlayersTree;
 
 public:
+
     Clan(int clanID);
 
     ~Clan();
