@@ -21,7 +21,7 @@ public:
 
 
         Node(const T &data) {
-            this->data = new T(data);
+            this->data = data;
             node_height = 0;
             right_son = NULL;
             left_son = NULL;
@@ -49,6 +49,10 @@ public:
 
         void Print() const{
             std::cout << data << std::endl;
+        }
+
+        T getNodeData(){
+            return this->data;
         }
 
     };
@@ -177,7 +181,7 @@ public:
             //return root;
 
         } else if (compare(root->data, data) == 0){
-            return;
+            throw TreeDataAlreadyExists();
         }else if (compare(root->data, data) > 0)
         {
             if(root->left_son){

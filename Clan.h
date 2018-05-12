@@ -78,8 +78,8 @@ public:
 
 class PlayerCompByID{
 public:
-    int operator()(int id, Player b){
-        return id-b.getID();
+    int operator()(Player a, Player b){
+        return a.getID()-b.getID();
     }
 };
 
