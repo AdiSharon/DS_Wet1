@@ -152,7 +152,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
         return OasisINVALID_INPUT;
     if(clanID<0) {
         if (this->PlayerTree.getSize() <= 0) { //there are no players in the system
-            *playerID == -1;
+            *playerID = -1;
             return OasisSUCCESS;
         }
         *playerID= this->BestPlayer->getChallenges(); // first bullet option
@@ -169,7 +169,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
         }
         if(clan_to_find->getNodeData()->getClanSize()==0) {
             delete (dummy);
-            *playerID == -1;
+            *playerID = -1;
             return OasisSUCCESS; //third bullet option
         }
     Player *Bestplayer = clan_to_find->getNodeData()->getBestPlayer();
@@ -178,7 +178,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
             return OasisFAILURE;
         }
     delete (dummy);
-    *playerID == Bestplayer->getID(); //the ID of the best player back to oasis
+    *playerID = Bestplayer->getID(); //the ID of the best player back to oasis
     return OasisSUCCESS; //third bullet option
 }
 

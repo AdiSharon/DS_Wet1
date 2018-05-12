@@ -407,10 +407,79 @@ public:
     template <typename Action>
     void InOrder (Node *root, Action action) const;
 
+    template <typename Action>
+    template <typename Compare>
+    void PostOrderRemove (Node *root, Action action, Compare compare){
+        if (root){
+            PostOrderRemove(root->left_son, action, compare);
+            PostOrderRemove(root->right_son, action,compare);
+            if(action(root->data)){
+                removeThis(root, compare);
+            }
+        }
+    }
+
     void PostOrder (Node *root) const;
 
+    void moveInOrderToArray(T *data_array, int *index, Node *root){
+        if (root){
+            moveInOrderToArray(data_array, index, root->left_son);
+            data_array[*index] = root->getNodeData();
+            *index++;
+            moveInOrderToArray(data_array, index, root->left_son);
+        }
+    }
 
+    T* moveInOrderToArrayAux(Tree *tree){
+        T* data_array = malloc(sizeof(T)*tree->size);
+        int index = 0;
+        moveInOrderToArray(data_array, &index,tree->getRoot());
+        return data_array;
+    }
 
+    template <typename Compare>
+    void uniteTreesAux(Tree *tree, Compare compare){
+        T* my_data = moveInOrderToArrayAux(this);
+        T* his_data = moveInOrderToArrayAux(tree);
+        T* united_data = malloc(sizeof(T)*(this->size + tree->size));
+        int my_index, his_index, our_index;
+        for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree->size) ; our_index++) {
+            if(compare(my_data[my_index], his_data[his_index])<0){
+                united_data[our_index] = my_data[my_index];
+                my_index++;
+            } else {
+                united_data[our_index] = his_data[his_index];
+                his_index++;
+            }
+        }
+        for (; my_index < this->size; my_index++,our_index++) {
+            united_data[our_index] = my_data[my_index];
+        }
+        for (; his_index < tree->size; his_index++,our_index++) {
+            united_data[our_index] = his_data[his_index];
+        }
+        free(my_data);
+        free(his_data);
+        int total_size = this->size + tree->size;
+        tree->deleteTree();
+        this->deleteTree();
+        this->size = total_size;
+        delete (tree);
+        this->root=uniteTrees(united_data, total_size, this->root);
+        free(united_data);
+    }
+
+    Node* uniteTrees(T* united_data, int total_size, Node *root){
+        if(total_size <=0 ){
+            return NULL;
+        }
+        int mid = total_size/2;
+        root = new Node(united_data[mid]);
+        root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son);
+        root->left_son = uniteTrees(united_data, mid, root->left_son);
+        updateHeight(root);
+        return root;
+    }
 
 };
 
