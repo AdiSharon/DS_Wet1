@@ -99,12 +99,21 @@ public:
 
     Clan* getClan();
 
+    void removeFromClan();
+
 };
 
 class PlayerCompByID{
 public:
     int operator()(Player a, Player b){
         return a.getID()-b.getID();
+    }
+};
+
+class ClanPlayerCompByID{
+public:
+    int operator()(Player *a, Player *b){
+        return a->getID()-b->getID();
     }
 };
 
@@ -130,9 +139,11 @@ public:
 
 class findRemoveFromClan{
 public:
-    bool operator()(Player player){
-        if(player.getChallenges()==0)
+    bool operator()(Player *player){
+        if(player->getChallenges()==0){
+            player->removeFromClan();
             return true;
+        }
         else
             return false;
     }

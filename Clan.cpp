@@ -159,3 +159,7 @@ int Coins::getCoinsClan(){
     return this->player->getClan()->getID();
 }
 
+void Player::removeFromClan(){
+    this->clan = NULL;
+}
+
