@@ -72,11 +72,14 @@ Clan::Clan(int ClanId){
     this->ClanSize=0;
     this->ClanId=ClanId;
     this->BestPlayer=NULL;
-    this->ClanPlayersTree=NULL;
+    this->ClanPlayersTree = *(new Tree<Player*>());
 }
 
 
 Clan::~Clan(){
+    this->BestPlayer = NULL;
+    this->ClanPlayersTree.deleteTree();
+    delete(this->ClanPlayersTree);
 }
 
 ClanStatusType Clan::AddPlayerToClan(Player* player) {
@@ -111,5 +114,31 @@ int Player::getChallenges() {
 }
 
 
+Coins::Coins (int numCoins, int playerID, Player* player):
+        numCoins (numCoins),
+        playerID(playerID),
+        player(player){}
 
+Coins::~Coins(){
+    this->player = NULL;
+}
+
+int Coins::getNumCoins(){
+    return this->numCoins;
+}
+
+int Coins::getPlayerId(){
+    return this->playerID;
+}
+
+void Coins::updateCoins(int addedCoins) {
+    this->numCoins += addedCoins;
+}
+
+int Coins::getCoinsClan(){
+    if(!this->player->getClan()){
+        return -1; //player is not in any clan
+    }
+    return this->player->getClan()->getID();
+}
 

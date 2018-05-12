@@ -15,13 +15,28 @@ typedef enum {
 } ClanStatusType;
 
 
-struct Coins {
+class Coins {
     int numCoins;
     int playerID;
-    int clanID;
-} *Coins;
+    Player *player;
 
+public:
 
+    Coins (int numCoins, int playerID, Player* player);
+
+    ~Coins();
+
+    int getNumCoins();
+
+    int getPlayerId();
+
+    int getCoinsClan();
+
+    void updateCoins(int addedCoins);
+
+} ;
+
+//-------------------------------------------------------------------
 class Clan{
 
     int ClanId;
@@ -48,7 +63,7 @@ public:
 
 };
 
-
+//-------------------------------------------------------------------
 class Player{
     int PlayerID;
     Tree<Player*>::Node *ClanNode;
@@ -84,7 +99,6 @@ public:
 
     Clan* getClan();
 
-
 };
 
 class PlayerCompByID{
@@ -104,12 +118,12 @@ public:
 class CoinsCompFunc{
 public:
     int operator()(Coins a, Coins b){
-        if(a.numCoins > b.numCoins){
+        if(a.getNumCoins() > b.getNumCoins()){
             return -1;
-        } else if (a.numCoins < b.numCoins){
+        } else if (a.getNumCoins() < b.getNumCoins()){
             return 1;
         } else{
-            return a.playerID - b.playerID;
+            return a.getPlayerId() - b.getPlayerId();
         }
     }
 };

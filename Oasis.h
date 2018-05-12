@@ -54,6 +54,7 @@ class Oasis{
 
     void Quit();
 
+    OasisStatusType updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player);
 
 
 };

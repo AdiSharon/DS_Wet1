@@ -27,7 +27,11 @@ int main() {
     }
     t->remove(5, cmp);
     t->remove(35,cmp);
-    t->remove(65,cmp);
+    try{
+        t->remove(65,cmp);
+    } catch (TreeDataAlreadyExists){
+    std::cout <<"got It!" << std::endl;
+}
     t->remove(89,cmp);
     t->remove(43,  cmp);
     t->remove(88, cmp);

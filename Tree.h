@@ -298,6 +298,79 @@ public:
         }
     }
 
+    template <typename Compare>
+    void removeThis(Node *node, Compare &compare){
+
+        //node has NO sons:
+        if(height(node) == 0){
+            this->size--;
+            if(node->father->left_son == node){
+                node->father->left_son = NULL;
+            } else {
+                node->father->right_son = NULL;
+            }
+            updateHeight(node->father);
+            delete(node);
+            return;
+        }
+        //check if node is the left son of his father
+        bool left = false;
+        bool isRoot = false;
+        if (!node->father){
+            isRoot = true;
+        }
+        if(!isRoot){
+            if(node->father->left_son == node){
+                left = true;
+            }
+        }
+        //node has ONE son:
+        if (node->left_son == NULL || node->right_son == NULL){
+            if (node->left_son == NULL ){
+                if(left){
+                    node->father->left_son = node->right_son;
+                    node->right_son->father = node->father;
+                } else if (!isRoot){
+                    node->father->right_son = node->right_son;
+                    node->right_son->father = node->father;
+                } else {
+                    this->root = node->right_son;
+                }
+
+            } else if (node->right_son == NULL){
+                if(left){
+                    node->father->left_son = node->left_son;
+                    node->left_son->father = node->father;
+                } else if (!isRoot){
+                    node->father->right_son = node->left_son;
+                    node->left_son->father = node->father;
+                } else {
+                    this->root = node->right_son;
+                }
+
+            }
+            this->size--;
+            if (!isRoot){
+                updateHeight(node->father);
+            }
+            delete(node);
+        }
+            //node has TWO sons:
+        else if (node->left_son && node->right_son){
+            Node *temp = findClosestMin(node);
+            T data = node->data;
+            node->data = temp->data;
+            temp->data = data;
+            temp->father->left_son = temp->right_son;
+            if(temp->right_son){
+                temp->right_son->father = temp->father;
+            }
+            this->size--;
+            updateHeight(temp->father);
+            delete(temp);
+        }
+    }
+
     void rotateRight(Node *root);
 
     void rotateLeft(Node *root);
@@ -331,7 +404,8 @@ public:
 
     void PreOrder (Node *root) const;
 
-    void InOrder (Node *root) const;
+    template <typename Action>
+    void InOrder (Node *root, Action action) const;
 
     void PostOrder (Node *root) const;
 
@@ -347,14 +421,6 @@ Tree<T>::Tree() :
 
 
 
-/*template <class T>
-Tree<T>::~Tree() {
-    Node *node = this->root;
-    if (node != NULL){
-        delete (node);
-    }
-    //delete(this);
-}*/
 
 template <class T>
 Tree<T>& Tree<T>::operator=(const Tree& tree) {
@@ -372,46 +438,6 @@ int Tree<T>::getSize() const {
     return this->size;
 }
 
-/*template <typename Compare>
-template <typename T>
-Tree<T>::Node* Tree<T>::insert(const T &data, Node *root, const Compare &compare) {
-    if (root == NULL){ //if tree is empty
-        root= new Tree::Node(data);
-        root->right_son=NULL;
-        root->left_son=NULL;
-        root->father=NULL;
-        root->node_height=0;
-        return root;
-
-    } else if (compare(root->data, data) < 0)
-    {
-        if(root->left_son){
-            *root->left_son=Tree<T>::insert(data, root->left_son, compare);
-        } else {
-            Tree<T>::Node *newnode = new Tree::Node(data);
-            root->left_son = newnode;
-            newnode->father = root;
-        }
-    } else {
-        if(root->right_son){
-            *root->right_son=Tree<T>::insert(data, root->right_son, compare);
-        } else {
-            Tree<T>::Node *newnode = new Tree::Node(data);
-            root->right_son = newnode;
-            newnode->father = root;
-        }
-    }
-    if (root->node_height == 0){
-        Tree<T>::Node *Iterator = root;
-        while (Iterator->father != NULL){
-            updateHeight(Iterator);
-        }
-        updateHeight(this->root);
-    }
-    this->size++;
-    Tree<T>::balance(root);
-    return root;
-}*/
 
 template <class T>
 int Tree<T>::getBalanceFactor(Tree<T>::Node *node){
@@ -485,99 +511,6 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
     updateHeight(newroot);
 }
 
-/*template <class T>
-Tree<T>::Node Tree<T>::rr_rotation(Tree<T>::Node *node){
-    Tree<T>::rotateLeft(node);
-    return node;
-}
-
-template <class T>
-Tree<T>::Node Tree<T>::rl_rotation(Tree<T>::Node *node){
-    Tree<T>::rotateRight(node->right_son);
-    Tree<T>::rotateLeft(node);
-    return node;
-}
-
-template <class T>
-Tree<T>::Node Tree<T>::ll_rotation(Tree<T>::Node *node){
-    Tree<T>::rotateRight(node);
-    return node;
-}
-
-template <class T>
-Tree<T>::Node Tree<T>::lr_rotation(Tree<T>::Node *node){
-    Tree<T>::rotateLeft(node->left_son);
-    Tree<T>::rotateRight(node);
-    return node;
-}*/
-
-/*template <class T>
-Tree<T>::Node* Tree<T>::findClosestMin(Tree<T>::Node *node){
-    Tree<T>::Node *min = node->right_son;
-    while (min->left_son){
-        min = min->left_son;
-    }
-    return min;
-}*/
-
-/*template <typename Compare>
-template <class T>
-void Tree<T>::remove( const T& data, Compare &compare) {
-    Tree<T>::Node *node = Tree<T>::find(data, this->root, compare);
-    if (node == NULL){
-        return;
-    }
-    //node has NO sons:
-    if(height(node) == 0){
-        delete(*node);
-        this->size--;
-        return;
-    }
-    //check if node is the left son of his father
-    bool left = false;
-    if(node->father->left_son == node){
-        left = true;
-    }
-    //node has ONE son:
-    if (node->left_son == NULL || node->right_son == NULL){
-        if (node->left_son == NULL ){
-            if(left){
-                node->father->left_son = node->right_son;
-            } else {
-                node->father->right_son = node->right_son;
-            }
-        } else if (node->right_son == NULL){
-            if(left){
-                node->father->left_son = node->left_son;
-            } else {
-                node->father->right_son = node->left_son;
-            }
-        }
-        updateHeight(node->father);
-        delete(*node);
-        this->size--;
-    }
-    //node has TWO sons:
-    else if (node->left_son && node->right_son){
-        Tree<T>::Node *temp = Tree<T>::findClosestMin(node);
-        node->data = temp->data;
-        temp->data = data;
-        Tree<T>::remove(data, compare);
-    }
-}*/
-
-/*template <typename Compare>
-template <class T>
-Tree<T>::Node* Tree<T>::find(const T& data, Tree<T>::Node *root, Compare &compare){
-    if(compare(root->data, data ) == 0){
-        return root;
-    } else if (compare(root->data, data ) < 0 ){
-        return find(data, root->right_son, compare);
-    } else {
-        return find(data, root->left_son, compare);
-    }
-    return NULL;
-}*/
 
 template <class T>
 int Tree<T>::height(Tree<T>::Node *node){
@@ -634,13 +567,13 @@ void Tree<T>::PreOrder (Tree<T>::Node *root) const{
         Tree<T>::PreOrder(root->right_son);
     }
 }
-
+template <typename Action>
 template <class T>
-void Tree<T>::InOrder (Tree<T>::Node *root) const{
+void Tree<T>::InOrder (Tree<T>::Node *root, Action action) const{
     if (root){
-        Tree<T>::InOrder(root->left_son);
-        root->Print();
-        Tree<T>::InOrder(root->right_son);
+        Tree<T>::InOrder(root->left_son, action);
+        action(root);
+        Tree<T>::InOrder(root->right_son, action);
     }
 }
 
