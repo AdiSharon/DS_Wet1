@@ -178,3 +178,7 @@ void Clan::updateBestPlayer(Player* player){
 int Player::getNumCoins(){
     return this->coins;
 }
+
+int Coins::getClanID(){
+    return this->player->getClan()->getID();
+}

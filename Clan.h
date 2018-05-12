@@ -34,6 +34,8 @@ public:
 
     void updateCoins(int addedCoins);
 
+    int getClanID();
+
 } ;
 
 //-------------------------------------------------------------------
