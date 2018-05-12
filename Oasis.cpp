@@ -22,8 +22,16 @@ Oasis::~Oasis() {
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
     if(playerID<0 || initialCoins<0 || this==NULL)
         return OasisINVALID_INPUT;
-     Player *newPlayer= new Player(playerID, initialCoins);
-     this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID::operator());
+     Player *newPlayer = new Player(playerID, initialCoins);
+
+     try{
+         this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID::operator());
+     } catch (TreeMemoryProblemException){
+         return OasisALLOCATION_ERROR;
+     } catch (TreeDataAlreadyExists){
+         return OasisFAILURE;
+     }
+    return OasisSUCCESS;
 
 }
 
@@ -38,11 +46,44 @@ OasisStatusType Oasis:: addClan(int ClanId){
     if(this==NULL||ClanId<0)
         return OasisINVALID_INPUT;
 
+    Clan *newClan = new Clan(int ClanId);
 
-
+    try{
+        this->ClanTree.insert(*newClan, this->ClanTree.getRoot(), ClanCompByID::operator());
+    } catch (TreeMemoryProblemException) {
+        return OasisALLOCATION_ERROR;
+    } catch (TreeDataAlreadyExists){
+        return OasisFAILURE;
+    }
+    return OasisSUCCESS;
 }
 
-OasisStatusType Oasis:: joinClan(int playerID, int ClanID);
+OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
+    if (playerID <= 0 || ClanID <= 0){
+        return OasisINVALID_INPUT;
+    }
+    Player *dummy = new Player(playerID, 0);
+    Tree<Player>::Node* player_to_add;
+    try{
+        player_to_add = this->PlayerTree.find(*dummy, this->PlayerTree.getRoot(), PlayerCompByID::operator());
+    } catch (TreeNodeDoesNotExit){
+        return OasisFAILURE; //the player is not in the system.
+    }
+    if (player_to_add->getNodeData().getClan() != NULL){
+        return OasisFAILURE; //player is already in a clan.
+    }
+    Clan *dummy_clan = new Clan(ClanID);
+    Tree<Clan>::Node* clan_to_add_to;
+    try {
+        clan_to_add_to = this->ClanTree.find(*dummy_clan, this->ClanTree.getRoot(), ClanCompByID::operator());
+    } catch (TreeNodeDoesNotExit){
+        return OasisFAILURE; //clan ID isn't in Oasis
+    }
+    delete(dummy);
+    Player ptr = player_to_add->getNodeData();
+    switch (clan_to_add_to->getNodeData().AddPlayerToClan(ptr);
+
+}
 
 OasisStatusType Oasis:: completeChallange(int playerID, int coins);
 
