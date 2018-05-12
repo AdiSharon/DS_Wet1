@@ -117,7 +117,7 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
 
     // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
     else if(this->BestPlayer->getChallenges() == player_to_find->getNodeData()->getChallenges()) {
-        if (player_to_find->getNodeData()->getID() >= this->BestPlayer->getID())
+        if (player_to_find->getNodeData()->getID() < this->BestPlayer->getID())
             this->BestPlayer = player_to_find->getNodeData();
     }
 
@@ -130,12 +130,18 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
         // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
     else if(player_to_find->getNodeData()->getClan()->getBestPlayer()->getChallenges()
             == player_to_find->getNodeData()->getChallenges()) {
-        if (player_to_find->getNodeData()->getClan()->getBestPlayer()->getID() >= this->BestPlayer->getID())
+        if (player_to_find->getNodeData()->getClan()->getBestPlayer()->getID() < this->BestPlayer->getID())
             this->BestPlayer = player_to_find->getNodeData();
     }
+    Coins bla
 
-
-
+    Tree<Coins>::Node* coins_struct;
+    try{
+        coins = this->CoinTree.find(*coins_struct, this->PlayerTree.getRoot(), PlayerCompByID::operator());
+    } catch (TreeNodeDoesNotExit){
+        delete(dummy);
+        return OasisFAILURE; //the player is not in the system.
+    }
 
     return OasisSUCCESS;
 }
@@ -144,31 +150,90 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
 OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
     if(playerID==NULL || clanID==0)
         return OasisINVALID_INPUT;
-    if(clanID>=0) {
-        Clan *dummy = new Clan(clanID);
-        Tree<Clan>::Node *clan_to_find;
+    if(clanID<0) {
+        if (this->PlayerTree.getSize() <= 0) { //there are no players in the system
+            *playerID == -1;
+            return OasisSUCCESS;
+        }
+        *playerID= this->BestPlayer->getChallenges(); // first bullet option
+    }
+
+    Clan *dummy = new Clan(clanID);
+    Tree<Clan>::Node *clan_to_find;
         try {
             clan_to_find = this->ClanTree.find(*dummy, this->ClanTree.getRoot(), ClanCompByID::operator());
-        } catch (TreeNodeDoesNotExit) {
-            delete (dummy);
-            return OasisFAILURE; //the player is not in the system.
         }
-        Player *Bestplayer = clan_to_find->getNodeData()->getBestPlayer();
-        if (Bestplayer == NULL)
-            return
-
-
-    }
-    else
-
-
+            catch (TreeNodeDoesNotExit) {
+            delete (dummy);
+            return OasisFAILURE; //the clan is not in the system.
+        }
+        if(clan_to_find->getNodeData()->getClanSize()==0) {
+            delete (dummy);
+            *playerID == -1;
+            return OasisSUCCESS; //third bullet option
+        }
+    Player *Bestplayer = clan_to_find->getNodeData()->getBestPlayer();
+        if (Bestplayer == NULL) {
+            delete (dummy);
+            return OasisFAILURE;
+        }
+    delete (dummy);
+    *playerID == Bestplayer->getID(); //the ID of the best player back to oasis
+    return OasisSUCCESS; //third bullet option
 }
 
 OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlayers);
 
-OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2);
 
-void Oasis::Quit();
+
+
+OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
+    if(clanID1<=0 || clanID2<=0)
+        return OasisINVALID_INPUT;
+    Clan *dummy1 = new Clan(clanID1);
+    Tree<Clan>::Node *clan1;
+    try {
+        clan1 = this->ClanTree.find(*dummy1, this->ClanTree.getRoot(), ClanCompByID::operator());
+    }
+    catch (TreeNodeDoesNotExit) {
+        delete (dummy1);
+        return OasisFAILURE; //the clan is not in the system.
+    }
+    Clan *dummy2 = new Clan(clanID1);
+    Tree<Clan>::Node *clan2;
+    try {
+        clan2 = this->ClanTree.find(*dummy2, this->ClanTree.getRoot(), ClanCompByID::operator());
+    }
+    catch (TreeNodeDoesNotExit) {
+        delete (dummy2);
+        return OasisFAILURE; //the clan is not in the system.
+    }
+    //on this point we have clan1 and clan2 themselves.
+    if(clan1->getNodeData()->getClanSize() ==clan1->getNodeData()->getClanSize()){
+        if(clanID1<clanID2) {
+            Tree<Clan>::Node *JointClan = clan1;
+        }
+         else
+            Tree<Clan>::Node *JointClan= clan2;
+        }
+    else if (clan1->getNodeData()->getClanSize() < clan1->getNodeData()->getClanSize()){
+            Tree<Clan>::Node *JointClan= clan2;
+    }
+    else
+            Tree<Clan>::Node *JointClan= clan1;
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
 
 
 OasisStatusType Oasis::updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player){

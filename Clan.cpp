@@ -109,8 +109,25 @@ int Clan::getID(){
     return this->ClanId;
 }
 
+
+ClanStatusType Clan:: ClanSwalalala(Clan smallClan){
+
+
+    smallClan.ClanPlayersTree.InOrder(smallClan.ClanPlayersTree.getRoot()));
+
+
+
+}
+
+
+
+
 int Player::getChallenges() {
     return this->Challenges;
+
+
+
+
 }
 
 
