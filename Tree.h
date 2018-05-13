@@ -20,13 +20,12 @@ public:
         Node *father; //the node's father. if node is the root, is null.
 
 
-        Node(const T &data) {
-            this->data = data;
-            node_height = 0;
-            right_son = NULL;
-            left_son = NULL;
-            father = NULL;
-        };
+        Node(const T &data) :
+                data(data),
+                node_height(0),
+                right_son(NULL),
+                left_son(NULL),
+                father(NULL){};
 
         //Tree needs access to private fields.
         friend class Tree<T>;
@@ -116,7 +115,7 @@ public:
     void updateHeight(Node *node);
 
     template <typename Compare>
-    Node* find(const T& data, Node *root, Compare &compare){
+    Node* find(const T& data, Node *root, const Compare &compare){
         if (!root){
             throw TreeNodeDoesNotExit();
         }
@@ -164,9 +163,9 @@ public:
      * @param data - the new item's data.
      */
     template <typename Compare>
-    void insert(const T &data, Node *root, Compare &compare){
+    void insert(const T &data, Node *root, const Compare &compare){
         if (this->root == NULL){ //if tree is empty
-            this->root= new Node(data);
+            this->root = new Node(data);
             if (!this->root){
                 throw TreeMemoryProblemException();
             }
@@ -222,7 +221,7 @@ public:
     }
 
     template <typename Compare>
-    void remove(const T& data, Compare &compare){
+    void remove(const T& data, const Compare &compare){
         Node *node;
         try {
             node = find(data, this->root, compare);
@@ -299,7 +298,7 @@ public:
     }
 
     template <typename Compare>
-    void removeThis(Node *node, Compare &compare){
+    void removeThis(Node *node, const Compare &compare){
 
         //node has NO sons:
         if(height(node) == 0){
@@ -407,9 +406,9 @@ public:
     template <typename Action>
     void InOrder (Node *root, Action action) const;
 
-    template <typename Action>
-    template <typename Compare>
-    void PostOrderRemove (Node *root, Action action, Compare compare){
+
+    template <typename Compare, typename Action>
+    void PostOrderRemove (Node *root, Action &action, const Compare &compare){
         if (root){
             PostOrderRemove(root->left_son, action, compare);
             PostOrderRemove(root->right_son, action,compare);
@@ -424,14 +423,14 @@ public:
     void moveInOrderToArray(T *data_array, int *index, Node *root){
         if (root){
             moveInOrderToArray(data_array, index, root->left_son);
-            data_array[*index] = root->getNodeData();
+            data_array[*index] = *root->getNodeData();
             *index++;
             moveInOrderToArray(data_array, index, root->left_son);
         }
     }
 
     T* moveInOrderToArrayAux(Tree *tree){
-        T* data_array = malloc(sizeof(T)*tree->size);
+        T* data_array = (T*)malloc(sizeof(T)*tree->size);
         if(!data_array){
             throw TreeMemoryProblemException();
         }
@@ -441,10 +440,10 @@ public:
     }
 
     template <typename Compare>
-    void uniteTreesAux(Tree *tree, Compare compare){
+    void uniteTreesAux(Tree *tree, const Compare compare){
         T* my_data = moveInOrderToArrayAux(this);
         T* his_data = moveInOrderToArrayAux(tree);
-        T* united_data = malloc(sizeof(T)*(this->size + tree->size));
+        T* united_data = (T*)malloc(sizeof(T)*(this->size + tree->size));
         if(!my_data || !his_data || !united_data){
             throw TreeMemoryProblemException();
         }
@@ -642,8 +641,9 @@ void Tree<T>::PreOrder (Tree<T>::Node *root) const{
         Tree<T>::PreOrder(root->right_son);
     }
 }
-template <typename Action>
+
 template <class T>
+template <typename Action>
 void Tree<T>::InOrder (Tree<T>::Node *root, Action action) const{
     if (root){
         Tree<T>::InOrder(root->left_son, action);

@@ -7,6 +7,75 @@ using DS::DSExceptions;
 
 //c'tor
 
+bool Player::operator==(const Player& player) const{
+    return player.PlayerID == this->PlayerID;
+}
+
+Player& Player::operator=(const Player& player){
+    if (*this == player){
+        return *this;
+    }
+    PlayerID = player.PlayerID;
+    ClanNode = player.ClanNode;
+    CoinHolder = player.CoinHolder;
+    Challenges = player.Challenges;
+    coins = player.coins;
+    clan = player.clan;
+    return *this;
+}
+
+Player::Player(const Player &player) {
+    PlayerID = player.PlayerID;
+    ClanNode = player.ClanNode;
+    CoinHolder = player.CoinHolder;
+    Challenges = player.Challenges;
+    coins = player.coins;
+    clan = player.clan;
+}
+
+bool Clan::operator==(const Clan& clan) const{
+    return clan.ClanId == this->ClanId;
+}
+
+Clan& Clan::operator=(const Clan& clan){
+    if (*this == clan){
+        return *this;
+    }
+    ClanId = clan.ClanId;
+    ClanSize = clan.ClanSize;
+    BestPlayer = clan.BestPlayer;
+    ClanPlayersTree = clan.ClanPlayersTree;
+    return *this;
+}
+
+Clan::Clan(const Clan &clan) {
+    ClanId = clan.ClanId;
+    ClanSize = clan.ClanSize;
+    BestPlayer = clan.BestPlayer;
+    ClanPlayersTree = clan.ClanPlayersTree;
+}
+
+bool Coins::operator==(const Coins& coins) const{
+    return coins.playerID == this->playerID;
+}
+
+Coins& Coins::operator=(const Coins& coins){
+    if (*this == coins){
+        return *this;
+    }
+    numCoins = coins.numCoins;
+    playerID = coins.playerID;
+    player = coins.player;
+    return *this;
+}
+
+
+Coins::Coins(const Coins &coins){
+    numCoins = coins.numCoins;
+    playerID = coins.playerID;
+    player = coins.player;
+}
+
 Player:: Player(int ID, int coins){
     this->PlayerID=ID;
     this->Challenges=0;
@@ -79,14 +148,15 @@ Clan::Clan(int ClanId){
 Clan::~Clan(){
     this->BestPlayer = NULL;
     this->ClanPlayersTree.deleteTree();
-    delete(this->ClanPlayersTree);
+    delete(&this->ClanPlayersTree);
 }
 
 ClanStatusType Clan::AddPlayerToClan(Player* player) {
     if(player==NULL)
         return ClanINVALID_INPUT;
     try{
-    this->ClanPlayersTree.insert(player,this->ClanPlayersTree.getRoot(),PlayerCompByID::operator());}
+    this->ClanPlayersTree.insert(player,this->ClanPlayersTree.getRoot(),ClanPlayerCompByID);
+    }
     catch (TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;
     }
@@ -114,10 +184,10 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
 
     try{
     this->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
-            ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
+            ,findRemoveFromClan,ClanPlayerCompByID);
     smallClan->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
-            ,findRemoveFromClan::operator(),ClanPlayerCompByID::operator() );
-    this->ClanPlayersTree.uniteTreesAux(&smallClan->ClanPlayersTree,ClanPlayerCompByID::operator());
+            ,findRemoveFromClan,ClanPlayerCompByID);
+    this->ClanPlayersTree.uniteTreesAux(&(smallClan->ClanPlayersTree),ClanPlayerCompByID);
     }
     catch(TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;
@@ -182,3 +252,4 @@ int Player::getNumCoins(){
 int Coins::getClanID(){
     return this->player->getClan()->getID();
 }
+

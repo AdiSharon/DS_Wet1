@@ -52,13 +52,34 @@ class Oasis{
 
     OasisStatusType uniteClans(int clanID1, int clanID2);
 
-    void Quit();
+    //void Quit();
 
     OasisStatusType updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player);
+
+    //const int PlayerCompByID(Player a, Player b);
+
+    //const int CoinsCompFunc(Coins a, Coins b);
 
 
 };
 
+static int PlayerCompByID(Player a, Player b) {
+    return a.getID()-b.getID();
+}
 
+
+static int CoinsCompFunc(Coins a, Coins b){
+    if(a.getNumCoins() > b.getNumCoins()){
+        return -1;
+    } else if (a.getNumCoins() < b.getNumCoins()){
+        return 1;
+    } else{
+        return a.getPlayerId() - b.getPlayerId();
+    }
+}
+
+static int ClanCompByID(Clan a, Clan b){
+    return a.getID()-b.getID();
+}
 
 #endif //WET1_OASIS_H

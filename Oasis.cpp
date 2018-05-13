@@ -8,15 +8,22 @@
 Oasis::Oasis() :
 MostCoins(NULL),
 BestPlayer(NULL) {
-    PlayerTree = Tree<Player>();
-    ClanTree = Tree<Clan>();
-    CoinTree = Tree<Coins>();
+    PlayerTree = *(new Tree<Player>());
+    ClanTree = *(new Tree<Clan>());
+    CoinTree = *(new Tree<Coins>());
 
 }
 
 // d'tor  //DO ITTTTTTTTTTTTTTTTTTTT
 Oasis::~Oasis() {
-
+    PlayerTree.deleteTree();
+    delete (&PlayerTree);
+    ClanTree.deleteTree();
+    delete (&ClanTree);
+    CoinTree.deleteTree();
+    delete (&CoinTree);
+    MostCoins = NULL;
+    BestPlayer = NULL;
 }
 
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
@@ -25,7 +32,7 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
      Player *newPlayer = new Player(playerID, initialCoins);
 
      try{
-         this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID::operator());
+         this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID);
      } catch (TreeMemoryProblemException){
          delete(newPlayer);
          return OasisALLOCATION_ERROR;
@@ -36,7 +43,7 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
 
     Coins *newCoins = new Coins(initialCoins, playerID, newPlayer);
     try{
-        this->CoinTree.insert(*newCoins,this->CoinTree.getRoot(),CoinsCompFunc::operator());
+        this->CoinTree.insert(*newCoins,this->CoinTree.getRoot(),CoinsCompFunc);
     } catch (TreeMemoryProblemException){
         delete(newPlayer);
         delete(newCoins);
@@ -60,7 +67,7 @@ OasisStatusType Oasis:: addClan(int ClanId){
     Clan *newClan = new Clan(ClanId);
 
     try{
-        this->ClanTree.insert(*newClan, this->ClanTree.getRoot(), ClanCompByID::operator());
+        this->ClanTree.insert(*newClan, this->ClanTree.getRoot(), ClanCompByID);
     } catch (TreeMemoryProblemException) {
         return OasisALLOCATION_ERROR;
     } catch (TreeDataAlreadyExists){
@@ -77,7 +84,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
     Player *dummy = new Player(playerID, 0);
     Tree<Player>::Node* player_to_add;
     try{
-        player_to_add = this->PlayerTree.find(*dummy, this->PlayerTree.getRoot(), PlayerCompByID::operator());
+        player_to_add = this->PlayerTree.find(*dummy, this->PlayerTree.getRoot(), PlayerCompByID);
     } catch (TreeNodeDoesNotExit){
         delete(dummy);
         return OasisFAILURE; //the player is not in the system.
@@ -89,7 +96,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
     Clan *dummy_clan = new Clan(ClanID);
     Tree<Clan>::Node* clan_to_add_to;
     try {
-        clan_to_add_to = this->ClanTree.find(*dummy_clan, this->ClanTree.getRoot(), ClanCompByID::operator());
+        clan_to_add_to = this->ClanTree.find(*dummy_clan, this->ClanTree.getRoot(), ClanCompByID);
     } catch (TreeNodeDoesNotExit){
         delete(dummy);
         return OasisFAILURE; //clan ID isn't in Oasis
@@ -123,7 +130,7 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
     Player *dummy = new Player(playerID, 0);
     Tree<Player>::Node* player_to_find;
     try{
-        player_to_find = this->PlayerTree.find(*dummy, this->PlayerTree.getRoot(), PlayerCompByID::operator());
+        player_to_find = this->PlayerTree.find(*dummy, this->PlayerTree.getRoot(), PlayerCompByID);
     } catch (TreeNodeDoesNotExit){
         delete(dummy);
         return OasisFAILURE; //the player is not in the system.
@@ -187,7 +194,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
     Clan *dummy = new Clan(clanID);
     Tree<Clan>::Node *clan_to_find;
         try {
-            clan_to_find = this->ClanTree.find(*dummy, this->ClanTree.getRoot(), ClanCompByID::operator());
+            clan_to_find = this->ClanTree.find(*dummy, this->ClanTree.getRoot(), ClanCompByID);
         }
             catch (TreeNodeDoesNotExit) {
             delete (dummy);
@@ -218,7 +225,7 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             *players=NULL;
             return OasisSUCCESS;
         }
-        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins)*this->PlayerTree.getSize());
+        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins*)*this->PlayerTree.getSize());
         if(!players_sorted_coins){
             return OasisALLOCATION_ERROR;
         }
@@ -239,7 +246,7 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
     Clan *dummy_clan = new Clan(clanID);
     Tree<Clan>::Node* clan_to_display;
     try {
-        clan_to_display = this->ClanTree.find(*dummy_clan, this->ClanTree.getRoot(), ClanCompByID::operator());
+        clan_to_display = this->ClanTree.find(*dummy_clan, this->ClanTree.getRoot(), ClanCompByID);
     } catch (TreeNodeDoesNotExit){
         delete(dummy_clan);
         return OasisFAILURE; //clan ID isn't in Oasis
@@ -276,7 +283,7 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
     Clan *dummy1 = new Clan(clanID1);
     Tree<Clan>::Node *clan1;
     try {
-        clan1 = this->ClanTree.find(*dummy1, this->ClanTree.getRoot(), ClanCompByID::operator());
+        clan1 = this->ClanTree.find(*dummy1, this->ClanTree.getRoot(), ClanCompByID);
     }
     catch (TreeNodeDoesNotExit) {
         delete (dummy1);
@@ -285,7 +292,7 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
     Clan *dummy2 = new Clan(clanID1);
     Tree<Clan>::Node *clan2;
     try {
-        clan2 = this->ClanTree.find(*dummy2, this->ClanTree.getRoot(), ClanCompByID::operator());
+        clan2 = this->ClanTree.find(*dummy2, this->ClanTree.getRoot(), ClanCompByID);
     }
     catch (TreeNodeDoesNotExit) {
         delete (dummy2);
@@ -347,15 +354,18 @@ OasisStatusType Oasis::updateCoinsTree(int playerID, int oldCoins, int addedCoin
     Coins *dummy = new Coins(oldCoins, playerID, player);
     Tree<Coins>::Node *temp;
     try{
-        this->CoinTree.remove(*dummy, CoinsCompFunc::operator());
+        this->CoinTree.remove(*dummy, CoinsCompFunc);
     } catch (TreeNodeDoesNotExit){
         return OasisFAILURE;
     }
     Coins *coins = new Coins(oldCoins+addedCoins, playerID, player);
     try {
-        this->CoinTree.insert(*coins, this->CoinTree.getRoot(), CoinsCompFunc::operator());
+        this->CoinTree.insert(*coins, this->CoinTree.getRoot(), CoinsCompFunc);
     } catch (TreeMemoryProblemException){
         return OasisALLOCATION_ERROR;
     }
     return OasisSUCCESS;
 }
+
+
+//void Oasis::Quit(){}

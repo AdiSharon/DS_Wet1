@@ -6,6 +6,10 @@
 #include "Tree.h"
 
 
+class Player;
+class Clan;
+class Coins;
+
 
 typedef enum {
     ClanSUCCESS = 0,
@@ -20,11 +24,18 @@ class Coins {
     int playerID;
     Player *player;
 
+
 public:
 
     Coins (int numCoins, int playerID, Player* player);
 
     ~Coins();
+
+    Coins(const Coins &coins);
+
+    bool operator==(const Coins& coins) const;
+
+    Coins& operator=(const Coins& coins);
 
     int getNumCoins();
 
@@ -50,7 +61,13 @@ public:
 
     Clan(int clanID);
 
+    Clan(const Clan &clan);
+
     ~Clan();
+
+    bool operator==(const Clan& clan) const;
+
+    Clan& operator=(const Clan& clan);
 
     ClanStatusType AddPlayerToClan(Player* player );
 
@@ -65,6 +82,8 @@ public:
     ClanStatusType ClanSwalalala(Clan* smallClan);
     //Player* FindPlayerInClanByID(int id);
 
+    //static int ClanPlayerCompByID(Player *a, Player *b);
+
 
 };
 
@@ -78,6 +97,11 @@ class Player{
     Clan* clan;
 public:
 
+    Player(const Player &player);
+
+    Player& operator=(const Player& player);
+
+    bool operator==(const Player& player) const;
 
     Player(int ID, int coins);
 
@@ -112,28 +136,28 @@ public:
 
 };
 
-class PlayerCompByID{
+/*class PlayerCompByID{
 public:
     int operator()(Player a, Player b){
         return a.getID()-b.getID();
     }
-};
+};*/
 
-class ClanPlayerCompByID{
+/*class ClanPlayerCompByID{
 public:
     int operator()(Player *a, Player *b){
         return a->getID()-b->getID();
     }
-};
+};*/
 
-class ClanCompByID{
+/*class ClanCompByID{
 public:
     int operator()(Clan a, Clan b){
         return a.getID()-b.getID();
     }
-};
+};*/
 
-class CoinsCompFunc{
+/*class CoinsCompFunc{
 public:
     int operator()(Coins a, Coins b){
         if(a.getNumCoins() > b.getNumCoins()){
@@ -144,9 +168,9 @@ public:
             return a.getPlayerId() - b.getPlayerId();
         }
     }
-};
+};*/
 
-class findRemoveFromClan{
+/*class findRemoveFromClan{
 public:
     bool operator()(Player *player){
         if(player->getChallenges()==0){
@@ -156,9 +180,20 @@ public:
         else
             return false;
     }
-};
+};*/
 
+static int ClanPlayerCompByID(Player *a, Player *b){
+    return a->getID()-b->getID();
+}
 
+static bool findRemoveFromClan(Player *player){
+    if(player->getChallenges()==0){
+        player->removeFromClan();
+        return true;
+    }
+    else
+        return false;
+}
 
 
 #endif //WET1_CLAN_H

@@ -115,7 +115,7 @@ StatusType uniteClans(void *DS, int clanID1, int clanID2){
 }
 
 void quit(void** DS){
-    (Oasis*)DS)-> Destroy();
+    delete ((Oasis*)DS);
 }
 
 
