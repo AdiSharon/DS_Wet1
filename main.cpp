@@ -12,7 +12,7 @@ int main() {
     else
         std::cout << "real prob, couldnt create system" << std::endl;
 
-    std::cout << "TEST STARTS RIGHT HERE. FIRST ONE" << std::endl;
+   /* std::cout << "TEST STARTS RIGHT HERE. FIRST ONE" << std::endl;
     std::cout << "" << std::endl;
 
     statusType = addPlayer(oasis, 1, 1);
@@ -253,7 +253,6 @@ int main() {
     }
 
 
-
     statusType = addClan(oasis,0);
     switch (statusType) {
         case (INVALID_INPUT):
@@ -321,11 +320,40 @@ int main() {
         case (FAILURE):
             std::cout << "clan 13 added" << std::endl;
             break;
+    }*/
+
+
+
+
+
+
+    statusType = addPlayer(oasis, 312124654, 100);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC?!" << std::endl;
+        default:
+            cout << "Great!, now check:" << endl;
     }
+    std::cout << "312124654 ADDED" << std::endl;
 
 
+    statusType = addPlayer(oasis, 123445, 0);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC?!" << std::endl;
+        default:
+            cout << "Great!, now check:" << endl;
+    }
+    std::cout << "123445 ADDED" << std::endl;
 
-
-
+    quit(&oasis);
 }
 

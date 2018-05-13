@@ -2,7 +2,7 @@
 #include "Oasis.h"
 
 void* init(){
-    Oasis* DS= new Oasis;
+    Oasis* DS = new Oasis();
     return (void*)DS;
 }
 
@@ -115,7 +115,8 @@ StatusType uniteClans(void *DS, int clanID1, int clanID2){
 }
 
 void quit(void** DS){
-    delete ((Oasis*)DS);
+    Oasis **system = (Oasis**)DS;
+    delete (*system);
 }
 
 

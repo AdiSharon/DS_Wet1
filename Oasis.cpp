@@ -17,11 +17,11 @@ BestPlayer(NULL) {
 // d'tor  //DO ITTTTTTTTTTTTTTTTTTTT
 Oasis::~Oasis() {
     PlayerTree.deleteTree();
-    delete (&PlayerTree);
+    //delete (&PlayerTree);
     ClanTree.deleteTree();
-    delete (&ClanTree);
+    //delete (&ClanTree);
     CoinTree.deleteTree();
-    delete (&CoinTree);
+    //delete (&CoinTree);
     MostCoins = NULL;
     BestPlayer = NULL;
 }

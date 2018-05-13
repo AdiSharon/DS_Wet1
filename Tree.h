@@ -60,7 +60,7 @@ private:
 
 
 
-    static const int HEAD_INDEX = 0; //C++ NULL
+    //static const int HEAD_INDEX = 0; //C++ NULL
 
 public:
 
@@ -83,8 +83,10 @@ public:
 
     void deleteNode(Node *node){
         if( node ){
-            deleteNode(node->right_son);
-            deleteNode(node->left_son);
+            if(node->right_son)
+                deleteNode(node->right_son);
+            if(node->left_son)
+                deleteNode(node->left_son);
             delete (node);
         }
     }
@@ -490,7 +492,7 @@ public:
 
 template <class T>
 Tree<T>::Tree() :
-        size(HEAD_INDEX),
+        size(0),
         root (NULL){} ;
 
 
