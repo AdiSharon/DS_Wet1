@@ -27,7 +27,7 @@ Oasis::~Oasis() {
 }
 
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
-    if(playerID<0 || initialCoins<0 || this==NULL)
+    if(playerID<=0 || initialCoins<0 || this==NULL)
         return OasisINVALID_INPUT;
      Player *newPlayer = new Player(playerID, initialCoins);
 
@@ -61,7 +61,7 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
 
 OasisStatusType Oasis:: addClan(int ClanId){
 
-    if(this==NULL||ClanId<0)
+    if(this==NULL||ClanId<=0)
         return OasisINVALID_INPUT;
 
     Clan *newClan = new Clan(ClanId);
