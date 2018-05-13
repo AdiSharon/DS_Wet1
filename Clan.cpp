@@ -148,7 +148,6 @@ Clan::Clan(int ClanId){
 Clan::~Clan(){
     this->BestPlayer = NULL;
     this->ClanPlayersTree.deleteTree();
-    Tree<Player*> *ptr = &ClanPlayersTree;
     //delete(ptr);
 }
 

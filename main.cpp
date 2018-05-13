@@ -12,7 +12,7 @@ int main() {
     else
         std::cout << "real prob, couldnt create system" << std::endl;
 
-   /* std::cout << "TEST STARTS RIGHT HERE. FIRST ONE" << std::endl;
+    std::cout << "TEST STARTS RIGHT HERE. FIRST ONE" << std::endl;
     std::cout << "" << std::endl;
 
     statusType = addPlayer(oasis, 1, 1);
@@ -253,10 +253,11 @@ int main() {
     }
 
 
+
     statusType = addClan(oasis,0);
     switch (statusType) {
-        case (INVALID_INPUT):
-            std::cout << "INVALID INPUT" << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED.WONDER WHY" << std::endl;
             break;
         case (SUCCESS):
             std::cout << "IT SUCCSSEDED THOUGH IT SHOULDNT HAVE. PROBLEM WITH ADDIND CLAN WITH BAD ID"
@@ -265,7 +266,7 @@ int main() {
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
             break;
-        case (FAILURE):
+        case (INVALID_INPUT):
             std::cout << "ALL GOOD! DIDNT ADD IT AS IT SHOULD HAVE" << std::endl;
             break;
     }
@@ -273,8 +274,8 @@ int main() {
 
     statusType = addClan(oasis,-3);
     switch (statusType) {
-        case (INVALID_INPUT):
-            std::cout << "INVALID INPUT" << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED. WONDER WHY" << std::endl;
             break;
         case (SUCCESS):
             std::cout << "IT SUCCSSEDED THOUGH IT SHOULDNT HAVE. PROBLEM WITH ADDIND CLAN WITH BAD ID"
@@ -283,7 +284,7 @@ int main() {
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
             break;
-        case (FAILURE):
+        case (INVALID_INPUT):
             std::cout << "ALL GOOD! DIDNT ADD IT AS IT SHOULD HAVE" << std::endl;
             break;
     }
@@ -294,14 +295,13 @@ int main() {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
             break;
-        case (SUCCESS):
-            std::cout << "IT SUCCSSEDED THOUGH IT SHOULDNT HAVE. PROBLEM WITH ADDIND CLAN WITH EXISTING ID"
-                      << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
             break;
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
             break;
-        case (FAILURE):
+        case (SUCCESS):
             std::cout << "clan 12 added" << std::endl;
             break;
     }
@@ -310,50 +310,250 @@ int main() {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
             break;
-        case (SUCCESS):
-            std::cout << "IT SUCCSSEDED THOUGH IT SHOULDNT HAVE. PROBLEM WITH ADDIND CLAN WITH EXISTING ID"
-                      << std::endl;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
             break;
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
             break;
-        case (FAILURE):
+        case (SUCCESS):
             std::cout << "clan 13 added" << std::endl;
             break;
-    }*/
+    }
 
 
 
-
-
-
-    statusType = addPlayer(oasis, 312124654, 100);
+/*    statusType = joinClan(oasis,1,11);
     switch (statusType) {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
+            break;
         case (FAILURE):
             std::cout << "FAILED" << std::endl;
+            break;
         case (ALLOCATION_ERROR):
-            std::cout << "ALLOC?!" << std::endl;
-        default:
-            cout << "Great!, now check:" << endl;
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 1 added to clan 11" << std::endl;
+            break;
     }
-    std::cout << "312124654 ADDED" << std::endl;
 
-
-    statusType = addPlayer(oasis, 123445, 0);
+    statusType = joinClan(oasis,2,12);
     switch (statusType) {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
+            break;
         case (FAILURE):
             std::cout << "FAILED" << std::endl;
+            break;
         case (ALLOCATION_ERROR):
-            std::cout << "ALLOC?!" << std::endl;
-        default:
-            cout << "Great!, now check:" << endl;
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 2 added to clan 12" << std::endl;
+            break;
     }
-    std::cout << "123445 ADDED" << std::endl;
 
-    quit(&oasis);
+    statusType = joinClan(oasis,3,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 3 added to clan 13" << std::endl;
+            break;
+    }
+
+    statusType = joinClan(oasis,1,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYER ALREADY IN ANOTHER CLAN" << std::endl;
+            break;
+    } */
+
+    statusType = joinClan(oasis,4,89);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN CLANID IS WRONG" << std::endl;
+            break;
+    }
+    statusType = joinClan(oasis,9,2);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYERID IS WRONG" << std::endl;
+            break;
+    }
+
+    statusType = joinClan(oasis,4,0);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT\"" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED.WONDER WHY" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN CLANID IS WRONG" << std::endl;
+            break;
+    }
+
+    statusType = joinClan(oasis,4,-6);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT\"" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED.WONDER WHY" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN CLANID IS WRONG" << std::endl;
+            break;
+    }
+
+
+    statusType = joinClan(oasis,0,3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED.WONDER WHY" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYERID IS WRONG" << std::endl;
+            break;
+    }
+    statusType = joinClan(oasis,-6,3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED.WONDER WHY" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYERID IS WRONG" << std::endl;
+            break;
+    }
+
+    statusType = joinClan(oasis,4,11);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 4 added to clan 11" << std::endl;
+            break;
+    }
+
+
+    statusType = joinClan(oasis,5,11);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 5 added to clan 11" << std::endl;
+            break;
+    }
+    statusType = joinClan(oasis,6,12);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "player 6 added to clan 12" << std::endl;
+            break;
+    }
+
+
+    statusType = joinClan(oasis,6,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYER ALREADY IN ANOTHER CLAN" << std::endl;
+            break;
+    }
+
+
+
+
+
+
+
+
+
 }
 
