@@ -323,7 +323,7 @@ int main() {
 
 
 
-/*    statusType = joinClan(oasis,1,11);
+    statusType = joinClan(oasis,1,11);
     switch (statusType) {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
@@ -385,7 +385,7 @@ int main() {
         case (SUCCESS):
             std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK WHEN PLAYER ALREADY IN ANOTHER CLAN" << std::endl;
             break;
-    } */
+    }
 
     statusType = joinClan(oasis,4,89);
     switch (statusType) {

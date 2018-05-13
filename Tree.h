@@ -30,7 +30,7 @@ public:
         //Tree needs access to private fields.
         friend class Tree<T>;
 
-        ~Node() {}
+        //~Node() {}
 
     public:
 
@@ -175,9 +175,9 @@ public:
             this->root->left_son=NULL;
             this->root->father=NULL;
             this->root->node_height=0;
-            root=this->root;
+            this->root;
             this->size++;
-            //return root;
+            root = this->root;
 
         } else if (compare(root->data, data) == 0){
             throw TreeDataAlreadyExists();
@@ -219,7 +219,7 @@ public:
             }
         }
         //this->size++;
-        balance(root);
+        balance(this->root);
     }
 
     template <typename Compare>

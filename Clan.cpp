@@ -141,7 +141,7 @@ Clan::Clan(int ClanId){
     this->ClanSize=0;
     this->ClanId=ClanId;
     this->BestPlayer=NULL;
-    this->ClanPlayersTree = *(new Tree<Player*>());
+    this->ClanPlayersTree = Tree<Player*>();
 }
 
 

@@ -8,9 +8,9 @@
 Oasis::Oasis() :
 MostCoins(NULL),
 BestPlayer(NULL) {
-    PlayerTree = *(new Tree<Player>());
-    ClanTree = *(new Tree<Clan>());
-    CoinTree = *(new Tree<Coins>());
+    PlayerTree = Tree<Player>();
+    ClanTree = Tree<Clan>();
+    CoinTree = Tree<Coins>();
 
 }
 
