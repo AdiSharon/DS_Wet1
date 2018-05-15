@@ -188,12 +188,12 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
     try{
     this->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
             ,findRemoveFromClan,ClanPlayerCompByID);
-    smallClan->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
+    smallClan->ClanPlayersTree.PostOrderRemove(smallClan->ClanPlayersTree.getRoot()
             ,findRemoveFromClan,ClanPlayerCompByID);
         if(smallClan->getClanSize()<=0)
             smallClan->updateBestPlayer(NULL);
         if(this->getClanSize()<=0)
-            smallClan->updateBestPlayer(NULL);
+            this->updateBestPlayer(NULL);
     this->ClanPlayersTree.uniteTreesAux(smallClan->ClanPlayersTree,ClanPlayerCompByID);
     }
     catch(TreeMemoryProblemException){

@@ -697,6 +697,109 @@ int main() {
     }
 
 
+    statusType = uniteClans(oasis,11 ,12);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "SUCCESS" << std::endl;
+            break;
+    }
+
+
+    statusType = uniteClans(oasis,13 ,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID " << std::endl;
+            break;
+    }
+
+
+    statusType = uniteClans(oasis,-2 ,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID " << std::endl;
+            break;
+    }
+
+    statusType = uniteClans(oasis,-5 ,0);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID " << std::endl;
+            break;
+    }
+
+
+    statusType = uniteClans(oasis,2 ,13);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID " << std::endl;
+            break;
+    }
+
+    statusType = uniteClans(oasis,8 ,9);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID " << std::endl;
+            break;
+    }
+
+
+
+
+
 }
 
 
