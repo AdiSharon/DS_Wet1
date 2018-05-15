@@ -42,7 +42,7 @@ Clan& Clan::operator=(const Clan& clan){
         return *this;
     }
     ClanId = clan.ClanId;
-    ClanSize = clan.ClanSize;
+    //ClanSize = clan.ClanSize;
     BestPlayer = clan.BestPlayer;
     ClanPlayersTree = clan.ClanPlayersTree;
     return *this;
@@ -50,7 +50,7 @@ Clan& Clan::operator=(const Clan& clan){
 
 Clan::Clan(const Clan &clan) {
     ClanId = clan.ClanId;
-    ClanSize = clan.ClanSize;
+    //ClanSize = clan.ClanSize;
     BestPlayer = clan.BestPlayer;
   //  ClanPlayersTree = clan.ClanPlayersTree;
 
@@ -139,7 +139,7 @@ Clan* Player:: getClan(){
 
 
 Clan::Clan(int ClanId){
-    this->ClanSize=0;
+//    this->ClanSize=0;
     this->ClanId=ClanId;
     this->BestPlayer=NULL;
     this->ClanPlayersTree = Tree<Player*>();
@@ -164,7 +164,7 @@ ClanStatusType Clan::AddPlayerToClan(Player* player) {
         catch (TreeDataAlreadyExists){
             return ClanFAILURE;
         }
-    this->ClanSize++;
+  //  this->ClanSize++;
     if(this->getBestPlayer()== NULL || this->getBestPlayer()->getChallenges()<player->getChallenges())
     this->updateBestPlayer(player);
     return ClanSUCCESS;
@@ -175,7 +175,7 @@ Player* Clan::getBestPlayer(){
 }
 
 int Clan:: getClanSize(){
-    return this->ClanSize;
+    return this->ClanPlayersTree.getSize();
 }
 
 int Clan::getID(){
@@ -198,7 +198,7 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
     catch(TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;
     }
-    this->ClanSize=this->ClanPlayersTree.getSize();
+   // this->ClanSize=this->ClanPlayersTree.getSize();
     return ClanSUCCESS;
 }
 

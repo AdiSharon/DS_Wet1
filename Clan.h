@@ -53,7 +53,7 @@ public:
 class Clan{
 
     int ClanId;
-    int ClanSize;
+   // int ClanSize;
     Player* BestPlayer;
     Tree<Player*> ClanPlayersTree;
 
