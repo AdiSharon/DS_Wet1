@@ -230,8 +230,10 @@ public:
         } catch (TreeNodeDoesNotExit){
             throw TreeNodeDoesNotExit();
         }
+
+        removeThis(node, compare);
         //node has NO sons:
-        if(height(node) == 0){
+        /*if(height(node) == 0){
             this->size--;
             if(node->father->left_son == node){
                 node->father->left_son = NULL;
@@ -283,6 +285,7 @@ public:
                 updateHeight(node->father);
             }
             delete(node);
+            return;
         }
             //node has TWO sons:
         else if (node->left_son && node->right_son){
@@ -296,25 +299,26 @@ public:
             this->size--;
             updateHeight(temp->father);
             delete(temp);
-        }
+            return;
+        }*/
     }
 
     template <typename Compare>
     void removeThis(Node *node, const Compare &compare){
-
-
-        //node is a root
-        if(node->father==NULL)
-            this->size--;
-        //node has NO sons:
-       else if(height(node) == 0){
-            this->size--;
-            if(node->father->left_son == node){
-                node->father->left_son = NULL;
-            } else {
-                node->father->right_son = NULL;
+            //node has NO sons:
+        if(height(node) == 0){
+            if(node->father){
+                this->size--;
+                if(node->father->left_son == node){
+                    node->father->left_son = NULL;
+                } else {
+                    node->father->right_son = NULL;
+                }
+                updateHeight(node->father);
+            } else { // node is the root
+                this->root = NULL;
+                this->size = 0;
             }
-            updateHeight(node->father);
             delete(node);
             return;
         }
@@ -359,6 +363,7 @@ public:
                 updateHeight(node->father);
             }
             delete(node);
+            return;
         }
             //node has TWO sons:
         else if (node->left_son && node->right_son){
@@ -366,13 +371,15 @@ public:
             T data = node->data;
             node->data = temp->data;
             temp->data = data;
-            temp->father->left_son = temp->right_son;
+            Node *daddy = temp->father;
+            daddy->right_son = temp->right_son;
             if(temp->right_son){
-                temp->right_son->father = temp->father;
+                temp->right_son->father = daddy;
             }
             this->size--;
-            updateHeight(temp->father);
+            updateHeight(daddy);
             delete(temp);
+            return;
         }
     }
 

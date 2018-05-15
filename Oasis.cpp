@@ -6,8 +6,8 @@
 
 // c'tor /////////// FIX IIIIIIIIITTTTTTTTTTT
 Oasis::Oasis() :
-MostCoins(NULL),
-BestPlayer(NULL) {
+        MostCoins(NULL),
+        BestPlayer(NULL) {
     PlayerTree = Tree<Player>();
     ClanTree = Tree<Clan>();
     CoinTree = Tree<Coins>();
@@ -29,17 +29,17 @@ Oasis::~Oasis() {
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
     if(playerID<=0 || initialCoins<0 || this==NULL)
         return OasisINVALID_INPUT;
-     Player *newPlayer = new Player(playerID, initialCoins);
+    Player *newPlayer = new Player(playerID, initialCoins);
 
-     try{
-         this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID);
-     } catch (TreeMemoryProblemException){
-         delete(newPlayer);
-         return OasisALLOCATION_ERROR;
-     } catch (TreeDataAlreadyExists){
-         delete (newPlayer);
-         return OasisFAILURE;
-     }
+    try{
+        this->PlayerTree.insert(*newPlayer,this->PlayerTree.getRoot(),PlayerCompByID);
+    } catch (TreeMemoryProblemException){
+        delete(newPlayer);
+        return OasisALLOCATION_ERROR;
+    } catch (TreeDataAlreadyExists){
+        delete (newPlayer);
+        return OasisFAILURE;
+    }
 
     Coins *newCoins = new Coins(initialCoins, playerID, newPlayer);
     try{
@@ -157,16 +157,16 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
     if(this->BestPlayer->getChallenges() < player_to_find->getNodeData()->getChallenges())
         this->BestPlayer=player_to_find->getNodeData();
 
-    // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
+        // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
     else if(this->BestPlayer->getChallenges() == player_to_find->getNodeData()->getChallenges()) {
         if (player_to_find->getNodeData()->getID() < this->BestPlayer->getID())
             this->BestPlayer = player_to_find->getNodeData();
     }
 
-     // DOING THE SAME DAMN THING, BUY THIS TIME ON THE CLAN'S BEST PLAYER
+    // DOING THE SAME DAMN THING, BUY THIS TIME ON THE CLAN'S BEST PLAYER
 
     if(player_to_find->getNodeData()->getClan()->getBestPlayer()->getChallenges() <
-            player_to_find->getNodeData()->getChallenges())
+       player_to_find->getNodeData()->getChallenges())
         this->BestPlayer=player_to_find->getNodeData();
 
         // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
@@ -194,23 +194,23 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
 
     Clan *dummy = new Clan(clanID);
     Tree<Clan>::Node *clan_to_find;
-        try {
-            clan_to_find = this->ClanTree.find(*dummy, this->ClanTree.getRoot(), ClanCompByID);
-        }
-            catch (TreeNodeDoesNotExit) {
-            delete (dummy);
-            return OasisFAILURE; //the clan is not in the system.
-        }
-        if(clan_to_find->getNodeData()->getClanSize()==0) {
-            delete (dummy);
-            *playerID = -1;
-            return OasisSUCCESS; //third bullet option
-        }
+    try {
+        clan_to_find = this->ClanTree.find(*dummy, this->ClanTree.getRoot(), ClanCompByID);
+    }
+    catch (TreeNodeDoesNotExit) {
+        delete (dummy);
+        return OasisFAILURE; //the clan is not in the system.
+    }
+    if(clan_to_find->getNodeData()->getClanSize()==0) {
+        delete (dummy);
+        *playerID = -1;
+        return OasisSUCCESS; //third bullet option
+    }
     Player *Bestplayer = clan_to_find->getNodeData()->getBestPlayer();
-        if (Bestplayer == NULL) {
-            delete (dummy);
-            return OasisFAILURE;
-        }
+    if (Bestplayer == NULL) {
+        delete (dummy);
+        return OasisFAILURE;
+    }
     delete (dummy);
     *playerID = Bestplayer->getID(); //the ID of the best player back to oasis
     return OasisSUCCESS; //third bullet option
@@ -307,12 +307,12 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
     //checking who is the best player od the new joint clan
     Player* safe;
     if(((clan1->getNodeData()->getBestPlayer()==NULL && clan2->getNodeData()->getBestPlayer()==NULL)||
-            (clan1->getNodeData()->getBestPlayer()->getChallenges()==0 &&
-       clan2->getNodeData()->getBestPlayer()->getChallenges()==0))){
+        (clan1->getNodeData()->getBestPlayer()->getChallenges()==0 &&
+         clan2->getNodeData()->getBestPlayer()->getChallenges()==0))){
         safe=NULL;
     }
     if(clan1->getNodeData()->getBestPlayer()->getChallenges()== clan2->getNodeData()->getBestPlayer()->getChallenges()&&
-        clan1->getNodeData()->getBestPlayer()->getChallenges()!=0) {
+       clan1->getNodeData()->getBestPlayer()->getChallenges()!=0) {
         if (clan1->getNodeData()->getBestPlayer()->getID() < clan2->getNodeData()->getBestPlayer()->getID())
             safe = clan1->getNodeData()->getBestPlayer();
         else
@@ -320,7 +320,7 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
     }
     else if(clan1->getNodeData()->getBestPlayer()->getChallenges() < clan2->getNodeData()->getBestPlayer()->getChallenges()){
         safe=clan2->getNodeData()->getBestPlayer();}
-     else
+    else
         safe=clan1->getNodeData()->getBestPlayer();
 
     //on this point we have clan1 and clan2 themselves.
@@ -331,23 +331,29 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
                 return OasisALLOCATION_ERROR;
             return OasisSUCCESS;
         }
-         else
+        else
             clan2->getNodeData()-> updateBestPlayer(safe);
-            if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
-              return OasisALLOCATION_ERROR;
-            return OasisSUCCESS;
-        }
-    else if (clan1->getNodeData()->getClanSize() < clan2->getNodeData()->getClanSize()){
-            clan2->getNodeData()-> updateBestPlayer(safe);
-            if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
-                return OasisALLOCATION_ERROR;
-            return OasisSUCCESS;
+        if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
+            return OasisALLOCATION_ERROR;
+        return OasisSUCCESS;
     }
-          else
-            clan1->getNodeData()-> updateBestPlayer(safe);
-            if(clan1->getNodeData()->ClanSwalalala(clan2->getNodeData())==ClanALLOCATION_ERROR)
-                return OasisALLOCATION_ERROR;
-            return OasisSUCCESS;
+    else if (clan1->getNodeData()->getClanSize() < clan2->getNodeData()->getClanSize()){
+        clan2->getNodeData()-> updateBestPlayer(safe);
+        if(clan2->getNodeData()->ClanSwalalala(clan1->getNodeData())==ClanALLOCATION_ERROR)
+            return OasisALLOCATION_ERROR;
+        return OasisSUCCESS;
+    }
+    else
+        clan1->getNodeData()-> updateBestPlayer(safe);
+    if(clan1->getNodeData()->ClanSwalalala(clan2->getNodeData())==ClanALLOCATION_ERROR)
+        return OasisALLOCATION_ERROR;
+
+    try{
+        this->ClanTree.removeThis(clan2, ClanCompByID);
+    } catch (TreeNodeDoesNotExit){
+        return OasisFAILURE;
+    }
+    return OasisSUCCESS;
 
 }
 

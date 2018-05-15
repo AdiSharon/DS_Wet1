@@ -27,7 +27,7 @@ class Oasis{
     Player *BestPlayer;
 
 
- public:
+public:
 
     // c'tor
     Oasis();
@@ -40,7 +40,7 @@ class Oasis{
 
     OasisStatusType addClan(int ClanId);
 
-   // int CMP( Clan Clan1 ,Clan Clan2);
+    // int CMP( Clan Clan1 ,Clan Clan2);
 
     OasisStatusType joinClan(int playerID, int ClanID);
 
