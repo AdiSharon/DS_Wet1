@@ -69,10 +69,8 @@ static int PlayerCompByID(Player a, Player b) {
 
 
 static int CoinsCompFunc(Coins a, Coins b){
-    if(a.getNumCoins() > b.getNumCoins()){
-        return -1;
-    } else if (a.getNumCoins() < b.getNumCoins()){
-        return 1;
+    if(a.getNumCoins() - b.getNumCoins() != 0){
+        return a.getNumCoins() - b.getNumCoins();
     } else{
         return a.getPlayerId() - b.getPlayerId();
     }

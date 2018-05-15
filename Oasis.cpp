@@ -126,7 +126,7 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
 }
 
 OasisStatusType Oasis:: completeChallange(int playerID, int coins){
-    if(playerID<0 || coins<0)
+    if(playerID<=0 || coins<=0)
         return OasisINVALID_INPUT;
     Player *dummy = new Player(playerID, 0);
     Tree<Player>::Node* player_to_find;

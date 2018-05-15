@@ -305,7 +305,7 @@ public:
 
     template <typename Compare>
     void removeThis(Node *node, const Compare &compare){
-            //node has NO sons:
+        //node has NO sons:
         if(height(node) == 0){
             if(node->father){
                 this->size--;

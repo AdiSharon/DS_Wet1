@@ -565,7 +565,7 @@ int main() {
 
 
 
-    /*
+
      std::cout << "" << std::endl;
      std::cout << "tests for CompleteChallenge" << std::endl;
      std::cout << "" << std::endl;
@@ -585,6 +585,8 @@ int main() {
              std::cout << "check in debugger if player1 has 11 coins" << std::endl;
              break;
      }
+
+
      statusType = completeChallange(oasis, -3, 10);
      switch (statusType) {
          case (INVALID_INPUT):
@@ -601,7 +603,8 @@ int main() {
              break;
      }
 
-     statusType = completeChallange(oasis, 1, 0);
+
+     statusType = completeChallange(oasis, -1, 0);
      switch (statusType) {
          case (INVALID_INPUT):
              std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
@@ -617,7 +620,7 @@ int main() {
              break;
 
      }
-     statusType = completeChallange(oasis, 1, 0);
+     statusType = completeChallange(oasis, 781, 3);
      switch (statusType) {
          case (INVALID_INPUT):
              std::cout << "INVALID INPUT" << std::endl;
@@ -650,30 +653,96 @@ int main() {
 
      }
 
-     statusType = completeChallange(oasis, 6, 60);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "INVALID INPUT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "FAILED" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "check in debugger if player6 has 66 coins, and the coins-tree" << std::endl;
-             break;
-     }
+    statusType = completeChallange(oasis, 6, 57);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player6 has 63 coins, and the coins-tree" << std::endl;
+            break;
+    }
 
-     std::cout << "" << std::endl;
+    statusType = completeChallange(oasis, 6, 3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player6 has 66 coins, and the coins-tree" << std::endl;
+            break;
+    }
+
+    statusType = completeChallange(oasis, 3, 10);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player3 has 11 coins, and the coins-tree" << std::endl;
+            break;
+    }
+    statusType = completeChallange(oasis, 3, 10);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player3 has 22 coins, and the coins-tree" << std::endl;
+            break;
+    }
+    statusType = completeChallange(oasis, 3, 10);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player3 has 33 coins, and the coins-tree" << std::endl;
+            break;
+    }
+
+
+
+
+
+    std::cout << "" << std::endl;
      std::cout << "tests for getBestPlayer" << std::endl;
      std::cout << "" << std::endl;
 
 
 
 
- */
+
 
     std::cout << "" << std::endl;
     std::cout << "tests for UniteClans" << std::endl;
