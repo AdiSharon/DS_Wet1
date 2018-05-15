@@ -52,7 +52,8 @@ Clan::Clan(const Clan &clan) {
     ClanId = clan.ClanId;
     ClanSize = clan.ClanSize;
     BestPlayer = clan.BestPlayer;
-    ClanPlayersTree = clan.ClanPlayersTree;
+  //  ClanPlayersTree = clan.ClanPlayersTree;
+
 }
 
 bool Coins::operator==(const Coins& coins) const{
@@ -164,6 +165,8 @@ ClanStatusType Clan::AddPlayerToClan(Player* player) {
             return ClanFAILURE;
         }
     this->ClanSize++;
+    if(this->getBestPlayer()== NULL || this->getBestPlayer()->getChallenges()<player->getChallenges())
+    this->updateBestPlayer(player);
     return ClanSUCCESS;
 }
 
@@ -187,7 +190,10 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
             ,findRemoveFromClan,ClanPlayerCompByID);
     smallClan->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
             ,findRemoveFromClan,ClanPlayerCompByID);
-    this->ClanPlayersTree.uniteTreesAux(&(smallClan->ClanPlayersTree),ClanPlayerCompByID);
+        if(this->getClanSize()<=0&&smallClan->getClanSize()<=0){
+            return ClanSUCCESS;
+        }
+    this->ClanPlayersTree.uniteTreesAux(smallClan->ClanPlayersTree,ClanPlayerCompByID);
     }
     catch(TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;

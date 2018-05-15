@@ -302,8 +302,12 @@ public:
     template <typename Compare>
     void removeThis(Node *node, const Compare &compare){
 
+
+        //node is a root
+        if(node->father==NULL)
+            this->size--;
         //node has NO sons:
-        if(height(node) == 0){
+       else if(height(node) == 0){
             this->size--;
             if(node->father->left_son == node){
                 node->father->left_son = NULL;
@@ -427,12 +431,12 @@ public:
             moveInOrderToArray(data_array, index, root->left_son);
             data_array[*index] = *root->getNodeData();
             *index++;
-            moveInOrderToArray(data_array, index, root->left_son);
+            moveInOrderToArray(data_array, index, root->right_son);
         }
     }
 
     T* moveInOrderToArrayAux(Tree *tree){
-        T* data_array = (T*)malloc(sizeof(T)*tree->size);
+        T* data_array = (T*)malloc(sizeof(T)*(tree->size));
         if(!data_array){
             throw TreeMemoryProblemException();
         }
@@ -442,15 +446,15 @@ public:
     }
 
     template <typename Compare>
-    void uniteTreesAux(Tree *tree, const Compare compare){
+    void uniteTreesAux(Tree<T> &tree, const Compare compare){
         T* my_data = moveInOrderToArrayAux(this);
-        T* his_data = moveInOrderToArrayAux(tree);
-        T* united_data = (T*)malloc(sizeof(T)*(this->size + tree->size));
+        T* his_data = moveInOrderToArrayAux(&tree);
+        T* united_data = (T*)malloc(sizeof(T)*(this->size + tree.size));
         if(!my_data || !his_data || !united_data){
             throw TreeMemoryProblemException();
         }
         int my_index, his_index, our_index;
-        for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree->size) ; our_index++) {
+        for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree.size) ; our_index++) {
             if(compare(my_data[my_index], his_data[his_index])<0){
                 united_data[our_index] = my_data[my_index];
                 my_index++;
@@ -462,16 +466,16 @@ public:
         for (; my_index < this->size; my_index++,our_index++) {
             united_data[our_index] = my_data[my_index];
         }
-        for (; his_index < tree->size; his_index++,our_index++) {
+        for (; his_index < tree.size; his_index++,our_index++) {
             united_data[our_index] = his_data[his_index];
         }
         free(my_data);
         free(his_data);
-        int total_size = this->size + tree->size;
-        tree->deleteTree();
+        int total_size = this->size + tree.size;
+        tree.deleteTree();
         this->deleteTree();
         this->size = total_size;
-        delete (tree);
+        //delete (tree);
         this->root=uniteTrees(united_data, total_size, this->root);
         free(united_data);
     }

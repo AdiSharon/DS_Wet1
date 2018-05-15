@@ -676,11 +676,10 @@ int main() {
  */
 
     std::cout << "" << std::endl;
-    std::cout << "tests for UniteClans" << std::endl;
+    std::cout << "tests for getScoreBoard" << std::endl;
     std::cout << "" << std::endl;
 
-
-    statusType = uniteClans(oasis,11 ,12);
+    statusType = completeChallange(oasis, 6, 60);
     switch (statusType) {
         case (INVALID_INPUT):
             std::cout << "INVALID INPUT" << std::endl;
@@ -692,9 +691,14 @@ int main() {
             std::cout << "ALLOC" << std::endl;
             break;
         case (SUCCESS):
-            std::cout << "SUCCESS" << std::endl;
+            std::cout << "check in debugger if player6 has 66 coins, and the coins-tree" << std::endl;
             break;
     }
+
+    std::cout << "" << std::endl;
+    std::cout << "tests for getBestPlayer" << std::endl;
+    std::cout << "" << std::endl;
+
 
 
 }

@@ -342,8 +342,7 @@ void PrintAll(int *playerIDs, int numOfPlayers) {
 
 static errorType OnGetScoreboard(void* DS, const char* const command) {
     int teamID;
-    ValidateRead(sscanf(command, "%d", &teamID), 1,
-                 "%s failed.\n", commandStr[GETSCOREBOARD_CMD]);
+    ValidateRead(sscanf(command, "%d", &teamID), 1, "%s failed.\n", commandStr[GETSCOREBOARD_CMD]);
     int* playerIDs;
     int numOfPlayers;
     StatusType res = getScoreboard(DS, teamID, &playerIDs, &numOfPlayers);
