@@ -30,7 +30,7 @@ public:
         //Tree needs access to private fields.
         friend class Tree<T>;
 
-        //~Node() {}
+        ~Node() {}
 
     public:
 
@@ -219,7 +219,7 @@ public:
             }
         }
         //this->size++;
-        balance(this->root);
+        balance(root);
     }
 
     template <typename Compare>
@@ -354,7 +354,7 @@ public:
                     node->father->right_son = node->left_son;
                     node->left_son->father = node->father;
                 } else {
-                    this->root = node->right_son;
+                    this->root = node->left_son;
                 }
 
             }
@@ -437,7 +437,7 @@ public:
         if (root){
             moveInOrderToArray(data_array, index, root->left_son);
             data_array[*index] = *root->getNodeData();
-            *index++;
+            (*index)++;
             moveInOrderToArray(data_array, index, root->right_son);
         }
     }
@@ -455,7 +455,8 @@ public:
     template <typename Compare>
     void uniteTreesAux(Tree<T> &tree, const Compare compare){
         T* my_data = moveInOrderToArrayAux(this);
-        T* his_data = moveInOrderToArrayAux(&tree);
+        Tree *ptr = &tree;
+        T* his_data = moveInOrderToArrayAux(ptr);
         T* united_data = (T*)malloc(sizeof(T)*(this->size + tree.size));
         if(!my_data || !his_data || !united_data){
             throw TreeMemoryProblemException();

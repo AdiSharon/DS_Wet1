@@ -740,9 +740,127 @@ int main() {
      std::cout << "" << std::endl;
 
 
+    int playerId;
+    statusType = getBestPlayer(oasis,11 ,&playerId);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId==1)
+            std::cout << "SUCCESS" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED... REAL PROBLEM" << std::endl;
+            break;
+    }
 
 
+    int playerId1;
+    statusType = getBestPlayer(oasis,12 ,&playerId1);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId1=6)
+                std::cout << "SUCCESS" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED... REAL PROBLEM" << std::endl;
+            break;
+    }
 
+
+    int playerId2;
+    statusType = getBestPlayer(oasis,13 ,&playerId2);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId2==3)
+                std::cout << "SUCCESS" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED... REAL PROBLEM" << std::endl;
+            break;
+    }
+
+    int playerId3;
+    statusType = getBestPlayer(oasis,-4 ,&playerId3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId3==3)
+                std::cout << "SUCCESS" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED...CHECK BAD ID" << std::endl;
+            break;
+    }
+
+    int playerId4;
+    statusType = getBestPlayer(oasis,0 ,&playerId4);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId4==1)
+                std::cout << "SHOULDNT SUCCEED...CHECK ID 0" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED...CHECK ID 0" << std::endl;
+            break;
+    }
+
+    int playerId5;
+    statusType = getBestPlayer(oasis,78,&playerId5);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT " << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            if(playerId5==-1)
+                std::cout << "SHOULDNT SUCCEED...CHECK BAD ID" << std::endl;
+            else
+                std::cout << "SHOULDNT SUCCEED...CHECK BAD ID" << std::endl;
+            break;
+    }
 
     std::cout << "" << std::endl;
     std::cout << "tests for UniteClans" << std::endl;

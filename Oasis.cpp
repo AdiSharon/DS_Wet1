@@ -188,7 +188,7 @@ OasisStatusType Oasis::getBestPlayer(int clanID, int *playerID){
             *playerID = -1;
             return OasisSUCCESS;
         }
-        *playerID= this->BestPlayer->getChallenges(); // first bullet option
+        *playerID= this->BestPlayer->getID(); // first bullet option
         return OasisSUCCESS;
     }
 
