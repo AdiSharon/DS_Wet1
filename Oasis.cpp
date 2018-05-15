@@ -226,7 +226,7 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             *players=NULL;
             return OasisSUCCESS;
         }
-        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins*)*this->PlayerTree.getSize());
+        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins*) * this->PlayerTree.getSize());
         if(!players_sorted_coins){
             return OasisALLOCATION_ERROR;
         }
@@ -238,10 +238,13 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             free(players_sorted_coins);
             return OasisALLOCATION_ERROR;
         }
-        for (int i = 0; i < *numOfPlayers; ++i) {
-            *players[i] = players_sorted_coins[i].getPlayerId();
+        int x= *numOfPlayers-1;
+        for (int i = 0; i <*numOfPlayers; ++i) {
+            (*players)[x] = players_sorted_coins[i].getPlayerId();
+            x--;
         }
-        free(players_sorted_coins);
+        //    free(players_sorted_coins);
+
         return OasisSUCCESS;
     }
     Clan *dummy_clan = new Clan(clanID);
@@ -265,11 +268,11 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
         free(players_sorted_coins);
         return OasisALLOCATION_ERROR;
     }
-    index=0;
+    index=this->ClanTree.getSize()-1;
     for (int i = 0; i < this->PlayerTree.getSize(); ++i) {
-        if(clanID == players_sorted_coins[i].getClanID()){
-            *players[index] = players_sorted_coins[i].getPlayerId();
-            index++;
+        if(players_sorted_coins[i].getCoinsClansClan()!=NULL && clanID == players_sorted_coins[i].getClanID()){
+            (*players)[index] = players_sorted_coins[i].getPlayerId();
+            index--;
         }
     }
     free(players_sorted_coins);

@@ -260,3 +260,6 @@ int Coins::getClanID(){
     return this->player->getClan()->getID();
 }
 
+Clan* Coins::getCoinsClansClan() {
+    return this->player->getClan();
+}

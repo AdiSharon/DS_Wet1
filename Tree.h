@@ -175,7 +175,7 @@ public:
             this->root->left_son=NULL;
             this->root->father=NULL;
             this->root->node_height=0;
-            this->root;
+            //this->root;
             this->size++;
             root = this->root;
 
@@ -232,75 +232,6 @@ public:
         }
 
         removeThis(node, compare);
-        //node has NO sons:
-        /*if(height(node) == 0){
-            this->size--;
-            if(node->father->left_son == node){
-                node->father->left_son = NULL;
-            } else {
-                node->father->right_son = NULL;
-            }
-            updateHeight(node->father);
-            delete(node);
-            return;
-        }
-        //check if node is the left son of his father
-        bool left = false;
-        bool isRoot = false;
-        if (!node->father){
-            isRoot = true;
-        }
-        if(!isRoot){
-            if(node->father->left_son == node){
-                left = true;
-            }
-        }
-        //node has ONE son:
-        if (node->left_son == NULL || node->right_son == NULL){
-            if (node->left_son == NULL ){
-                if(left){
-                    node->father->left_son = node->right_son;
-                    node->right_son->father = node->father;
-                } else if (!isRoot){
-                    node->father->right_son = node->right_son;
-                    node->right_son->father = node->father;
-                } else {
-                    this->root = node->right_son;
-                }
-
-            } else if (node->right_son == NULL){
-                if(left){
-                    node->father->left_son = node->left_son;
-                    node->left_son->father = node->father;
-                } else if (!isRoot){
-                    node->father->right_son = node->left_son;
-                    node->left_son->father = node->father;
-                } else {
-                    this->root = node->right_son;
-                }
-
-            }
-            this->size--;
-            if (!isRoot){
-                updateHeight(node->father);
-            }
-            delete(node);
-            return;
-        }
-            //node has TWO sons:
-        else if (node->left_son && node->right_son){
-            Node *temp = findClosestMin(node);
-            node->data = temp->data;
-            temp->data = data;
-            temp->father->left_son = temp->right_son;
-            if(temp->right_son){
-                temp->right_son->father = temp->father;
-            }
-            this->size--;
-            updateHeight(temp->father);
-            delete(temp);
-            return;
-        }*/
     }
 
     template <typename Compare>
@@ -372,7 +303,11 @@ public:
             node->data = temp->data;
             temp->data = data;
             Node *daddy = temp->father;
-            daddy->right_son = temp->right_son;
+            if(daddy->father == NULL || daddy->right_son == temp){
+                daddy->right_son = temp->right_son;
+            } else {
+                daddy->left_son = temp->right_son;
+            }
             if(temp->right_son){
                 temp->right_son->father = daddy;
             }
@@ -419,6 +354,13 @@ public:
     template <typename Action>
     void InOrder (Node *root, Action action) const;
 
+    void InOrderPrint(Node *root){
+        if (root){
+            Tree<T>::InOrderPrint(root->left_son);
+            root->Print();
+            Tree<T>::InOrderPrint(root->right_son);
+        }
+    }
 
     template <typename Compare, typename Action>
     void PostOrderRemove (Node *root, Action &action, const Compare &compare){

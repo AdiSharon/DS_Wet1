@@ -890,7 +890,7 @@ int main() {
             std::cout << "INVALID INPUT" << std::endl;
             break;
         case (FAILURE):
-            std::cout << "FAILED" << std::endl;
+            std::cout << "FAILED AS UT SHOULD HAVE" << std::endl;
             break;
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
@@ -983,7 +983,100 @@ int main() {
             break;
     }
 
+    int numOfplayers=0;
+    int x=0;
+    int* players = &x;
+    statusType = getScoreboard(oasis,-1,&players,&numOfplayers);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            for(int i=0; i<numOfplayers; i++)
+            std::cout << players[i] << std::endl;
+            std::cout << "SUCCESS " << std::endl;
+            break;
+    }
 
+    int numOfplayers1=0;
+    int* players1 = &x;
+    statusType = getScoreboard(oasis,11,&players1,&numOfplayers1);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            for(int i=0; i<numOfplayers1; i++)
+                std::cout << players1[i] << std::endl;
+            std::cout << "SUCCESS " << std::endl;
+            break;
+    }
+
+    int numOfplayers2=0;
+    int* players2 = &x;
+    statusType = getScoreboard(oasis,12,&players2,&numOfplayers2);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            for(int i=0; i<numOfplayers2; i++)
+                std::cout << players2[i] << std::endl;
+            std::cout << "SUCCESS " << std::endl;
+            break;
+    }
+    int numOfplayers3=0;
+    int* players3 = &x;
+    statusType = getScoreboard(oasis,0,&players3,&numOfplayers3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "SHOULDNT SUCSEED. CHECK BAD ID" << std::endl;
+            break;
+    }
+    int numOfplayers4=0;
+    int* players4 = &x;
+    statusType = getScoreboard(oasis,67,&players4,&numOfplayers4);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "SHOULDNT SUCSEED. CHECK BAD ID" << std::endl;
+            break;
+    }
 
 
 
