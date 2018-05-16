@@ -774,7 +774,7 @@ int main() {
             std::cout << "ALLOC" << std::endl;
             break;
         case (SUCCESS):
-            if(playerId1=6)
+            if(playerId1==6)
                 std::cout << "SUCCESS" << std::endl;
             else
                 std::cout << "SHOULDNT SUCCEED... REAL PROBLEM" << std::endl;
@@ -890,7 +890,7 @@ int main() {
             std::cout << "INVALID INPUT" << std::endl;
             break;
         case (FAILURE):
-            std::cout << "FAILED AS UT SHOULD HAVE" << std::endl;
+            std::cout << "FAILED AS IT SHOULD HAVE" << std::endl;
             break;
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
@@ -983,6 +983,10 @@ int main() {
             break;
     }
 
+    std::cout << "" << std::endl;
+    std::cout << "tests for getScoreBoard" << std::endl;
+    std::cout << "" << std::endl;
+
     int numOfplayers=0;
     int x=0;
     int* players = &x;
@@ -1003,6 +1007,10 @@ int main() {
             std::cout << "SUCCESS " << std::endl;
             break;
     }
+
+    std::cout << "" << std::endl;
+    std::cout << "one passed!" << std::endl;
+    std::cout << "" << std::endl;
 
     int numOfplayers1=0;
     int* players1 = &x;
@@ -1032,15 +1040,14 @@ int main() {
             std::cout << "INVALID INPUT" << std::endl;
             break;
         case (FAILURE):
-            std::cout << "FAILED" << std::endl;
+            std::cout << "FAILED AS IT SHOULD" << std::endl;
             break;
         case (ALLOCATION_ERROR):
             std::cout << "ALLOC" << std::endl;
             break;
         case (SUCCESS):
             for(int i=0; i<numOfplayers2; i++)
-                std::cout << players2[i] << std::endl;
-            std::cout << "SUCCESS " << std::endl;
+            std::cout << "SUCCESS, WRONG " << std::endl;
             break;
     }
     int numOfplayers3=0;

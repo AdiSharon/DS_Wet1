@@ -184,18 +184,7 @@ public:
     }
 };*/
 
-static int ClanPlayerCompByID(Player *a, Player *b){
-    return a->getID()-b->getID();
-}
 
-static bool findRemoveFromClan(Player *player){
-    if(player->getChallenges()==0){
-        player->removeFromClan();
-        return true;
-    }
-    else
-        return false;
-}
 
 
 #endif //WET1_CLAN_H

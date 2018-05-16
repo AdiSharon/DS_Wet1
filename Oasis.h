@@ -63,21 +63,6 @@ public:
 
 };
 
-static int PlayerCompByID(Player a, Player b) {
-    return a.getID()-b.getID();
-}
 
-
-static int CoinsCompFunc(Coins a, Coins b){
-    if(a.getNumCoins() - b.getNumCoins() != 0){
-        return a.getNumCoins() - b.getNumCoins();
-    } else{
-        return a.getPlayerId() - b.getPlayerId();
-    }
-}
-
-static int ClanCompByID(Clan a, Clan b){
-    return a.getID()-b.getID();
-}
 
 #endif //WET1_OASIS_H

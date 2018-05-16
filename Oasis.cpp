@@ -26,6 +26,23 @@ Oasis::~Oasis() {
     BestPlayer = NULL;
 }
 
+static int PlayerCompByID(Player a, Player b) {
+    return a.getID()-b.getID();
+}
+
+
+static int CoinsCompFunc(Coins a, Coins b){
+    if(a.getNumCoins() - b.getNumCoins() != 0){
+        return a.getNumCoins() - b.getNumCoins();
+    } else{
+        return a.getPlayerId() - b.getPlayerId();
+    }
+}
+
+static int ClanCompByID(Clan a, Clan b){
+    return a.getID()-b.getID();
+}
+
 OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
     if(playerID<=0 || initialCoins<0 || this==NULL)
         return OasisINVALID_INPUT;
@@ -106,21 +123,22 @@ OasisStatusType Oasis:: joinClan(int playerID, int ClanID){
     delete(dummy);
     delete(dummy_clan);
     Player *ptr = player_to_add->getNodeData();
-    switch (clan_to_add_to->getNodeData()->AddPlayerToClan(ptr)){
+    switch (clan_to_add_to->getNodeData()->AddPlayerToClan(ptr)) {
         case (ClanALLOCATION_ERROR):
             return OasisALLOCATION_ERROR;
         case (ClanINVALID_INPUT):
             return OasisINVALID_INPUT;
         case (ClanFAILURE):
             return OasisFAILURE;
-    }
-
-    player_to_add->getNodeData()->updateClan(clan_to_add_to->getNodeData());
-    ptr->updateClan(clan_to_add_to->getNodeData());
-    if (clan_to_add_to->getNodeData()->getBestPlayer() == NULL) {
-        clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
-    } else if (ptr->getChallenges() > clan_to_add_to->getNodeData()->getBestPlayer()->getChallenges()) {
-        clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
+        default: {
+            player_to_add->getNodeData()->updateClan(clan_to_add_to->getNodeData());
+            ptr->updateClan(clan_to_add_to->getNodeData());
+            if (clan_to_add_to->getNodeData()->getBestPlayer() == NULL) {
+                clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
+            } else if (ptr->getChallenges() > clan_to_add_to->getNodeData()->getBestPlayer()->getChallenges()) {
+                clan_to_add_to->getNodeData()->updateBestPlayer(ptr);
+            }
+        }
     }
     return OasisSUCCESS;
 }
@@ -226,7 +244,7 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             *players=NULL;
             return OasisSUCCESS;
         }
-        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins*) * this->PlayerTree.getSize());
+        Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins) * this->PlayerTree.getSize());
         if(!players_sorted_coins){
             return OasisALLOCATION_ERROR;
         }
@@ -243,7 +261,7 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             (*players)[x] = players_sorted_coins[i].getPlayerId();
             x--;
         }
-        //    free(players_sorted_coins);
+        free(players_sorted_coins);
 
         return OasisSUCCESS;
     }
@@ -268,8 +286,8 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
         free(players_sorted_coins);
         return OasisALLOCATION_ERROR;
     }
-    index=this->ClanTree.getSize()-1;
-    for (int i = 0; i < this->PlayerTree.getSize(); ++i) {
+    index=*numOfPlayers-1;
+    for (int i = 0; i < *numOfPlayers; ++i) {
         if(players_sorted_coins[i].getCoinsClansClan()!=NULL && clanID == players_sorted_coins[i].getClanID()){
             (*players)[index] = players_sorted_coins[i].getPlayerId();
             index--;
@@ -351,6 +369,8 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
     if(clan1->getNodeData()->ClanSwalalala(clan2->getNodeData())==ClanALLOCATION_ERROR)
         return OasisALLOCATION_ERROR;
 
+
+
     try{
         this->ClanTree.removeThis(clan2, ClanCompByID);
     } catch (TreeNodeDoesNotExit){
@@ -360,11 +380,13 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
 
 }
 
+static void updateUnited(Tree<Player>::Node* node){
 
+}
 
 OasisStatusType Oasis::updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player){
     Coins *dummy = new Coins(oldCoins, playerID, player);
-    Tree<Coins>::Node *temp;
+    //Tree<Coins>::Node *temp;
     try{
         this->CoinTree.remove(*dummy, CoinsCompFunc);
     } catch (TreeNodeDoesNotExit){

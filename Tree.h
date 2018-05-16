@@ -426,18 +426,19 @@ public:
         this->deleteTree();
         this->size = total_size;
         //delete (tree);
-        this->root=uniteTrees(united_data, total_size, this->root);
+        this->root=uniteTrees(united_data, total_size, this->root, NULL);
         free(united_data);
     }
 
-    Node* uniteTrees(T* united_data, int total_size, Node *root){
+    Node* uniteTrees(T* united_data, int total_size, Node *root, Node* daddy){
         if(total_size <=0 ){
             return NULL;
         }
         int mid = total_size/2;
         root = new Node(united_data[mid]);
-        root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son);
-        root->left_son = uniteTrees(united_data, mid, root->left_son);
+        root->father = daddy;
+        root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son, root);
+        root->left_son = uniteTrees(united_data, mid, root->left_son, root);
         updateHeight(root);
         return root;
     }

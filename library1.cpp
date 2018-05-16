@@ -18,8 +18,9 @@ StatusType addPlayer(void *DS, int playerID, int initialCoins){
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
 }
 
 StatusType addClan(void *DS, int clanID){
@@ -33,8 +34,9 @@ StatusType addClan(void *DS, int clanID){
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
 }
 
 StatusType joinClan(void *DS, int playerID, int clanID) {
@@ -48,8 +50,9 @@ StatusType joinClan(void *DS, int playerID, int clanID) {
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
 }
 
 StatusType getBestPlayer(void *DS, int clanID, int *playerID){
@@ -63,8 +66,9 @@ StatusType getBestPlayer(void *DS, int clanID, int *playerID){
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
 }
 
 
@@ -79,8 +83,10 @@ StatusType completeChallange(void *DS, int playerID, int coins){
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
+
 
 }
 
@@ -95,8 +101,10 @@ StatusType getScoreboard(void *DS, int clanID, int **players, int *numOfPlayers)
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
+
 }
 
 StatusType uniteClans(void *DS, int clanID1, int clanID2){
@@ -110,8 +118,9 @@ StatusType uniteClans(void *DS, int clanID1, int clanID2){
             return FAILURE;
         case (OasisALLOCATION_ERROR):
             return ALLOCATION_ERROR;
+        default:
+            return SUCCESS;
     }
-    return SUCCESS;
 }
 
 void quit(void** DS){
