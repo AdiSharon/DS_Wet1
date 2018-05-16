@@ -66,7 +66,8 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
         delete(newCoins);
         return OasisALLOCATION_ERROR;
     }
-    if(this->BestPlayer==NULL || this->BestPlayer->getChallenges()<newPlayer->getChallenges())
+    if(this->BestPlayer==NULL || this->BestPlayer->getChallenges()<newPlayer->getChallenges()||
+            (this->BestPlayer->getChallenges()==newPlayer->getChallenges()&& this->BestPlayer->getID()>newPlayer->getID()))
         this->BestPlayer=newPlayer;
     return OasisSUCCESS;
 
@@ -185,13 +186,13 @@ OasisStatusType Oasis:: completeChallange(int playerID, int coins){
 
     if(player_to_find->getNodeData()->getClan()->getBestPlayer()->getChallenges() <
        player_to_find->getNodeData()->getChallenges())
-        this->BestPlayer=player_to_find->getNodeData();
+        player_to_find->getNodeData()->getClan()->updateBestPlayer(player_to_find->getNodeData());
 
         // if our changed player is now equal in num of challenges to the best, we take the smaller identifier
     else if(player_to_find->getNodeData()->getClan()->getBestPlayer()->getChallenges()
             == player_to_find->getNodeData()->getChallenges()) {
         if (player_to_find->getNodeData()->getClan()->getBestPlayer()->getID() < this->BestPlayer->getID())
-            this->BestPlayer = player_to_find->getNodeData();
+            player_to_find->getNodeData()->getClan()->updateBestPlayer(player_to_find->getNodeData());
     }
 
     return OasisSUCCESS;
@@ -380,9 +381,7 @@ OasisStatusType Oasis:: uniteClans(int clanID1, int clanID2){
 
 }
 
-static void updateUnited(Tree<Player>::Node* node){
 
-}
 
 OasisStatusType Oasis::updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player){
     Coins *dummy = new Coins(oldCoins, playerID, player);

@@ -124,6 +124,8 @@ StatusType uniteClans(void *DS, int clanID1, int clanID2){
 }
 
 void quit(void** DS){
+    if(DS==NULL || *DS==NULL)
+        return;
     Oasis **system = (Oasis**)DS;
     delete (*system);
 }

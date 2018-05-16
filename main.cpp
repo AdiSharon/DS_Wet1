@@ -566,92 +566,92 @@ int main() {
 
 
 
-     std::cout << "" << std::endl;
-     std::cout << "tests for CompleteChallenge" << std::endl;
-     std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "tests for CompleteChallenge" << std::endl;
+    std::cout << "" << std::endl;
 
-     statusType = completeChallange(oasis, 1, 10);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "INVALID INPUT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "FAILED" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "check in debugger if player1 has 11 coins" << std::endl;
-             break;
-     }
-
-
-     statusType = completeChallange(oasis, -3, 10);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "FAILED" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID OR COINS" << std::endl;
-             break;
-     }
+    statusType = completeChallange(oasis, 1, 10);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player1 has 11 coins" << std::endl;
+            break;
+    }
 
 
-     statusType = completeChallange(oasis, -1, 0);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "FAILED" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID OR COINS" << std::endl;
-             break;
+    statusType = completeChallange(oasis, -3, 10);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID OR COINS" << std::endl;
+            break;
+    }
 
-     }
-     statusType = completeChallange(oasis, 781, 3);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "INVALID INPUT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID THAT ALREADY EXISTS" << std::endl;
-             break;
-     }
 
-     statusType = completeChallange(oasis, 2, 20);
-     switch (statusType) {
-         case (INVALID_INPUT):
-             std::cout << "INVALID INPUT" << std::endl;
-             break;
-         case (FAILURE):
-             std::cout << "FAILED" << std::endl;
-             break;
-         case (ALLOCATION_ERROR):
-             std::cout << "ALLOC" << std::endl;
-             break;
-         case (SUCCESS):
-             std::cout << "check in debugger if player2 has 22 coins" << std::endl;
-             break;
+    statusType = completeChallange(oasis, -1, 0);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID OR COINS" << std::endl;
+            break;
 
-     }
+    }
+    statusType = completeChallange(oasis, 781, 3);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "ALL GOOD! YOU DIDNT FALL FOR IT" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "NO GOOD, SHOULDNT SUCCEED. CHECK BAD ID THAT ALREADY EXISTS" << std::endl;
+            break;
+    }
+
+    statusType = completeChallange(oasis, 2, 20);
+    switch (statusType) {
+        case (INVALID_INPUT):
+            std::cout << "INVALID INPUT" << std::endl;
+            break;
+        case (FAILURE):
+            std::cout << "FAILED" << std::endl;
+            break;
+        case (ALLOCATION_ERROR):
+            std::cout << "ALLOC" << std::endl;
+            break;
+        case (SUCCESS):
+            std::cout << "check in debugger if player2 has 22 coins" << std::endl;
+            break;
+
+    }
 
     statusType = completeChallange(oasis, 6, 57);
     switch (statusType) {
@@ -736,8 +736,8 @@ int main() {
 
 
     std::cout << "" << std::endl;
-     std::cout << "tests for getBestPlayer" << std::endl;
-     std::cout << "" << std::endl;
+    std::cout << "tests for getBestPlayer" << std::endl;
+    std::cout << "" << std::endl;
 
 
     int playerId;
@@ -754,7 +754,7 @@ int main() {
             break;
         case (SUCCESS):
             if(playerId==1)
-            std::cout << "SUCCESS" << std::endl;
+                std::cout << "SUCCESS" << std::endl;
             else
                 std::cout << "SHOULDNT SUCCEED... REAL PROBLEM" << std::endl;
             break;
@@ -1003,7 +1003,7 @@ int main() {
             break;
         case (SUCCESS):
             for(int i=0; i<numOfplayers; i++)
-            std::cout << players[i] << std::endl;
+                std::cout << players[i] << std::endl;
             std::cout << "SUCCESS " << std::endl;
             break;
     }
@@ -1047,7 +1047,7 @@ int main() {
             break;
         case (SUCCESS):
             for(int i=0; i<numOfplayers2; i++)
-            std::cout << "SUCCESS, WRONG " << std::endl;
+                std::cout << "SUCCESS, WRONG " << std::endl;
             break;
     }
     int numOfplayers3=0;

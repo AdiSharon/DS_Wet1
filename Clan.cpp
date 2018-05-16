@@ -207,6 +207,16 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
             smallClan->updateBestPlayer(NULL);
         if(this->getClanSize()<=0)
             this->updateBestPlayer(NULL);
+        Player **small_players = (Player**)malloc( sizeof(Player*)*(smallClan->ClanPlayersTree.getSize()));
+        if(!small_players){
+            return ClanALLOCATION_ERROR;
+        }
+        int index = 0;
+        smallClan->ClanPlayersTree.moveInOrderToArray(small_players, &index, smallClan->ClanPlayersTree.getRoot());
+        for (int i = 0; i < smallClan->ClanPlayersTree.getSize(); ++i) {
+            (*small_players[i]).updateClan(this);
+        }
+        free(small_players);
     this->ClanPlayersTree.uniteTreesAux(smallClan->ClanPlayersTree,ClanPlayerCompByID);
     }
     catch(TreeMemoryProblemException){
@@ -267,6 +277,10 @@ void Clan::updateBestPlayer(Player* player){
 
 int Player::getNumCoins(){
     return this->coins;
+}
+
+void Clan::upateBestPlayer(Player* player){
+    this->BestPlayer = player;
 }
 
 int Coins::getClanID(){

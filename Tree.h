@@ -299,23 +299,59 @@ public:
             //node has TWO sons:
         else if (node->left_son && node->right_son){
             Node *temp = findClosestMin(node);
-            T data = node->data;
-            node->data = temp->data;
-            temp->data = data;
-            Node *daddy = temp->father;
-            if(daddy->father == NULL || daddy->right_son == temp){
-                daddy->right_son = temp->right_son;
-            } else {
-                daddy->left_son = temp->right_son;
-            }
-            if(temp->right_son){
-                temp->right_son->father = daddy;
-            }
+            changePlaces(node, temp);
             this->size--;
-            updateHeight(daddy);
-            delete(temp);
+            delete(node);
             return;
         }
+    }
+
+    void changePlaces(Node* to_remove, Node* new_place){
+        Node* other_father = new_place->father;
+        Node* other_right_son = new_place->right_son;
+        //Node* other_left_son = new_place->left_son;
+
+        new_place->father = NULL;
+        new_place->left_son = NULL;
+        new_place->right_son = NULL;
+
+        Node* my_father = to_remove->father;
+        Node* my_right_son = to_remove->right_son;
+        Node* my_left_son = to_remove->left_son;
+
+        to_remove->father = NULL;
+        to_remove->right_son = NULL;
+        to_remove->left_son = NULL;
+
+        new_place->father = my_father;
+        if(my_father == NULL){
+            this->root = new_place;
+            if(my_right_son == new_place){
+                new_place->right_son = other_right_son;
+            } else {
+                new_place->right_son = my_right_son;
+                other_father->left_son = other_right_son;
+            }
+
+        } else {
+            if(my_father->left_son == to_remove){
+                my_father->left_son = new_place;
+            } else {
+                my_father->right_son = new_place;
+            }
+            if(my_right_son == new_place){
+                new_place->right_son = other_right_son;
+            } else {
+                new_place->right_son = my_right_son;
+                other_father->left_son = other_right_son;
+            }
+        }
+        if(other_right_son){
+            other_right_son->father = new_place;
+        }
+        new_place->left_son = my_left_son;
+        updateHeight(new_place);
+        updateHeight(other_father);
     }
 
     void rotateRight(Node *root);
@@ -426,19 +462,18 @@ public:
         this->deleteTree();
         this->size = total_size;
         //delete (tree);
-        this->root=uniteTrees(united_data, total_size, this->root, NULL);
+        this->root=uniteTrees(united_data, total_size, this->root);
         free(united_data);
     }
 
-    Node* uniteTrees(T* united_data, int total_size, Node *root, Node* daddy){
+    Node* uniteTrees(T* united_data, int total_size, Node *root){
         if(total_size <=0 ){
             return NULL;
         }
         int mid = total_size/2;
         root = new Node(united_data[mid]);
-        root->father = daddy;
-        root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son, root);
-        root->left_son = uniteTrees(united_data, mid, root->left_son, root);
+        root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son);
+        root->left_son = uniteTrees(united_data, mid, root->left_son);
         updateHeight(root);
         return root;
     }

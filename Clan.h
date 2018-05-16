@@ -79,6 +79,8 @@ public:
 
     int getClanSize();
 
+    void upateBestPlayer(Player* player);
+
     int getID();
 
     ClanStatusType ClanSwalalala(Clan* smallClan);
