@@ -128,6 +128,7 @@ void quit(void** DS){
         return;
     Oasis **system = (Oasis**)DS;
     delete (*system);
+    *DS = NULL;
 }
 
 

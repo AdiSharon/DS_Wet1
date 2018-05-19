@@ -22,12 +22,12 @@ typedef enum {
 class Coins {
     int numCoins;
     int playerID;
-    Player *player;
+    Tree<Player>::Node *player;
 
 
 public:
 
-    Coins (int numCoins, int playerID, Player* player);
+    Coins (int numCoins, int playerID, Tree<Player>::Node *player);
 
     ~Coins();
 

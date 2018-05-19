@@ -226,7 +226,7 @@ public:
     void remove(const T& data, const Compare &compare){
         Node *node;
         try {
-            node = find(data, this->root, compare);
+            node = find(data, this->root, compare); /////////////////////////////////////
         } catch (TreeNodeDoesNotExit){
             throw TreeNodeDoesNotExit();
         }
@@ -241,11 +241,16 @@ public:
             if(node->father){
                 this->size--;
                 if(node->father->left_son == node){
-                    node->father->left_son = NULL;
+                    Node* daddy = node->father;
+                    daddy->left_son = NULL;
+                    // node->father->left_son = NULL;
                 } else {
-                    node->father->right_son = NULL;
+                    Node* daddy = node->father;
+                    daddy->right_son = NULL;
+                    //node->father->right_son = NULL;
                 }
                 updateHeight(node->father);
+                balance(node->father);
             } else { // node is the root
                 this->root = NULL;
                 this->size = 0;
@@ -292,6 +297,7 @@ public:
             this->size--;
             if (!isRoot){
                 updateHeight(node->father);
+                balance(node->father);
             }
             delete(node);
             return;
@@ -328,6 +334,7 @@ public:
             this->root = new_place;
             if(my_right_son == new_place){
                 new_place->right_son = other_right_son;
+                other_father->left_son = NULL;
             } else {
                 new_place->right_son = my_right_son;
                 other_father->left_son = other_right_son;
@@ -341,20 +348,31 @@ public:
             }
             if(my_right_son == new_place){
                 new_place->right_son = other_right_son;
+                other_father->left_son = NULL;
             } else {
                 new_place->right_son = my_right_son;
                 other_father->left_son = other_right_son;
+                if (my_right_son){
+                    my_right_son->father = new_place;
+                }
             }
         }
         if(other_right_son){
-            other_right_son->father = new_place;
+            other_right_son->father = other_father;
         }
         if (my_left_son){
             my_left_son->father = new_place;
         }
+        /*if (my_right_son){
+            my_right_son->father = new_place;
+        }*/
         new_place->left_son = my_left_son;
-        updateHeight(new_place);
+        int  temp = to_remove->node_height;
+        to_remove->node_height = new_place->node_height;
+        new_place->node_height = temp;
         updateHeight(other_father);
+        updateHeight(new_place);
+        balance(other_father);
     }
 
 
@@ -403,12 +421,13 @@ public:
     }
 
     template <typename Compare, typename Action>
-    void PostOrderRemove (Node *root, Action &action, const Compare &compare){
+    void PostOrderRemove (Node *root, Action &action, const Compare &compare, int *size){
         if (root){
-            PostOrderRemove(root->left_son, action, compare);
-            PostOrderRemove(root->right_son, action,compare);
-            if(action(root->data)){
-                removeThis(root, compare);
+            PostOrderRemove(root->left_son, action, compare, size);
+            PostOrderRemove(root->right_son, action,compare, size);
+            if(!action(root->data)){
+                //removeThis(root, compare);
+                (*size)++;
             }
         }
     }
@@ -417,6 +436,9 @@ public:
 
     void moveInOrderToArray(T *data_array, int *index, Node *root){
         if (root){
+            if(!data_array){
+                return;
+            }
             moveInOrderToArray(data_array, index, root->left_son);
             data_array[*index] = *root->getNodeData();
             (*index)++;
@@ -434,34 +456,51 @@ public:
         return data_array;
     }
 
-    template <typename Compare>
-    void uniteTreesAux(Tree<T> &tree, const Compare compare){
+    template <typename Compare, typename Action>
+    void uniteTreesAux( Action &action, Tree<T> &tree, const Compare compare, int *my_size, int *his_size){
         T* my_data = moveInOrderToArrayAux(this);
         Tree *ptr = &tree;
         T* his_data = moveInOrderToArrayAux(ptr);
-        T* united_data = (T*)malloc(sizeof(T)*(this->size + tree.size));
+        T* united_data = (T*)malloc(sizeof(T)*((*my_size) + (*his_size)));
         if(!my_data || !his_data || !united_data){
             throw TreeMemoryProblemException();
         }
         int my_index, his_index, our_index;
-        for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree.size) ; our_index++) {
+        //bool nothing_to_do = false;
+        for (my_index=his_index=our_index= 0; (my_index<this->size)&&(his_index<tree.size) ; ) {
             if(compare(my_data[my_index], his_data[his_index])<0){
-                united_data[our_index] = my_data[my_index];
-                my_index++;
+                if(!action(my_data[my_index])){
+                    united_data[our_index] = my_data[my_index];
+                    my_index++;
+                    our_index++;
+                }else {
+                    my_index++;
+                }
             } else {
-                united_data[our_index] = his_data[his_index];
-                his_index++;
+                if(!action(his_data[his_index])){
+                    united_data[our_index] = his_data[his_index];
+                    his_index++;
+                    our_index++;
+                } else {
+                    his_index++;
+                }
             }
         }
-        for (; my_index < this->size; my_index++,our_index++) {
-            united_data[our_index] = my_data[my_index];
+        for (; my_index < this->size; my_index++) {
+            if(!action(my_data[my_index])){
+                united_data[our_index] = my_data[my_index];
+                our_index++;
+            }
         }
-        for (; his_index < tree.size; his_index++,our_index++) {
-            united_data[our_index] = his_data[his_index];
+        for (; his_index < tree.size; his_index++) {
+            if(!action(his_data[his_index])){
+                united_data[our_index] = his_data[his_index];
+                our_index++;
+            }
         }
         free(my_data);
         free(his_data);
-        int total_size = this->size + tree.size;
+        int total_size = (*my_size) + (*his_size);
         tree.deleteTree();
         this->deleteTree();
         this->size = total_size;
@@ -477,7 +516,13 @@ public:
         int mid = total_size/2;
         root = new Node(united_data[mid]);
         root->right_son = uniteTrees(united_data+mid+1,total_size-mid-1, root->right_son);
+        if(root->right_son){
+            root->right_son->father = root;
+        }
         root->left_son = uniteTrees(united_data, mid, root->left_son);
+        if(root->left_son){
+            root->left_son->father = root;
+        }
         updateHeight(root);
         return root;
     }
@@ -538,6 +583,8 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
     root->right_son = NULL;
     root->right_son=newroot->left_son;
     newroot->left_son = root;
+    if(root->right_son)
+        root->right_son->father=root;              //////////////////////////////////////
     if (root->father == NULL){
         this->root = newroot;
         newroot->father = NULL;
@@ -545,7 +592,9 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
         if (root->father->left_son == root){
             root->father->left_son = newroot;
         } else {
-            root->father->right_son = newroot;
+            Node* daddy = root->father;
+            daddy->right_son = newroot;
+            //root->father->right_son = newroot;
         }
         newroot->father = root->father;
     }
@@ -562,9 +611,11 @@ void Tree<T>::rotateRight(Tree<T>::Node *root){
     }
     Tree<T>::Node *newroot = root->left_son;
     root->left_son = NULL;
-    root->left_son = NULL;
+    //root->left_son = NULL;
     root->left_son=newroot->right_son;
     newroot->right_son = root;
+    if(root->left_son)
+        root->left_son->father=root; /////////////////////////////////////
     if (root->father == NULL){
         this->root = newroot;
         newroot->father = NULL;

@@ -87,7 +87,7 @@ Coins& Coins::operator=(const Coins& coins){
 Coins::Coins(const Coins &coins){
     numCoins = coins.numCoins;
     playerID = coins.playerID;
-    player = coins.player;
+   player = coins.player;
 }
 
 Player:: Player(int ID, int coins){
@@ -197,12 +197,12 @@ int Clan::getID(){
 
 
 ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
-
+    int my_size = 0, his_size = 0;
     try{
     this->ClanPlayersTree.PostOrderRemove(this->ClanPlayersTree.getRoot()
-            ,findRemoveFromClan,ClanPlayerCompByID);
+            ,findRemoveFromClan,ClanPlayerCompByID, &my_size);
     smallClan->ClanPlayersTree.PostOrderRemove(smallClan->ClanPlayersTree.getRoot()
-            ,findRemoveFromClan,ClanPlayerCompByID);
+            ,findRemoveFromClan,ClanPlayerCompByID, &his_size);
         if(smallClan->getClanSize()<=0)
             smallClan->updateBestPlayer(NULL);
         if(this->getClanSize()<=0)
@@ -214,10 +214,12 @@ ClanStatusType Clan::ClanSwalalala(Clan *smallClan){
         int index = 0;
         smallClan->ClanPlayersTree.moveInOrderToArray(small_players, &index, smallClan->ClanPlayersTree.getRoot());
         for (int i = 0; i < smallClan->ClanPlayersTree.getSize(); ++i) {
-            (*small_players[i]).updateClan(this);
+            if(!findRemoveFromClan(small_players[i])){
+                (*small_players[i]).updateClan(this);
+            }
         }
         free(small_players);
-    this->ClanPlayersTree.uniteTreesAux(smallClan->ClanPlayersTree,ClanPlayerCompByID);
+    this->ClanPlayersTree.uniteTreesAux(findRemoveFromClan, smallClan->ClanPlayersTree,ClanPlayerCompByID, &my_size, &his_size);
     }
     catch(TreeMemoryProblemException){
         return ClanALLOCATION_ERROR;
@@ -235,7 +237,7 @@ int Player::getChallenges() {
 }
 
 
-Coins::Coins (int numCoins, int playerID, Player* player):
+Coins::Coins (int numCoins, int playerID, Tree<Player>::Node *player):
         numCoins (numCoins),
         playerID(playerID),
         player(player){}
@@ -257,10 +259,10 @@ void Coins::updateCoins(int addedCoins) {
 }
 
 int Coins::getCoinsClan(){
-    if(!this->player->getClan()){
+    if(!this->player->getNodeData()->getClan()){
         return -1; //player is not in any clan
     }
-    return this->player->getClan()->getID();
+    return this->player->getNodeData()->getClan()->getID();
 }
 
 void Player::removeFromClan(){
@@ -284,12 +286,12 @@ void Clan::upateBestPlayer(Player* player){
 }
 
 int Coins::getClanID(){
-    if(this->player->getClan() != NULL){
-        return this->player->getClan()->getID();
+    if(this->player->getNodeData()->getClan() != NULL){
+        return this->player->getNodeData()->getClan()->getID();
     }
     return -1;
 }
 
 Clan* Coins::getCoinsClansClan() {
-    return this->player->getClan();
+    return this->player->getNodeData()->getClan();
 }

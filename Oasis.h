@@ -54,7 +54,7 @@ public:
 
     //void Quit();
 
-    OasisStatusType updateCoinsTree(int playerID, int oldCoins, int addedCoins, Player* player);
+    OasisStatusType updateCoinsTree(int playerID, int oldCoins, int addedCoins, Tree<Player>::Node *player);
 
     //const int PlayerCompByID(Player a, Player b);
 
