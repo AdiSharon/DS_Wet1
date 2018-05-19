@@ -349,10 +349,14 @@ public:
         if(other_right_son){
             other_right_son->father = new_place;
         }
+        if (my_left_son){
+            my_left_son->father = new_place;
+        }
         new_place->left_son = my_left_son;
         updateHeight(new_place);
         updateHeight(other_father);
     }
+
 
     void rotateRight(Node *root);
 
@@ -530,7 +534,7 @@ void Tree<T>::rotateLeft(Tree<T>::Node *root){
     if(!root){
         throw TreeInvalidInput();
     }
-    Tree<T>::Node *newroot = root->right_son;
+    Node *newroot = root->right_son;
     root->right_son = NULL;
     root->right_son=newroot->left_son;
     newroot->left_son = root;

@@ -1085,7 +1085,7 @@ int main() {
             break;
     }
 
-
+    std::cout << "ALL GOOD" << std::endl;
 
 }
 

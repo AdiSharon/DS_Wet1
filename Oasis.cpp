@@ -67,7 +67,7 @@ OasisStatusType Oasis:: addPlayer (int playerID, int initialCoins){
         return OasisALLOCATION_ERROR;
     }
     if(this->BestPlayer==NULL || this->BestPlayer->getChallenges()<newPlayer->getChallenges()||
-            (this->BestPlayer->getChallenges()==newPlayer->getChallenges()&& this->BestPlayer->getID()>newPlayer->getID()))
+       (this->BestPlayer->getChallenges()==newPlayer->getChallenges()&& this->BestPlayer->getID()>newPlayer->getID()))
         this->BestPlayer=newPlayer;
     return OasisSUCCESS;
 
@@ -288,8 +288,8 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
         return OasisALLOCATION_ERROR;
     }
     index=*numOfPlayers-1;
-    for (int i = 0; i < *numOfPlayers; ++i) {
-        if(players_sorted_coins[i].getCoinsClansClan()!=NULL && clanID == players_sorted_coins[i].getClanID()){
+    for (int i = 0; i < this->PlayerTree.getSize(); ++i) {
+        if(/*players_sorted_coins[i].getCoinsClansClan()!=NULL &&*/ clanID == players_sorted_coins[i].getClanID()){
             (*players)[index] = players_sorted_coins[i].getPlayerId();
             index--;
         }

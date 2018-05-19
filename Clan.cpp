@@ -284,7 +284,10 @@ void Clan::upateBestPlayer(Player* player){
 }
 
 int Coins::getClanID(){
-    return this->player->getClan()->getID();
+    if(this->player->getClan() != NULL){
+        return this->player->getClan()->getID();
+    }
+    return -1;
 }
 
 Clan* Coins::getCoinsClansClan() {
