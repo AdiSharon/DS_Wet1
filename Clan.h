@@ -31,6 +31,8 @@ public:
 
     ~Coins();
 
+    Coins();
+
     Coins(const Coins &coins);
 
     bool operator==(const Coins& coins) const;

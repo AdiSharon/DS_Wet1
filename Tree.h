@@ -280,6 +280,7 @@ public:
                     node->right_son->father = node->father;
                 } else {
                     this->root = node->right_son;
+                    this->root->father = NULL;
                 }
 
             } else if (node->right_son == NULL){
@@ -291,6 +292,7 @@ public:
                     node->left_son->father = node->father;
                 } else {
                     this->root = node->left_son;
+                    this->root->father = NULL;
                 }
 
             }
@@ -440,7 +442,7 @@ public:
                 return;
             }
             moveInOrderToArray(data_array, index, root->left_son);
-            data_array[*index] = *root->getNodeData();
+            data_array[(*index)] = *root->getNodeData();
             (*index)++;
             moveInOrderToArray(data_array, index, root->right_son);
         }

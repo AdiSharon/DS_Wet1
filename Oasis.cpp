@@ -252,6 +252,9 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
         if(!players_sorted_coins){
             return OasisALLOCATION_ERROR;
         }
+        /*for (int j = 0; j < this->CoinTree.getSize(); ++j) {
+            players_sorted_coins[j] = *(new Coins());
+        }*/
         int index = 0;
         this->CoinTree.moveInOrderToArray(players_sorted_coins, &index, this->CoinTree.getRoot());
         *numOfPlayers = this->CoinTree.getSize();
@@ -270,6 +273,9 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             (*players)[x] = players_sorted_coins[i].getPlayerId();
             x--;
         }
+        /*for (int j = 0; j < this->CoinTree.getSize(); ++j) {
+            delete (players_sorted_coins[j]);
+        }*/
         free(players_sorted_coins);
 
         return OasisSUCCESS;
@@ -286,6 +292,9 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
     Coins *players_sorted_coins = (Coins*)malloc(sizeof(Coins)*this->PlayerTree.getSize());
     if(!players_sorted_coins){
         return OasisALLOCATION_ERROR;
+    }
+    for (int j = 0; j < this->CoinTree.getSize(); ++j) {
+        players_sorted_coins[j] = *(new Coins());
     }
     int index = 0;
     this->CoinTree.moveInOrderToArray(players_sorted_coins, &index, this->CoinTree.getRoot());
@@ -310,7 +319,10 @@ OasisStatusType Oasis:: getScoreboard(int clanID, int **players, int *numOfPlaye
             break;
         }
     }
-    //free(players_sorted_coins);
+    /*for (int j = 0; j < this->CoinTree.getSize(); ++j) {
+        delete (players_sorted_coins[j]);
+    }*/
+    free(players_sorted_coins);
     return OasisSUCCESS;
 }
 

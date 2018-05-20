@@ -74,9 +74,9 @@ bool Coins::operator==(const Coins& coins) const{
 }
 
 Coins& Coins::operator=(const Coins& coins){
-    if (*this == coins){
+    /*if (*this == coins){
         return *this;
-    }
+    }*/
     numCoins = coins.numCoins;
     playerID = coins.playerID;
     player = coins.player;
@@ -89,6 +89,10 @@ Coins::Coins(const Coins &coins){
     playerID = coins.playerID;
    player = coins.player;
 }
+
+Coins::Coins() : numCoins(0),
+                 playerID(0),
+                 player(NULL){}
 
 Player:: Player(int ID, int coins){
     this->PlayerID=ID;
