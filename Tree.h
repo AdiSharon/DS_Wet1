@@ -309,6 +309,9 @@ public:
             Node *temp = findClosestMin(node);
             changePlaces(node, temp);
             this->size--;
+            if(isRoot){
+                balance(this->getRoot());
+            }
             delete(node);
             return;
         }
@@ -652,7 +655,7 @@ void Tree<T>::balance(Tree<T>::Node *root){
     if (BF >= -1 && BF <= 1)
         return;
     if (BF == 2){
-        if (getBalanceFactor(root->left_son) > 0){
+        if (getBalanceFactor(root->left_son) >= 0){
             ll_rotation(root);
         } else if (getBalanceFactor(root->left_son) == -1){
             lr_rotation(root);
